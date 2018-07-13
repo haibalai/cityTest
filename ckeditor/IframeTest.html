@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="ckeditor.js"></script>
+
+</head>
+<body>
+<div>
+    <textarea name="textddd" id="textddd"></textarea>
+    <script type="text/javascript">
+		var editor =CKEDITOR.replace('textddd');
+
+
+
+        function test() {
+
+	       console.log(editor.getData())
+        }
+
+    </script>
+
+
+    <button onclick="test()">11111111111111</button>
+</div>
+
+</body>
+</html>

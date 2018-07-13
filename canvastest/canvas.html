@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+    var data  = {
+
+        line:{
+            start:0,
+            end:50
+        },
+        pipeNode:
+            [
+                {
+                    start:13,
+                    name:"排水",
+                    ms:3,
+                    gj:1000,
+                    color:"#ff544b"
+                },
+                {
+                    start:20,
+                    name:"给水",
+                    ms:2,
+                    gj:200,
+                    color:"#3791ff"
+                },
+                {
+                    start:35,
+                    name:"电力",
+                    ms:1.8,
+                    gj:350,
+                    color:"#e517ff"
+                }
+
+                ]
+    }
+
+    window.onload = function () {
+
+        var  myCanvas = document.getElementById("myCanvas");
+
+
+        //canvas 相对偏移
+        let offsetX = 20;
+        let offsetY = 50;
+
+        //纵轴的最大深度
+        let maxHeight = 7;
+
+        //管径缩放比例
+        let gjmax = 0.03;
+
+
+        let  cxt = myCanvas.getContext("2d");
+
+        addTitle();
+
+        addEndLine(data.line);
+
+        addGroundLine(data.line);
+        addGroundLineText(data.line,data.pipeNode);
+
+        for(let item of data.pipeNode){
+            addPipeLine(data.line,item);
+            addPipeGj(data.line,item);
+        }
+
+        addDiagram(data.pipeNode);
+
+
+
+
+
+        //顶部文字说明
+        function addTitle(){
+
+            let text = "管线横断面分析";
+            cxt.font = "bold 20px 微软雅黑";
+            cxt.fillStyle = "black";
+            cxt.fillText(text,myCanvas.width/2 - cxt.measureText(text).width, offsetY/2 );
+
+            let text2 = "单位：米";
+            cxt.font = "bold 15px 微软雅黑";
+            cxt.fillStyle = "black";
+            cxt.fillText(text2,myCanvas.width - cxt.measureText(text2).width, offsetY/2 + 10 );
+        }
+
+
+        //图例说明
+        function addDiagram(arr){
+
+
+            let dobj = new Object();
+            for(let item of arr){
+                if(!dobj[item.name]){
+                    dobj[item.name] =  item.color;
+                }
+            }
+
+            let textHeight = myCanvas.height - myCanvas.height/8;
+            for(let item in dobj){
+                let text2 = item + ":";
+                cxt.font = "bold 15px 微软雅黑";
+                cxt.fillStyle = "black";
+                cxt.fillText(text2,myCanvas.width - myCanvas.width/6 ,textHeight  );
+
+                cxt.beginPath();
+                cxt.moveTo(myCanvas.width - myCanvas.width/6 + cxt.measureText(text2).width + 10, textHeight - 3.5);
+                cxt.lineTo(myCanvas.width - myCanvas.width/6 + cxt.measureText(text2).width + 80,textHeight - 3.5);
+                cxt.strokeStyle = dobj[item];
+                cxt.lineWidth = "2";
+                cxt.stroke();
+
+                textHeight = textHeight - 20;
+
+
+
+            }
+
+
+
+        }
+
+
+        //绘制平面的线
+        function addGroundLine(node) {
+            cxt.beginPath();
+            cxt.moveTo(node.start ,offsetY);
+            cxt.lineTo(myCanvas.width  ,offsetY);
+            cxt.strokeStyle="#040920";
+            cxt.lineWidth="5";
+            cxt.stroke();
+        }
+
+        //底部的线
+        function addEndLine(node){
+
+            cxt.beginPath();
+            cxt.moveTo(node.start ,myCanvas.height -10);
+            cxt.lineTo(myCanvas.width  ,myCanvas.height -10);
+            cxt.strokeStyle="#ff1a21";
+            cxt.lineWidth="1";
+            cxt.stroke();
+        }
+
+
+        //绘制底部管与管的标识
+        function addGroundLineText(line,arr){
+             for(let i = 0; i < arr.length; i++){
+                 if(i + 1 < arr.length){
+
+                     let arrowStart = (arr[i].start  / line.end) * myCanvas.width;
+                     let arrowEnd =     (arr[i + 1].start  / line.end) * myCanvas.width;
+                     drawArrow(cxt,arrowStart,myCanvas.height -10,arrowEnd,myCanvas.height -10,30,15,1,"#f36");
+
+                     //添加管线间距离文本
+
+                     let text = arr[i+1].start - arr[i].start;
+                     let textStart  = (arrowEnd - arrowStart)/2 + arrowStart;
+
+                     cxt.font = "bold 15px 微软雅黑";
+                     cxt.fillStyle = "black";
+                     cxt.fillText(text,textStart,myCanvas.height -20);
+                 }
+             }
+        }
+
+
+
+        //绘制地下管线
+        function addPipeLine(line,node) {
+            cxt.beginPath();
+            let newStart = (node.start  / line.end) * myCanvas.width;
+
+            cxt.moveTo(newStart ,offsetY);
+
+
+            let newns =  (node.ms  / maxHeight) * myCanvas.height;
+            cxt.lineTo(newStart ,offsetY + newns);
+            cxt.strokeStyle=node.color;
+            cxt.lineWidth="2";
+            cxt.stroke();
+
+            let text = "埋深："+ node.ms;
+            cxt.font = "bold 20px 微软雅黑";
+            cxt.fillStyle = "black";
+            cxt.fillText(text,newStart + 10,(offsetY + newns)/2);
+
+        }
+
+        //绘制管径
+        function addPipeGj(line,node){
+
+            cxt.beginPath();
+            let newStart = (node.start  / line.end) * myCanvas.width;
+            let newns =  (node.ms  / maxHeight) * myCanvas.height;
+            let newgj = node.gj * gjmax;
+
+            cxt.arc(newStart,newns + newgj + offsetY,newgj,0,360 * Math.PI/180,true);
+            cxt.strokeStyle = node.color;
+            cxt.closePath();
+            cxt.stroke();
+
+            let text = node.gj + "MM";
+            cxt.font = "bold 20px 微软雅黑";
+            cxt.fillStyle = "black";
+            cxt.fillText(text,newStart,newns + newgj * 2 + offsetY + 20);
+
+        }
+
+
+
+        //画箭头 抄的
+        function drawArrow(ctx, fromX, fromY, toX, toY, theta, headlen, width, color) {
+            theta = typeof(theta) != 'undefined' ? theta : 30;
+            headlen = typeof(theta) != 'undefined' ? headlen : 10;
+            width = typeof(width) != 'undefined' ? width : 1;
+            color = typeof(color) != 'color' ? color : '#000';
+            var angle = Math.atan2(fromY - toY, fromX - toX) * 180 / Math.PI, angle1 = (angle + theta) * Math.PI / 180, angle2 = (angle - theta) * Math.PI / 180, topX = headlen * Math.cos(angle1), topY = headlen * Math.sin(angle1), botX = headlen * Math.cos(angle2), botY = headlen * Math.sin(angle2);
+            ctx.save();
+            ctx.beginPath();
+            var arrowX = fromX - topX, arrowY = fromY - topY;
+            ctx.moveTo(arrowX, arrowY);
+            ctx.lineTo(fromX, fromY);
+            arrowX = fromX - botX;
+            arrowY = fromY - botY;
+            ctx.lineTo(arrowX, arrowY);
+            ctx.moveTo(fromX, fromY);
+            ctx.lineTo(toX, toY);
+
+            arrowX = toX + topX;
+            arrowY = toY + topY;
+            ctx.moveTo(arrowX, arrowY);
+            ctx.lineTo(toX, toY);
+            arrowX = toX + botX;
+            arrowY = toY + botY;
+            ctx.lineTo(arrowX, arrowY);
+            ctx.strokeStyle = color;            ctx.lineWidth = width;
+            ctx.stroke();
+            ctx.restore();
+        }
+
+    }
+
+
+</script>
+
+<canvas id="myCanvas" width="1000" height="500"
+        style="border:1px solid #000000;">
+</canvas>
+
+</body>
+</html>

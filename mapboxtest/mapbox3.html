@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>VectorTileLayer sample</title>
+    <link rel="stylesheet" href="http://localhost/arcgis_js_v324_api/arcgis_js_api/library/3.24/3.24/esri/css/esri.css">
+
+
+    <script src="http://localhost/arcgis_js_v324_api/arcgis_js_api/library/3.24/3.24/init.js"></script>
+    <style>
+        html,
+        body,
+        #map {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+    <script>
+        require([
+            "esri/map",
+            "esri/layers/VectorTileLayer",
+            "dojo/domReady!"
+        ], function(Map, VectorTileLayer) {
+
+            var map = new Map("map", {
+
+            });
+
+            //The URL referenced in the constructor may point to a style url JSON (as in this sample)
+            //or directly to a vector tile service
+            var vtlayer = new VectorTileLayer("https://api.mapbox.com/v4/mapbox.streets/1/0/0@2x.png?access_token=pk.eyJ1IjoiYW5hbHl0aWNhbGdyYXBoaWNzIiwiYSI6ImNpd204Zm4wejAwNzYyeW5uNjYyZmFwdWEifQ.7i-VIZZWX8pd1bTfxIVj9g");
+            map.addLayer(vtlayer);
+        });
+    </script>
+</head>
+<body>
+<div id="map"></div>
+</body>
+</html>

@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Use three.js from an external renderer - 4.1</title>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.1/esri/css/main.css">
+
+    <script src="js/libs/three.min.js"></script>
+    <script src="js/libs/stats.min.js"></script>
+    <script src="js/BlendCharacter.js"></script>
+    <script src="js/BlendCharacterGui.js"></script>
+    <script src="js/libs/dat.gui.min.js"></script>
+
+    <script src="https://js.arcgis.com/4.1/"></script>
+
+    <style>
+        html, body, #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #paneDiv {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            padding: 12px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+    </style>
+
+    <!-- Our application -->
+    <script>
+        require([
+                "esri/core/declare",
+                "esri/Map",
+                "esri/views/SceneView",
+                "esri/geometry/Point",
+                "esri/geometry/Polyline",
+                "esri/views/3d/externalRenderers",
+                "esri/geometry/SpatialReference",
+                "esri/tasks/RouteTask",
+                "esri/tasks/support/RouteParameters",
+                "esri/tasks/support/FeatureSet",
+                "esri/layers/GraphicsLayer",
+                "esri/Graphic",
+                "esri/symbols/SimpleMarkerSymbol",
+                "esri/symbols/SimpleLineSymbol",
+                "esri/Color",
+                "esri/geometry/geometryEngine",
+                "esri/core/urlUtils",
+                "dojo/on",
+                "dojo/query",
+                "dojo/domReady!"
+            ],
+            function (
+                declare,
+                Map,
+                SceneView,
+                Point,
+                Polyline,
+                externalRenderers,
+                SpatialReference,
+                RouteTask,
+                RouteParameters,
+                FeatureSet,
+                GraphicsLayer,
+                Graphic,
+                SimpleMarkerSymbol,
+                SimpleLineSymbol,
+                Color,
+                geometryEngine,
+                urlUtils,
+                on,
+                query
+            ) {
+                // proxy the route requests to avoid prompt for log in
+                //urlUtils.addProxyRule({
+                //    urlPrefix: "route.arcgis.com",
+                //    proxyUrl: "/sproxy/"
+                //});
+                // Point the URL to a valid route service
+                var routeTask = new RouteTask({
+                    url: "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World"
+                });
+                // The stops and route result will be stored in this layer
+                var routeLyr = new GraphicsLayer();
+                var externalRenderer = null;
+                // Setup the route parameters
+                var routeParams = new RouteParameters({
+                    stops: new FeatureSet(),
+                    outSpatialReference: { // autocasts as new SpatialReference()
+                        wkid: 3857
+                    }
+                });
+                // Define the symbology used to display the stops
+                var stopSymbol = new SimpleMarkerSymbol({
+                    style: "cross",
+                    size: 15,
+                    outline: { // autocasts as new SimpleLineSymbol()
+                        width: 4
+                    }
+                });
+                // Define the symbology used to display the route
+                var routeSymbol = new SimpleLineSymbol({
+                    color: [0, 0, 255, 0.5],
+                    width: 5
+                });
+                // Create a map
+                //////////////////////////////////////////////////////////////////////////////////////
+                var map = new Map({
+                    basemap: "gray",
+                    ground: "world-elevation",
+                    layers: [routeLyr] // Add the route layer to the map
+                });
+                // Create a SceneView
+                //////////////////////////////////////////////////////////////////////////////////////
+                var view = new SceneView({
+                    container: "viewDiv",
+                    map: map,
+                    viewingMode: "global",
+                    camera: {
+                        position: {
+                            x: 9,
+                            y: 45,
+                            z: 10000,
+                            spatialReference: SpatialReference.WGS84
+                        },
+                        heading: 0,
+                        tilt: 35
+                    },
+                });
+                // Adds a graphic when the user clicks the map. If 2 or more points exist, route is solved.
+                on(view, "click", addStop);
+                function addStop(event) {
+                    // Add a point at the location of the map click
+                    //var stop = new Graphic({
+                    //    geometry: event.mapPoint,
+                    //    symbol: stopSymbol
+                    //});
+                    var stop1 = new Graphic({
+                        geometry: new Point({x: 998349.73209999874, y: 5631130.5138999969, spatialReference: SpatialReference.WebMercator}),
+                        symbol: stopSymbol
+                    });
+
+                    routeLyr.add(stop1);
+                    var stop2 = new Graphic({
+                        geometry: new Point({x: 1003417.1920999996, y: 5631433.9733999968, spatialReference: SpatialReference.WebMercator }),
+                        symbol: stopSymbol
+                    });
+                    routeLyr.add(stop2);
+
+                    routeParams.stops.features.push(stop1);
+                    routeParams.stops.features.push(stop2);
+                    // Execute the route task if 2 or more stops are input
+                    //routeParams.stops.features.push(stop);
+                    if (routeParams.stops.features.length >= 2) {
+                        //routeTask.solve(routeParams).then(showRoute);
+                        showRoute();
+                    }
+                }
+                // Adds the solved route to the map as a graphic
+                function showRoute(data) {
+
+                    //var routeResult = data.routeResults[0].route;
+                    var polyline = new Polyline([[998349.73209999874, 5631130.5138999969], [998362.17399999872, 5631126.6533000022], [998457.90879999846, 5631229.0921000019], [998552.53029999882, 5631323.6520999968],
+                        [998610.41649999842, 5631386.6926999986], [998636.01999999955, 5631418.2131000012], [998650.4915000014, 5631435.5494000018], [998676.09499999881, 5631467.0700000003],
+                        [998682.77409999818, 5631474.9501999989], [998732.86789999902, 5631533.2635999992], [998839.73460000008, 5631646.7396000028], [998952.16730000079, 5631719.2387999967],
+                        [998988.90269999951, 5631733.4235000014], [999191.50420000032, 5631790.1626000032], [999306.16330000013, 5631821.6843999997], [999581.12240000069, 5631898.9134000018],
+                        [999795.96909999847, 5631954.0773999989], [999954.04270000011, 5631939.8923000023], [1000178.9081000015, 5631820.1083000004], [1000821.2215999998, 5631456.0377999991],
+                        [1000953.6917999983, 5631415.060999997], [1001226.4244999997, 5631377.2365000024], [1001712.8907000013, 5631311.0441000015], [1001873.1906999983, 5631304.7400000021],
+                        [1002203.8095999993, 5631322.0760999992], [1002398.6187000014, 5631340.9882000014], [1002457.6180999987, 5631377.2365000024], [1002649.0876000002, 5631605.762000002],
+                        [1002683.5965999998, 5631619.9465000033], [1002892.8773000017, 5631509.6230000034], [1002995.2912000008, 5631454.4616999999], [1003084.3467999995, 5631422.941200003],
+                        [1003281.3823000006, 5631456.0377999991], [1003348.1739999987, 5631448.1576000005], [1003413.5742000006, 5631433.9733999968], [1003417.1920999996, 5631433.9733999968]]);
+                    polyline.spatialReference = SpatialReference.WebMercator;
+                    var routeResult = new Graphic({
+                        geometry: polyline,
+                        symbol: routeSymbol
+                    });
+
+                    routeResult.symbol = routeSymbol;
+                    routeLyr.add(routeResult);
+                    var pl = geometryEngine.densify(routeResult.geometry, 10, "meters");
+                    // register the external renderer
+                    externalRenderer = new skeletonRenderer(pl);
+                    externalRenderers.add(view, externalRenderer);
+                }
+                // Disable lighting based on the current camera position.
+                // We want to display the lighting according to the current time of day.
+                view.environment.lighting.cameraTrackingEnabled = false;
+                // Create our custom external renderer
+                //////////////////////////////////////////////////////////////////////////////////////
+                var skeletonRenderer = declare(null, {
+                    renderer: null,     // three.js renderer
+                    camera: null,       // three.js camera
+                    scene: null,        // three.js scene
+                    vertexIdx: 0,
+                    ambient: null,      // three.js ambient light source
+                    sun: null,          // three.js sun light source
+                    /**
+                     * Setup function, called once by the ArcGIS JS API.
+                     */
+                    setup: function (context) {
+                        // initialize the three.js renderer
+                        //////////////////////////////////////////////////////////////////////////////////////
+                        this.renderer = new THREE.WebGLRenderer({
+                            context: context.gl,
+                            premultipliedAlpha: false
+                        });
+                        this.renderer.setPixelRatio(window.devicePixelRatio);
+                        this.renderer.setSize(context.camera.fullWidth, context.camera.fullHeight);
+                        // prevent three.js from clearing the buffers provided by the ArcGIS JS API.
+                        this.renderer.autoClearDepth = false;
+                        this.renderer.autoClearStencil = false;
+                        this.renderer.autoClearColor = false;
+                        // The ArcGIS JS API renders to custom offscreen buffers, and not to the default framebuffers.
+                        // We have to inject this bit of code into the three.js runtime in order for it to bind those
+                        // buffers instead of the default ones.
+                        var originalSetRenderTarget = this.renderer.setRenderTarget.bind(this.renderer);
+                        this.renderer.setRenderTarget = function (target) {
+                            originalSetRenderTarget(target);
+                            if (target == null) {
+                                context.bindRenderTarget();
+                            }
+                        }
+                        // setup the three.js scene
+                        ///////////////////////////////////////////////////////////////////////////////////////
+                        this.scene = new THREE.Scene();
+                        // setup the camera
+                        var cam = context.camera;
+                        this.camera = new THREE.PerspectiveCamera(cam.fovY, cam.aspect, cam.near, cam.far);
+                        // setup scene lighting
+                        this.ambient = new THREE.AmbientLight(0xffffff, 0.5);
+                        this.scene.add(this.ambient);
+                        this.sun = new THREE.DirectionalLight(0xffffff, 0.5);
+                        this.scene.add(this.sun);
+                        this.clock = new THREE.Clock();
+                        this.blendMesh = new THREE.BlendCharacter();
+                        this.blendMesh.load("models/skinned/marine/marine_anims_core.json", this.start.bind(this));
+                        // cleanup after ourselfs
+                        context.resetWebGLState();
+                    },
+                    /**
+                     * Dojo constructor
+                     */
+                    constructor: function (pl) {
+                        this.path = pl.paths[0];
+                    },
+                    render: function (context) {
+                        // update camera parameters
+                        ///////////////////////////////////////////////////////////////////////////////////
+                        var cam = context.camera;
+                        this.camera.position.set(cam.eye[0], cam.eye[1], cam.eye[2]);
+                        this.camera.up.set(cam.up[0], cam.up[1], cam.up[2]);
+                        this.camera.lookAt(new THREE.Vector3(cam.center[0], cam.center[1], cam.center[2]));
+                        // Projection matrix can be copied directly
+                        this.camera.projectionMatrix.fromArray(cam.projectionMatrix);
+                        if (this.blendMesh.geometry) {
+                            if (this.path.length == (this.vertexIdx + 1))
+                            {
+                                this.vertexIdx = 0;
+                            }
+                            var p = this.path[this.vertexIdx];
+                            var pt = new Point({
+                                x: p[0],
+                                y: p[1],
+                                z: 0
+                            });
+                            pt.spatialReference = SpatialReference.WebMercator;
+                            z = view.basemapTerrain.getElevation(p);
+                            pos = [pt.x, pt.y, z];
+                            this.vertexIdx++;
+                            if (this.path.length == (this.vertexIdx)) {
+                                this.vertexIdx--;
+                            }
+                            var transform = new THREE.Matrix4();
+                            transform.fromArray(externalRenderers.renderCoordinateTransformAt(view, pos, SpatialReference.WebMercator, new Array(16)));
+                            this.blendMesh.position.set(transform.elements[12], transform.elements[13], transform.elements[14]);
+                            var p0;
+                            var p1;
+                            if ((this.path.length - 1) == (this.vertexIdx))
+                            {
+                                p0 = this.path[--this.vertexIdx];
+                                p1 = this.path[this.vertexIdx];
+                            }
+                            else
+                            {
+                                p0 = this.path[this.vertexIdx];
+                                p1 = this.path[++this.vertexIdx];
+                            }
+                            var rotation = new THREE.Matrix4();
+                            var m1 = new THREE.Matrix4();
+                            var m2 = new THREE.Matrix4();
+                            var m3 = new THREE.Matrix4();
+                            m1.makeRotationX(THREE.Math.degToRad(90));
+                            m2.makeRotationY(THREE.Math.degToRad(10));
+                            m3.makeRotationZ(THREE.Math.degToRad(315));
+                            rotation.multiplyMatrices(m1, m2);
+                            rotation.multiply(m3);
+                            this.blendMesh.setRotationFromMatrix(rotation);
+                            var scale = this.gui.getTimeScale();
+                            var delta = this.clock.getDelta();
+                            var stepSize = delta * scale;
+                            this.blendMesh.update(stepSize);
+                        }
+                        // update lighting
+                        /////////////////////////////////////////////////////////////////////////////////////////////////////
+                        view.environment.lighting.date = Date.now();
+                        var l = context.sunLight;
+                        this.sun.position.set(
+                            l.direction[0],
+                            l.direction[1],
+                            l.direction[2]
+                        );
+                        this.sun.intensity = l.diffuse.intensity;
+                        this.sun.color = new THREE.Color(l.diffuse.color[0], l.diffuse.color[1], l.diffuse.color[2]);
+                        this.ambient.intensity = l.ambient.intensity;
+                        this.ambient.color = new THREE.Color(l.ambient.color[0], l.ambient.color[1], l.ambient.color[2]);
+                        // draw the scene
+                        /////////////////////////////////////////////////////////////////////////////////////////////////////
+                        this.renderer.resetGLState();
+                        this.renderer.render(this.scene, this.camera);
+                        externalRenderers.requestRender(view);
+                        // cleanup
+                        context.resetWebGLState();
+                    },
+                    start: function () {
+                        this.scene.add(this.blendMesh);
+                        this.gui = new BlendCharacterGui(this.blendMesh);
+                        this.blendMesh.applyWeight('idle', 1 / 3);
+                        this.blendMesh.applyWeight('walk', 1 / 3);
+                        this.blendMesh.applyWeight('run', 1 / 3);
+                        this.blendMesh.play('idle', 1 / 3);
+                        this.blendMesh.play('walk', 1 / 3);
+                        this.blendMesh.play('run', 1 / 3);
+                        query(".dg").style("display", "none");
+
+                    }
+                });
+            });
+    </script>
+</head>
+
+<body>
+<div id="viewDiv"></div>
+</body>
+
+</html>

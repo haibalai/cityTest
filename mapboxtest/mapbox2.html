@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>VectorTileLayer sample</title>
+
+    <style>
+        html,
+        body,
+        #map {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+    <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/esri/css/esri.css">
+
+
+    <script src="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/init.js"></script>
+
+    <!--<link rel="stylesheet" href="http://localhost/arcgis_js_v324_api/arcgis_js_api/library/3.24/3.24/esri/css/esri.css">-->
+
+
+    <!--<script src="http://localhost/arcgis_js_v324_api/arcgis_js_api/library/3.24/3.24/init.js"></script>-->
+
+    <script>
+        require([
+            "esri/map",
+            "esri/layers/VectorTileLayer",
+            "esri/layers/WebTiledLayer",
+            "dojo/domReady!"
+        ], function(Map, VectorTileLayer,WebTiledLayer) {
+
+            var map = new Map("map", {
+                zoom: 13,
+                center: [4.899, 52.372]
+            });
+
+            //The URL referenced in the constructor may point to a style url JSON (as in this sample)
+            //or directly to a vector tile service
+
+
+
+//            VectorTileLayer.ACCESS_TOKEN = "pk.eyJ1IjoiYW5hbHl0aWNhbGdyYXBoaWNzIiwiYSI6ImNpd204Zm4wejAwNzYyeW5uNjYyZmFwdWEifQ.7i-VIZZWX8pd1bTfxIVj9g";
+//            var vectorTileLayer = new VectorTileLayer("mapbox://styles/mapbox/basic-v9");
+            var vectorTileLayer = new WebTiledLayer("https://${subDomain}.tiles.mapbox.com/v4/mapbox.dark/${level}/${col}/${row}.png?access_token=pk.eyJ1IjoiYW5hbHl0aWNhbGdyYXBoaWNzIiwiYSI6ImNpd204Zm4wejAwNzYyeW5uNjYyZmFwdWEifQ.7i-VIZZWX8pd1bTfxIVj9g", {
+                 "subDomains": ["a", "b", "c"]
+            });
+
+
+
+            map.addLayer(vectorTileLayer);
+        });
+    </script>
+</head>
+<body>
+<div id="map"></div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/gismap3.min.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+
+    let config = {
+
+        mapId:  "5555",
+
+        url: "http://61.144.226.44:6080/arcgis/rest/services/basemap/szmap_basemap_201608_01/MapServer",
+        mapType:"tiled",
+        layerType:"",
+        visibleLayer:[],
+
+        extent:{
+            xmax:106845.70780098543,
+            ymax:54047.27319746484,
+            xmin:87001.91811340605,
+            ymin:18751.785939823654,
+        },
+
+    }
+    //加载arcgis url
+    gismap3.loadScriptTool.setDefault();
+    //路径自己放哦
+    gismap3.configLoadTool.layer2DPath = "../json/config2D.json";
+
+    //加载图层
+    gismap3.configLoadTool.load("json");
+    window.onload = function () {
+
+        gismap3.baseMap_bussiness_ctrl.init(config);
+
+    }
+
+
+    function test() {
+
+        gismap3.layerManager.showLayerByName(config.mapId,["深圳市规划选址意见书"],true);
+    }
+
+    function test1() {
+
+        gismap3.mouseMoveTool.startQuery(config.mapId)
+    }
+
+
+</script>
+
+<div id="5555" style="width: 100%;height: 100%">
+    <div id="swipeDiv"></div>
+</div>
+<button  onclick="test()">测试图层</button>
+<button  onclick="test1()">测试点选功能</button>
+</body>
+</html>

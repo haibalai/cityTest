@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Create a local scene - 4.3</title>
+    <style>
+        html,
+        body,
+        #sss {
+            /*padding: 0;*/
+            /*margin: 0;*/
+            height: 100%;
+            width: 100%;
+        }
+
+        #homeDiv {
+            left: 15px;
+            top: 130px;
+            z-index: 35;
+            position: absolute;
+        }
+    </style>
+
+    <!--<link rel="stylesheet" href="http://arcgislg.ascs.tech/arcgis_js_v43_api/arcgis_js_api/library/4.3/4.3/esri/css/main.css">-->
+    <!--<script src="http://arcgislg.ascs.tech/arcgis_js_v43_api/arcgis_js_api/library/4.3/4.3/init.js"></script>-->
+    <link rel="stylesheet" href="http://localhost/arcgis_js_v48_api/arcgis_js_api/library/4.8/esri/css/main.css">
+    <script src="http://localhost/arcgis_js_v48_api/arcgis_js_api/library/4.8/dojo/dojo.js"></script>
+    <script>
+
+
+        require([
+            "esri/Map",
+            "esri/config",
+            "esri/Basemap",
+            "esri/config",
+            "esri/geometry/Extent",
+            "esri/geometry/SpatialReference",
+            "esri/views/SceneView",
+            "esri/views/MapView",
+            "esri/layers/FeatureLayer",
+            "esri/layers/ImageryLayer",
+            "esri/layers/TileLayer",
+            "esri/layers/SceneLayer",
+            "esri/layers/ElevationLayer",
+            "esri/renderers/SimpleRenderer",
+            "esri/symbols/ObjectSymbol3DLayer",
+            "esri/symbols/IconSymbol3DLayer",
+            "esri/symbols/PointSymbol3D",
+            "esri/tasks/QueryTask",
+            "esri/tasks/support/Query",
+            "esri/widgets/Home",
+            "dojo/domReady!"
+        ], function(Map,esriConfig,Basemap,esriConfig,Extent,SpatialReference, SceneView,MapView, FeatureLayer,ImageryLayer,TileLayer,SceneLayer,ElevationLayer,
+                    SimpleRenderer, ObjectSymbol3DLayer,
+                    IconSymbol3DLayer, PointSymbol3D, QueryTask, Query, Home
+        ) {
+
+
+//             let view = new MapView({
+//                   container:"sss",
+//
+//                   map: map,
+//               });
+//            esriConfig.request.corsEnabledServers = true;
+
+            var layer = new TileLayer(
+                {
+                url: "http://10.10.120.2:6080/arcgis/rest/services/pingshan/ImageServer",
+
+
+            });
+            var map = new Map({
+                layers:[layer]
+            });
+            map.add(layer);
+
+            var view = new SceneView({
+                container:"sss",
+                viewingMode: "global",
+                map:map,
+            })
+
+            view.on("click", function(event) {
+                // the hitTest() checks to see if any graphics in the view
+                // intersect the given screen x, y coordinates
+                console.log(event)
+            });
+
+
+
+
+
+            //http://portal.esrigz.com/ags/rest/services/Hosted/element4/SceneServer
+            //http://portal.esrigz.com/ags/rest/services/Hosted/building/SceneServer
+
+
+
+
+
+        });
+
+        function test() {
+
+        }
+    </script>
+</head>
+
+<body>
+<div id="sss"></div>
+<button onclick="test()">222222</button>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>WebTileLayer 3D tdt - 4.7</title>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <link rel="stylesheet" href="http://localhost/arcgis_js_v48_api/arcgis_js_api/library/4.8/esri/css/main.css">
+    <script src="http://localhost/arcgis_js_v48_api/arcgis_js_api/library/4.8/dojo/dojo.js"></script>
+
+
+    <script>
+        //用webtilelayer做的,domain替换的，没有定义 tileInfo的
+        require([
+            "esri/config",
+            "esri/layers/WebTileLayer",
+            "esri/Basemap",
+            "esri/Map",
+            'esri/layers/support/TileInfo',
+            "esri/views/SceneView",
+            "esri/views/MapView",
+            "esri/widgets/BasemapToggle",
+            "dojo/dom",
+            "dojo/domReady!"
+        ], function (esriConfig, WebTileLayer, Basemap, Map, TileInfo,SceneView, MapView, BasemapToggle, dom) {
+            esriConfig.request.corsEnabledServers
+                    .push("t0.tianditu.com", "t1.tianditu.com", "t2.tianditu.com",
+                    "t3.tianditu.com", "t4.tianditu.com", "t5.tianditu.com", "t6.tianditu.com",
+                    "t7.tianditu.com");
+
+            //混用会错位!!!
+            //矢量注记
+            var tileInfo = new TileInfo({
+                dpi: 90.71428571427429,
+                rows : 256,
+                cols : 256,
+                compressionQuality : 0,
+                origin : {
+                    x : -180,
+                    y : 90
+                },
+                spatialReference : {
+                    wkid : 4326
+                },
+                lods : [
+                    {level : 2,levelValue: 2, resolution : 0.3515625, scale : 147748796.52937502},
+                    {level : 3,levelValue: 3, resolution : 0.17578125, scale : 73874398.264687508},
+                    {level : 4,levelValue: 4,resolution : 0.087890625, scale : 36937199.132343754},
+                    {level : 5,levelValue: 5, resolution : 0.0439453125, scale : 18468599.566171877},
+                    {level : 6,levelValue: 6, resolution : 0.02197265625, scale : 9234299.7830859385},
+                    {level : 7,levelValue: 7, resolution : 0.010986328125, scale : 4617149.8915429693},
+                    {level : 8,levelValue: 8, resolution : 0.0054931640625, scale : 2308574.9457714846},
+                    {level : 9,levelValue: 9, resolution : 0.00274658203125, scale : 1154287.4728857423},
+                    {level : 10,levelValue: 10, resolution : 0.001373291015625, scale : 577143.73644287116},
+                    {level : 11,levelValue: 11, resolution : 0.0006866455078125, scale : 288571.86822143558},
+                    {level : 12,levelValue: 12, resolution : 0.00034332275390625, scale : 144285.93411071779},
+                    {level : 13,levelValue: 13, resolution : 0.000171661376953125, scale : 72142.967055358895},
+                    {level : 14,levelValue: 14, resolution : 8.58306884765625e-005, scale : 36071.483527679447},
+                    {level : 15,levelValue: 15, resolution : 4.291534423828125e-005, scale : 18035.741763839724},
+                    {level : 16,levelValue: 16, resolution : 2.1457672119140625e-005, scale : 9017.8708819198619},
+                    {level : 17,levelValue: 17, resolution : 1.0728836059570313e-005, scale : 4508.9354409599309},
+                    {level : 18,levelValue: 18, resolution : 5.3644180297851563e-006, scale : 2254.4677204799655},
+                    { level: 19,levelValue: 19, resolution: 2.68220901489257815e-006, scale: 1127.23386023998275 },
+                    { level: 20,levelValue: 2, resolution: 1.341104507446289075e-006, scale: 563.616930119991375 }
+                ]
+            })
+
+            var vecBaseLayerZj = new WebTileLayer({
+                urlTemplate: "http://{subDomain}.tianditu.com/DataServer?T=cva_w&x={col}&y={row}&l={level}", //可以                
+                subDomains: ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"],
+                copyright: "vec Map tiles by Tian Di Tu ZJ"
+            });
+            //矢量
+
+            var vecBaseLayer = new WebTileLayer({
+                urlTemplate: "http://{subDomain}.tianditu.com/DataServer?T=vec_w&x={col}&y={row}&l={level}", //可以
+                subDomains: ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"],
+                copyright: "vec Map tiles by Tian Di Tu",
+                tileInfo: tileInfo
+            });
+
+            //影像注记
+            var imgBaseLayerZj = new WebTileLayer({
+                urlTemplate: "http://{subDomain}.tianditu.com/DataServer?T=cia_w&x={col}&y={row}&l={level}",                
+                subDomains: ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"],
+                copyright: "img Map tiles by Tian Di Tu ZJ"
+            });
+            //影像
+            var imgBaseLayer = new WebTileLayer({
+                urlTemplate: "http://{subDomain}.tianditu.com/DataServer?T=img_w&x={col}&y={row}&l={level}",
+				subDomains: ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"],
+                copyright: "img Map tiles by Tian Di Tu"
+            });
+
+            var vecBasemap = new Basemap({
+                baseLayers: [vecBaseLayer],
+                title: '矢量',
+                thumbnailUrl: ''
+            });
+            var imgBasemap = new Basemap({
+                baseLayers: [imgBaseLayer, imgBaseLayerZj],
+                title: '影像',
+                thumbnailUrl: ''
+            });
+
+            var map = new Map({
+                spatialReference : {
+                    wkid : 4326
+                },
+                basemap: {
+                    baseLayers: [vecBasemap]
+                },
+
+            });
+
+            //------------------------------------------------
+            //            //三维视角
+            //           var view = new SceneView({
+            //               container: "viewDiv",
+            //               map: map,
+            //               scale: 123456789,
+            //               center: [-65, -15]
+            //           });
+            //-------------------------------------------------
+            //二维视角
+            var view = new MapView({
+                container: "viewDiv",
+                map: map,
+                spatialReference : {
+                    wkid : 4326
+                },
+//                scale: 123456789,
+//                center: [-65, -15]
+            });
+
+
+            var basemapToggle = new BasemapToggle({
+                view: view,
+                nextBasemap: imgBasemap
+            });
+
+            view.ui.add(basemapToggle, 'top-right');
+        });
+    </script>
+</head>
+
+<body>
+<div id="viewDiv"></div>
+</body>
+
+</html>

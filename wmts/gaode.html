@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>ArcGIS JS加载高德地图</title>
+
+    <style>
+        html,body{
+            height: 100%;
+        }
+        #map{
+            height: 100%;
+        }
+    </style>
+
+
+    <script type="text/javascript">
+        var dojoConfig = {
+            async: false, //是否异步
+            parseOnLoad: true,
+            packages: [{ //解释：require(["js/.."],function(){}) 中  js/ 即为 location的值
+                name: "js", //对应require引用包里的js
+                location: location.pathname.replace(/\/[^/]*$/, '') + '/js' //对应的路径
+            }]
+        };
+    </script>
+    <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/esri/css/esri.css">
+
+
+    <script src="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/init.js"></script>
+    <script>
+        //地图控件
+        var map;
+        require(["esri/map", "../js/GaodeLayer", "dojo/domReady!"], function (Map, gaodeLayer) {
+            map = new Map("map", {
+//                center: [118.15, 31.55],
+//                zoom: 11,
+                logo : false, //logo
+                slider : false //缩小按钮
+            });
+//             var baselayer = new gaodeLayer();//默认加载矢量 new gaodeLayer({layertype:"road"});也可以
+            // var baselayer = new gaodeLayer({layertype: "st"});//加载卫星图
+            var baselayer = new GaodeLayer();//加载标注图
+            map.addLayer(baselayer);//添加高德地图到map容器
+        });
+
+
+    </script>
+</head>
+<body>
+<!-- 地图p的id设为map -->
+<p id="map"></p>
+</body>
+</html>

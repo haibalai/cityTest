@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="application/javascript">
+
+    function test(c) {
+        if(c != null){
+            let b = { t:5};
+            if(b.t > 0){
+                b.t = b.t -1;
+                test(b);
+            }
+
+        }
+
+    }
+
+    test({t:3});
+
+
+</script>
+</body>
+</html>

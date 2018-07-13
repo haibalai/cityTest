@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html class="no-js">
+
+<head>
+    <title>Skyline Demo</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
+    <script src="../js/ToolsCommon.js"></script>
+    <!-- Bootstrap -->
+
+    <link href="assets/styles.css" rel="stylesheet" media="screen">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="../vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+</head>
+
+<body style="overflow: hidden;margin:0px;padding:0px;" onload="Init3D();">
+
+<div id="3dmap" style="z-index:0;width:100%;height:100%;margin-top:38px;position:fixed;">
+</div>
+<script src="../vendors/jquery-1.9.1.min.js"></script>
+<script>
+	function Init3D()
+	{
+		var dmap = window.document.getElementById("3dmap");
+		var obj = C3DWindow();
+		dmap.appendChild(obj);
+		var sg = CSGWorld();
+		var flyurl = "http://192.168.2.165/pipe3d/pipe3d.FLY";
+		sg.Open(flyurl);
+		sg.Navigate.UndergroundMode = true;
+	}
+	function CSGWorld() {
+		var obj = window.document.getElementById("SGWorld");
+		if (obj == null) {
+			obj = document.createElement('object');
+			document.body.appendChild(obj);
+			obj.name = "SGWorld";
+			obj.id = "SGWorld";
+			obj.classid = "CLSID:3a4f91b0-65a8-11d5-85c1-0001023952c1";
+		}
+		return obj;
+	}
+
+	function test()
+	{
+		alert(0);
+	}
+
+
+	function C3DWindow() {
+		try
+		{
+			var obj = window.document.getElementById("TerraExplorer3DWindow");
+			if (obj == null) {
+				obj = document.createElement('object');
+				obj.name = "TerraExplorer3DWindow";
+				obj.id = "TerraExplorer3DWindow";
+				obj.style.width = "100%";
+				obj.style.height = "100%";
+				obj.classid = "CLSID:3a4f9192-65a8-11d5-85c1-0001023952c1";
+				obj.style.zIndex = -10000;
+			}
+			return obj;
+		}
+		catch (e) {
+			alert(e);
+		}
+	}
+</script>
+</body>
+
+</html>

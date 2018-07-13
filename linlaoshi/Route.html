@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet"
+          href="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/esri/css/esri.css">
+
+
+    <script src="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/init.js"></script>
+
+    <script src="routeData.js"></script>
+    <style type="text/css">
+
+        #map{
+            width: 100%;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+<div id="map">
+    <script type="text/javascript">
+        var map;
+        var routeHandleData = [];
+        require([
+            "esri/layers/ArcGISDynamicMapServiceLayer",
+            "esri/layers/ArcGISTiledMapServiceLayer",
+            "esri/map",
+            "esri/geometry/Circle",
+            "esri/units",
+            'esri/geometry/Extent',
+            "esri/graphic",
+            "esri/layers/GraphicsLayer",
+            "esri/geometry/Point",
+            "esri/geometry/Polyline",
+            "esri/symbols/Font",
+            "esri/symbols/TextSymbol",
+            "esri/Color",
+            "esri/symbols/SimpleFillSymbol",
+            "esri/symbols/SimpleLineSymbol",
+            "esri/symbols/SimpleMarkerSymbol",
+            "dojo/parser",
+            "dojo/domReady!wmts/ArcgDynamic",
+            "dijit/layout/BorderContainer",
+            "dijit/layout/ContentPane"
+        ], function (ArcGISDynamicMapServiceLayer,
+                     ArcGISTiledMapServiceLayer,
+                     Map,
+                     Circle,
+                     Units,
+                     Extent,
+                     Graphic,
+                     GraphicsLayer,
+                     Point,
+                     Polyline,
+                     Font,
+                     TextSymbol,
+                     Color,
+                     SimpleFillSymbol,
+                     SimpleLineSymbol,
+                     SimpleMarkerSymbol,
+                     parser) {
+            parser.parse();
+
+            map = new Map("map");
+            var tiledlayer;
+            //福州地图切片地址 这是福州ip 公司找和平
+            let url = "http://172.25.10.61:6080/arcgis/rest/services/Vector2014_FzLocal/MapServer";
+
+            tiledlayer = new ArcGISTiledMapServiceLayer(url);
+
+            let lineGraphicLayer = new GraphicsLayer();
+            let pointGraphicLayer = new GraphicsLayer();
+
+
+            map.addLayer(tiledlayer);
+            map.on('load', function () {
+                let mapExtent = new esri.geometry.Extent(425034.51187693514,2879612.5335606947,436525.4065321628,2887247.679511012,map.spatialReference);
+                map.setExtent(mapExtent);
+                map.addLayer(lineGraphicLayer);
+                map.addLayer(pointGraphicLayer);
+//                getData();
+//                addLine(routeHandleData);
+                // addPoint(routeHandleData);
+                addCircle();
+            })
+
+            function addCircle(){
+
+                let point  =  new Point(434840.691592033,2881687.26624766,map.spatialReference);
+                var circleGeometry = new Circle({
+                    center: point,
+                    radius: 2000,
+                });
+
+                var sfs = new SimpleFillSymbol().setColor(null).outline.setColor("blue");
+                pointGraphicLayer.add(new Graphic(circleGeometry,symbol));
+
+            }
+
+
+
+            //处理json 数据
+            function getData(){
+                routeHandleData = [];
+                for(let item of routeData){
+                    for(let whereItem of item.data[0].where){
+                        routeHandleData.push([whereItem.Longitude,whereItem.Latitude]);
+                    }
+                }
+            }
+
+            //添加点的数据
+            function addPoint(arr){
+              pointGraphicLayer.clear();
+
+              for(let item of arr){
+                  let point  =  new Point(item[0],item[1],map.spatialReference);
+
+                 let  pointSymbol  =  new esri.symbol.SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, 10,
+                      new esri.symbol.SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                          new esri.Color([255,0,0]), 1),
+                      new esri.Color([0,255,0,0.25]));
+
+                  pointGraphicLayer.add(new Graphic(point,pointSymbol));
+
+              }
+            }
+
+            //添加线的数据
+            function addLine(arr){
+
+                lineGraphicLayer.clear();
+
+                let polyline = new Polyline({
+                    "paths":[arr],
+                    "spatialReference":map.spatialReference
+
+                });
+
+                let polylineSymbol = new SimpleLineSymbol(
+                    SimpleLineSymbol.STYLE_DASH,
+                    new esri.Color([255,0,0]),
+                    3
+                );
+
+                lineGraphicLayer.add(new Graphic(polyline,polylineSymbol));
+
+            }
+
+
+
+        });
+    </script>
+</div>
+
+</body>
+</html>

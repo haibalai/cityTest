@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>Echart ArcGIS</title>
+    <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/esri/css/esri.css">
+    <style>
+        html, body, #map {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            height: 90%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #FFF;
+            overflow: hidden;
+            font-family: "Trebuchet MS", sans-serif;
+        }
+    </style>
+    <script src="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/init.js"></script>
+</head>
+
+<body>
+
+<div id="map"></div>
+<button onclick="fun1()">记录起点</button>
+<label id="label1"></label> <label id="label2"></label>
+</br>
+<button onclick="fun2()">记录终点</button>
+<label id="label3"></label> <label id="label4"></label>
+</br>
+<button onclick="fun3()">生产剖切线</button>
+
+
+<script>
+
+    var map;
+    var x;
+    var y;
+    var x1;
+    var y1;
+    var x2;
+    var y2;
+
+    require(["esri/map", "esri/layers/ArcGISTiledMapServiceLayer", "esri/layers/ArcGISDynamicMapServiceLayer", "esri/geometry/Polyline", "esri/graphic", "esri/geometry/Extent", "dojo/domReady!"],
+        function (Map, ArcGISTiledMapServiceLayer, ArcGISDynamicMapServiceLayer, Polyline, Graphic, Extent) {
+            map = new Map("map", {
+                //basemap: "dark-gray",
+                //center: [423865, 2882658], // longitude, latitude
+                // zoom: 5
+            });
+            var ext = new Extent({
+                "xmin": 425218.64178836334,
+                "ymin": 2882404.138717771,
+                "xmax": 426363.91368091095,
+                "ymax": 2882970.213210494,
+                "spatialReference": {"wkid": 2437}
+            })
+
+            map.setExtent(ext, true)
+            var tileLayer = new ArcGISDynamicMapServiceLayer("http://10.10.120.2:6080/arcgis/rest/services/FuZhou_JSLW3/MapServer");
+
+
+            var tileLayer2 = new ArcGISTiledMapServiceLayer("http://172.25.10.61:6080/arcgis/rest/services/Vector2014_FzLocal/MapServer");
+            map.addLayer(tileLayer2);
+            map.addLayer(tileLayer);
+
+
+            map.on("click", executeIdentify);
+
+            function executeIdentify(event) {
+                x = event.mapPoint.x;
+                y = event.mapPoint.y;
+
+            }
+
+            fun1 = function () {
+                x1 = document.getElementById("label1").innerText = x
+                y1 = document.getElementById("label2").innerText = y
+            }
+            fun2 = function () {
+                x2 = document.getElementById("label3").innerText = x
+                y2 = document.getElementById("label4").innerText = y
+            }
+
+            fun3 = function () {
+                map.graphics.clear()
+
+                var myLine = {
+                    geometry: {
+                        "paths": [[[x1, y1], [x2, y2]]],
+                        "spatialReference": {"wkid": 2437}
+                    },
+                    "symbol": {"color": [255, 0, 0, 255], "width": 1, "type": "esriSLS", "style": "esriSLSSolid"}
+                };
+                var graphic = new Graphic(myLine);
+                map.graphics.add(graphic);
+                var url = "http://172.25.10.61:6080/arcgis/rest/services/FZPIPELOCAL/MapServer/32";
+                var res= dissection(graphic,url)
+                res.then(function(data) {
+                    console.log(inputParameters)
+                })
+
+            }
+
+
+            //剖切参数获取方法 v1.1
+            //输入剖切线 line Graphic， 被剖切数据服务，要素图层
+            function dissection(graphic,url) {
+                var p = new Promise(function(resolve, reject){
+                    var geometry = graphic.geometry;
+                    require(["esri/SpatialReference", "esri/tasks/query", "esri/tasks/QueryTask", "esri/geometry/mathUtils", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol", "esri/Color","esri/graphic"],
+                        function (SpatialReference, Query, QueryTask, mathUtils, Point, SimpleMarkerSymbol, Color,Graphic) {
+
+                            var queryTask = new QueryTask(url);
+
+                            var query = new Query();
+                            query.returnGeometry = true;
+                            query.outFields = ["*"];
+                            query.outSpatialReference = {"wkid": 2437};
+                            // query.where = where;
+                            query.geometry = geometry;
+
+                            queryTask.execute(query);
+
+                            //查询输入线经过的管线
+                            queryTask.on("complete", function (event) {
+
+                                //计算输入剖线长度
+                                var pS = new Point(geometry.paths[0][0], new SpatialReference({wkid: 2437}));
+                                var pE = new Point(geometry.paths[0][1], new SpatialReference({wkid: 2437}));
+                                var Linedistance = mathUtils.getLength(pS, pE);
+
+                                var inputParameters = {
+                                    lineLenth: Linedistance,
+                                    pipes: []
+                                }
+
+                                //轮询查询管线参数
+                                var features = event.featureSet.features;
+                                var featureCount = features.length;
+                                for (var i = 0; i < featureCount; i++) {
+                                    var geometryInput = features[i].geometry;
+                                    var res= getIntersection(geometryInput);
+                                    var Intersection =res[0]; //交点
+                                    var distance =res[1];   //距离左侧距离
+
+                                    var Name = features[i].attributes.GXXZ
+                                    var MS;
+                                    var QDMS = features[i].attributes.QDMS
+                                    var ZDMS = features[i].attributes.ZDMS
+                                    if (QDMS != null && QDMS != 9999 && ZDMS != 9999 && ZDMS != 9999) {
+                                        var MS = (QDMS + ZDMS) / 2
+                                    }
+                                    var GJ = features[i].attributes.GJ
+
+                                    var pipeParameter = {
+                                        distance: distance,
+                                        ms: MS,
+                                        gj: GJ,
+                                        name: Name
+                                    }
+                                    inputParameters.pipes.push(pipeParameter)
+                                }
+                                resolve(inputParameters);
+                            });
+
+                            //获取输入管线与剖切线的交点,  获取交点距离剖切线的距离
+                            function getIntersection(inputGraphic) {
+                                var p1Start = new Point(geometry.paths[0][0], new SpatialReference({wkid: 2437}));
+                                var p1End = new Point(geometry.paths[0][1], new SpatialReference({wkid: 2437}));
+                                var p2Start = new Point(inputGraphic.paths[0][0], new SpatialReference({wkid: 2437}));
+                                var p2End = new Point(inputGraphic.paths[0][1], new SpatialReference({wkid: 2437}));
+                                var IntersectionRes = mathUtils.getLineIntersection(p1Start, p1End, p2Start, p2End)
+                                IntersectionRes.spatialReference = new SpatialReference({wkid: 2437})
+
+
+                                //判断左侧端点
+                                var leftP = p1Start.x < p1End.x ? p1Start : p1End
+                                var distance = mathUtils.getLength(IntersectionRes, leftP)
+
+
+                                var sms = new SimpleMarkerSymbol().setStyle(
+                                    SimpleMarkerSymbol.STYLE_SQUARE).setColor(
+                                    new Color([255, 0, 0, 0.5]));
+                                var Pgraphic = new Graphic(IntersectionRes, sms);
+
+                                map.graphics.add(Pgraphic);
+
+
+                                return [IntersectionRes, distance];
+                            }
+
+
+
+                        });
+
+                });
+                return p
+            }
+
+
+        });
+
+
+</script>
+</body>
+</html>

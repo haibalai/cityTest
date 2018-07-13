@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script  src="../js/cm7.js"></script>
+<script type="text/javascript">
+
+    var __g;
+    window.onload = function () {
+
+
+
+            __g = document.getElementById('__g');
+
+            // 初始化RenderControl控件
+            var ps = __g.new_PropertySet;
+            ps.setProperty("RenderSystem", "OpenGL");
+            var bInit = __g.initialize(true, ps);
+            if (!bInit) {
+                alert("三维控件初始化失败!");
+                return false;
+            }
+
+            //runtime许可,许可被放在resource指定的目录中
+            var lic = __g.new_LicenseServer;
+            lic.setHost('D:\\license\\server.lic', 0, "");
+            //绑定拾取事件
+            __g.camera.flyTime = 0;
+            __g.camera.flyMode = gviFlyMode.gviFlyLinear;
+            //三维初始化  注册事件和加载overlaybel
+            loadCEP();
+            __g.viewport.compassVisibleMask = gviViewportMask.gviViewNone;
+
+
+
+
+
+    }
+
+    function  loadCEP() {
+
+        var path = 'http://192.168.2.199/Package_server/server.cep';
+        //加载cep文件
+        __g.project.open(path, false, "");
+        //获取图层列表
+//        cw.getFc(gv.rootId);
+//        cw.layer.init('');
+
+    }
+
+
+
+
+    function fromFlGetFc (fl) {
+        var fdsNames = fl.featureClassInfo.dataSetName;
+        var c = fl.featureClassInfo.dataSourceConnectionString;
+        var featureClassName = fl.featureClassInfo.featureClassName;
+        var ds = __g.dataSourceFactory.openDataSourceByString(c);
+        var __fds = ds.openFeatureDataset(fdsNames);
+        var fc = __fds.openFeatureClass(featureClassName);
+        return fc;
+    };
+
+
+
+
+
+</script>
+<body>
+<object id="__g" type="application/x-cm-3d" style="height: 600px; width: 800px">
+</object>
+</body>
+</html>

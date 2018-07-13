@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<head>
+    <meta http-equiv="Content-Type"
+          content="text/html; charset=utf-8"/>
+
+    <title>3dml的Feature对象选中和隐藏</title>
+
+
+</head>
+<body>
+<input id="Button1" type="button" value="加载FLY" onclick="LoadFly()" />
+<input id="Button3" type="button" value="开始" onclick="StartF()" />
+<input id="Button2" type="button" value="结束" onclick="EndF()" />
+<div id="res"></div>
+
+<object id="SGWorld" type="application/x-skyline" clsid="{3a4f9193-65a8-11d5-85c1-0001023952c1}" style="width: 300px; height: 400px;"></object>
+<!--<object id="sgworld" type="application/x-skyline"  clsid="{3A4F9199-65a8-11d5-85c1-0001023952c1}" style="width:0px;height:0px;"></object>-->
+</body>
+
+<script type="text/javascript">
+	function LoadFly() {
+		try {
+			var sg = CreateSGObj();  //window.document.getElementById("sgworld");
+			sg.open("http://192.168.2.165/pipe3d/pipe3d.FLY");
+		}
+		catch (e) {
+			alert(e);
+		}
+	}
+
+	function StartF() {
+
+		var sg = window.document.getElementById("sgworld"); //CreateSGObj();
+		let ItemID = sg.ProjectTree.FindItem("gsclss");
+		console.log(ItemID)
+
+
+	}
+
+	function EndF() {
+		var sg = CreateSGObj();
+		sg.DetachEvent("OnLButtonDown", OnLButtonDown);
+	}
+
+	function OnLButtonDown(Flags, X, Y) {
+		try {
+			var sg = CreateSGObj();
+			var iwp = sg.Window.PixelToWorld(X, Y, 8192);
+
+			var pIFeature = sg.Creator.GetObject(iwp.ObjectID);
+
+			pIFeature.Tint.abgrColor = 0x66FF0000;
+			//pIFeature.Show = false;
+			//var divobj = window.document.getElementById("res");
+			//divobj.innerText = iwp.ObjectID + "****" + pIFeature.ParentGroupID;
+			//var strResult = "";
+			//for (var j = 0; j < pIFeature.FeatureAttributes.Count; j++) {
+			//    var pIFeatureAttribute = pIFeature.FeatureAttributes.Item(j);
+			//    strResult = strResult + "<td>" + pIFeatureAttribute.Name + "*" + pIFeatureAttribute.Value + "</td>";
+			//}
+			//divobj.innerText = divobj.innerText + strResult;
+		}
+		catch (e)
+		{ }
+
+		return false;
+
+	}
+
+	//------------------------------------------------------------
+	// 创建sgworld对象  赵贺 2015.06.09. TEPro6.6
+	//------------------------------------------------------------
+	//        function CreateSGObj() {
+	//            var obj = $("sgworld");
+	//            if (obj == null) {
+	//                obj = document.createElement('object');
+	//                obj.setAttribute("name", "sgworld");
+	//                obj.setAttribute("id", "sgworld");
+	//                obj.setAttribute("type", "application/x-skyline");
+	//                obj.setAttribute("clsid", "{3A4F9199-65a8-11d5-85c1-0001023952c1}");
+	//                document.body.appendChild(obj);
+	//            }
+	//            return obj;
+	//        }
+
+
+	function CreateSGObj() {
+		try {
+			var obj = document.getElementById("SGWorld");
+			if (obj == null) {
+				obj = document.createElement('object');
+				obj.setAttribute("name", "SGWorld");
+				obj.setAttribute("id", "SGWorld");
+				obj.style.height ="1px";
+				obj.style.width = "1px";
+				obj.setAttribute("classid", "CLSID:3A4F919A-65A8-11D5-85C1-0001023952C1");
+				document.body.appendChild(obj);
+			}
+			return obj;
+		}
+		catch (e) {
+			alert(e);
+		}
+	}
+	function $(id) {
+		return window.document.getElementById(id);
+	}
+</script>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>Add WMTS Layer - Resource Info</title>
+
+    <style>
+        html, body { height: 100%; width: 100%; margin: 0; padding: 0; }
+    </style>
+
+    <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/esri/css/esri.css">
+
+    <script src="../linlaoshi/LocateTool.js"></script>
+    <script src="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/init.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <script>
+		var map, wmtsLayer,wmtsLayer2;
+		var locateTool = new LocateTool();
+		require([
+			"esri/map",
+            "esri/layers/WMTSLayer",
+            "esri/layers/WMTSLayerInfo",
+			"esri/geometry/Extent",
+            "esri/layers/TileInfo",
+            "esri/SpatialReference",
+			"esri/geometry/Point",
+			'esri/tasks/ProjectParameters',
+			'esri/tasks/GeometryService',
+			'esri/geometry/webMercatorUtils',
+			"esri/graphic",
+			"esri/symbols/SimpleFillSymbol",
+			"esri/symbols/SimpleLineSymbol",
+			"esri/symbols/SimpleMarkerSymbol",
+			"esri/symbols/PictureMarkerSymbol",
+			"esri/symbols/CartographicLineSymbol",
+			"esri/Color",
+			"dojo/parser",
+			"dojo/dom",
+            "dojo/on",
+			"dijit/layout/BorderContainer",
+            "dijit/layout/ContentPane",
+            "dojo/domReady!"
+		], function(
+			Map,
+            WMTSLayer,
+            WMTSLayerInfo,
+			Extent,
+            TileInfo,
+            SpatialReference,
+			Point,
+			ProjectParameters,
+			GeometryService,
+			webMercatorUtils,
+			Graphic,
+			SimpleFillSymbol,
+			SimpleLineSymbol,
+			SimpleMarkerSymbol,
+			PictureMarkerSymbol,
+			CartographicLineSymbol,
+			Color,
+			parser,
+            dom,
+            on
+		) {
+			parser.parse();
+
+
+			map = new Map("map", {
+
+			});
+
+			let  gpService =    new esri.tasks.GeometryService("http://121.201.65.133:2001/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+
+			var tileInfo1 = new TileInfo({
+				"dpi": 90.71428571428571,
+				"format": "image/png",
+				"compressionQuality": 0,
+				"spatialReference": new SpatialReference({
+					"wkid": 3857
+				}),
+				"rows": 256,
+				"cols": 256,
+				"origin": {
+					"x": -20037508.34,
+					"y": 20037508.34
+				},
+				"lods": [
+
+					{
+					"level": "EPSG:900913:9",
+					"scale": 1091957.5467790877,
+					"resolution": 305.74811328125
+				}, {
+					"level": "EPSG:900913:10",
+					"scale": 545978.7733895439,
+					"resolution":152.874056640625
+				}, {
+					"level": "EPSG:900913:11",
+					"scale": 272989.38669477194,
+					"resolution": 76.4370283203125
+				}, {
+					"level": "EPSG:900913:12",
+					"scale": 136494.69334738597,
+					"resolution":  38.21851416015625
+				}, {
+					"level": "EPSG:900913:13",
+					"scale": 68247.34667369298,
+					"resolution":19.10925708007813
+				}, {
+
+					"level": "EPSG:900913:14",
+					"scale": 34123.67333684649,
+					"resolution":9.554628540039063
+				}, {
+
+					"level": "EPSG:900913:15",
+					"scale": 17061.836668423246,
+					"resolution": 4.777314270019532
+				}, {
+					"level": "EPSG:900913:16",
+					"scale": 8530.918334211623,
+					"resolution": 2.388657135009766
+				}, {
+					"level": "EPSG:900913:17",
+					"scale": 4265.4591671058115,
+					"resolution": 1.194328567504883,
+				}, {
+					"level": "EPSG:900913:18",
+					"scale": 2132.729584,
+					"resolution": 0.5971642837524414
+				}
+                ]
+			});
+			var tileExtent1 = new Extent(12202860.877201,2399887.739807,13178808.854211, 3041326.127483, new SpatialReference({
+				wkid: 3857
+			}));
+
+
+
+			var initialExtent = new Extent(12663973.670933796,2582744.6534455493,12678305.613743855, 2608236.402390374, new SpatialReference({
+				wkid: 3857
+			}));
+			var layerInfo1 = new WMTSLayerInfo({
+				tileInfo: tileInfo1,
+				fullExtent: initialExtent,
+				initialExtent: tileExtent1,
+				identifier: "qqSata",
+				tileMatrixSet: "EPSG:900913",
+				format: "png",
+				style: "default"
+			});
+
+			var layerInfo2 = new WMTSLayerInfo({
+				tileInfo: tileInfo1,
+				fullExtent: tileExtent1,
+				initialExtent: tileExtent1,
+				identifier: "vector",
+				tileMatrixSet: "EPSG:900913",
+				format: "png",
+				style: "default"
+			});
+
+
+			var resourceInfo = {
+				version: "1.0.0",
+				layerInfos: [layerInfo1],
+
+			};
+
+			var resourceInfo2 = {
+				version: "1.0.0",
+				layerInfos: [layerInfo2],
+
+			};
+
+			var options = {
+				serviceMode: "KVP",
+				resourceInfo: resourceInfo,
+				layerInfo: layerInfo1
+			};
+
+			var options2 = {
+				serviceMode: "KVP",
+				resourceInfo: resourceInfo2,
+				layerInfo: layerInfo2
+			};
+
+
+			http://ugis.baoan.gov.cn/tiles/wmts?
+//			wmtsLayer = new WMTSLayer("http://ugis.baoan.gov.cn/tiles/wmts", options);
+				wmtsLayer = new WMTSLayer("http://ugis.baoan.gov.cn/tiles/wmts", options);
+			wmtsLayer2 = new WMTSLayer("http://ugis.baoan.gov.cn/tiles/wmts", options2);
+			wmtsLayer2.setVisibility(false)
+			map.addLayer(wmtsLayer);
+			map.addLayer(wmtsLayer2);
+			map.on('click',clickHandle)
+
+            function clickHandle(event) {
+                console.log(event)
+            }
+
+			on(dom.byId('add'),'click',function () {
+				wmtsLayer.setVisibility(false);
+				wmtsLayer2.setVisibility(true);
+
+			})
+
+			on(dom.byId('add2'),'click',function () {
+				wmtsLayer.setVisibility(true);
+				wmtsLayer2.setVisibility(false)
+
+
+			})
+
+			on(dom.byId('locate'),'click',function () {
+				//113.954892455457,22.5381211494744
+				let outSR = new esri.SpatialReference({ wkid: 4326})
+				var params = new ProjectParameters();
+				let  mapPoint = new esri.geometry.Point(113.954892455457,22.5381211494744);
+				let graphic = new esri.Graphic(null, null, null, null);
+
+				let symbol  =  new esri.symbol.SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, 10,
+					new esri.symbol.SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+						new esri.Color([255,0,0]), 1),
+					new esri.Color([0,255,0,0.25]));
+				graphic.setGeometry(mapPoint);
+				graphic.setSymbol(symbol);
+				map.graphics.add(graphic);
+				map.centerAndZoom(mapPoint,16)
+//				params.geometries = [mapPoint];
+//				params.outSR = outSR;
+
+//				gpService.project(params,projectHandleA)
+
+			})
+
+
+            function projectHandleA(result) {
+                  console.log(result,"result")
+                  let mapPoint  = result[0]
+
+//	              map.centerAndZoom(mapPoint,16)
+            }
+
+			on(dom.byId('query'),'click',function () {
+			   let p = locateTool.GpsCvtBL2XY(22.541398,113.950098,114,1);
+               console.log(p);
+
+			})
+		});
+
+
+
+    </script>
+</head>
+
+<body>
+
+<div class="container-fluid" style="width:100%;height:100%;">
+<div class="row" >
+    <div class="col-md-6">
+        <div id="map"  style="width:100%;height:100%;">
+
+        </div>
+
+    </div>
+    <div class="col-md-6">
+        <div class="col-md-4">
+            <button id="add" class="btn btn-info">隐藏遥感显示电子</button>
+            <button id="add2" class="btn btn-info">隐藏电子显示遥感</button>
+            <button id="locate" class="btn btn-info">坐标定位</button>
+            <button id="query" class="btn btn-info">坐标转换</button>
+        </div>
+    </div>
+
+
+
+</div>
+
+</div>
+
+
+</body>
+</html>

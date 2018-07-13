@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>Layer Swipe</title>
+    <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/esri/css/esri.css">
+    <style>
+        html, body, #map {
+            padding:0;
+            margin:0;
+            height:100%;
+            position:relative;
+        }
+    </style>
+    <script src="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/init.js"></script>
+    <script>
+
+        require([
+            "esri/map",
+            'esri/layers/ArcGISTiledMapServiceLayer',
+            'esri/layers/ArcGISDynamicMapServiceLayer',
+            "esri/dijit/LayerSwipe",
+            "esri/arcgis/utils",
+            "dojo/_base/array",
+            "dojo/parser",
+            "dojo/dom",
+            "dojo/on",
+            "dojo/domReady!"
+        ], function(
+            Map,  ArcGISTiledMapServiceLayer,
+            ArcGISDynamicMapServiceLayer, LayerSwipe, arcgisUtils, array, parser,
+            dom,
+            on
+        )  {
+
+            let map = new esri.Map("map", {
+
+            });
+            let titleLayer = new esri.layers.ArcGISTiledMapServiceLayer("http://61.144.226.44:6080/arcgis/rest/services/basemap/szmap_basemap_201608_01/MapServer");
+            //设置地图为0
+
+            map.addLayer(titleLayer);
+            map.on("load", initFunctionality);
+
+
+
+            let dynamicLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://61.144.226.44:6080/arcgis/rest/services/msmap/BOOKS/MapServer")
+            let dynamicLayer1 = new esri.layers.ArcGISDynamicMapServiceLayer("http://61.144.226.44:6080/arcgis/rest/services/msmap/health/MapServer")
+
+            function initFunctionality() {
+
+                map.addLayer(dynamicLayer)
+
+                dynamicLayer.setVisibleLayers([3]);
+
+                map.addLayer(dynamicLayer1)
+
+                dynamicLayer1.setVisibleLayers([0]);
+
+//                var swipeLayer = map.getLayer(id);
+//                var swipeWidget = new LayerSwipe({
+//                    type: "vertical",  //Try switching to "scope" or "horizontal"
+//                    map: map,
+//                    layers: [swipeLayer]
+//                }, "swipeDiv");
+//                swipeWidget.startup();
+
+            }
+
+            on(dom.byId('add'),'click',function () {
+                var swipeWidget = new LayerSwipe({
+                    type: "vertical",  //Try switching to "scope" or "horizontal"
+                    map: map,
+                    layers: [dynamicLayer]
+                }, "swipeDiv");
+                swipeWidget.startup();
+            })
+
+        });
+    </script>
+
+</head>
+<body class="calcite">
+<div id="map" class="map">
+    <div id="swipeDiv"></div>
+</div>
+<button id="add"> </button>
+</body>
+</html>
