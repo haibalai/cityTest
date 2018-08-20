@@ -3,8 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="lib/proj4.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="lib/jszip.js"></script>
+    <script src="lib/jszip-utils.js"></script>
+    <!--[if IE]>
+    <script type="text/javascript" src="lib/jszip-utils-ie.js"></script>
+    <![endif]-->
+    <script src="preprocess.js"></script>
+    <script src="preview.js"></script>
+    <script src="./vendor/terraformer/terraformer.min.js"></script>
+    <script src="./vendor/terraformer-arcgis-parser/terraformer-arcgis-parser.min.js"></script>
+
+    <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/esri/css/esri.css">
+    <script src="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/init.js"></script>
+
+    <script>
+
+        require([
+            "esri/map",
+            "./src/geojsonlayer.js",
+            "esri/layers/WMTSLayer",
+            "esri/layers/WMTSLayerInfo",
+            "esri/geometry/Extent",
+            "esri/layers/TileInfo",
+            "esri/SpatialReference",
+            "esri/geometry/Point",
+            'esri/tasks/ProjectParameters',
+            'esri/tasks/GeometryService',
+            'esri/geometry/webMercatorUtils',
+            "esri/graphic",
+            "esri/symbols/SimpleFillSymbol",
+            "esri/symbols/SimpleLineSymbol",
+            "esri/symbols/SimpleMarkerSymbol",
+            "esri/symbols/PictureMarkerSymbol",
+            "esri/symbols/CartographicLineSymbol",
+            "esri/Color",
+            "dojo/parser",
+            "dojo/dom",
+            "dojo/on",
+            "dijit/layout/BorderContainer",
+            "dijit/layout/ContentPane",
+            "dojo/domReady!"
+        ], function(
+            Map,
+            GeoJsonLayer,
+            WMTSLayer,
+            WMTSLayerInfo,
+            Extent,
+            TileInfo,
+            SpatialReference,
+            Point,
+            ProjectParameters,
+            GeometryService,
+            webMercatorUtils,
+            Graphic,
+            SimpleFillSymbol,
+            SimpleLineSymbol,
+            SimpleMarkerSymbol,
+            PictureMarkerSymbol,
+            CartographicLineSymbol,
+            Color,
+            parser,
+            dom,
+            on
+        ) {
+            parser.parse();
+            var map = new Map("map",{
+                basemap:"osm",
+                center:[120.0244,23.01]
+            });
+            on(dojo.query("#shpBtn"), "click", function() {
+                console.log("1111")
+                $("#file").click();
+            });
+
+            var file = null;
+
+            $("#file").change(function(evt) {
+                console.log(evt.target.files[0])
+                file = evt.target.files[0];
+                loadShpZip();
+
+            });
+
+
+            function loadShpZip() {
+
+                if(file.name.split('.')[1] == 'zip') {
+
+                    loadshp({
+                        url: file,
+                        encoding: 'UTF-8',
+                        EPSG: 4326
+                    }, function(data) {
+                        console.log(data);
+                        var URL = window.URL || window.webkitURL || window.mozURL || window.msURL,
+                            url = URL.createObjectURL(new Blob([JSON.stringify(data)], {type: "application/json"}));
+                        console.log(url);
+
+
+                        var geoJsonLayer = new GeoJsonLayer({
+                            url: url
+                        });
+                        // Zoom to layer
+                        geoJsonLayer.on("update-end", function (e) {
+                            map.setExtent(e.target.extent.expand(1.2));
+                        });
+                        // Add to map
+                        map.addLayer(geoJsonLayer);
+
+                    });
+                }
+            }
+        })
+
+
+
+
+
+
+
+    </script>
+
+
 </head>
 <body>
+
+
+
+
+
+
+
+<div id="map"></div>
+
+<button id="shpBtn" >shp</button>
+<div >
+    <input type="file" id="file" accept=".zip">
+</div>
 
 </body>
 </html>
