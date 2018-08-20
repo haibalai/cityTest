@@ -13,7 +13,12 @@
             height: 100%;
             width: 100%;
         }
-
+        #ttt {
+            /*padding: 0;*/
+            /*margin: 0;*/
+            height: 100%;
+            width: 100%;
+        }
         #homeDiv {
             left: 15px;
             top: 130px;
@@ -50,10 +55,12 @@
             "esri/tasks/QueryTask",
             "esri/tasks/support/Query",
             "esri/widgets/Home",
+            "dojo/query",
+            "dojo/on",
             "dojo/domReady!"
         ], function(Map,esriConfig,Basemap,esriConfig,Extent,SpatialReference, SceneView,MapView, FeatureLayer,ImageryLayer,TileLayer,SceneLayer,ElevationLayer,
                     SimpleRenderer, ObjectSymbol3DLayer,
-                    IconSymbol3DLayer, PointSymbol3D, QueryTask, Query, Home
+                    IconSymbol3DLayer, PointSymbol3D, QueryTask, Query, Home,query,on
         ) {
 
 
@@ -75,11 +82,13 @@
             });
             map.add(layer);
 
-            var view = new SceneView({
+
+            let view1 = new SceneView({
                 container:"sss",
                 viewingMode: "global",
                 map:map,
             })
+
 
             view.on("click", function(event) {
                 // the hitTest() checks to see if any graphics in the view
@@ -94,8 +103,20 @@
             //http://portal.esrigz.com/ags/rest/services/Hosted/element4/SceneServer
             //http://portal.esrigz.com/ags/rest/services/Hosted/building/SceneServer
 
+            function createView() {
+                let view = new MapView({
+                    container:"sss",
 
+                    map: map,
+                });
+                return view;
+            }
 
+            on(dojo.query("#test"), "click", function() {
+                console.log("1111")
+                view1.container = null;
+                view1 = createView()
+            });
 
 
         });
@@ -108,6 +129,7 @@
 
 <body>
 <div id="sss"></div>
-<button onclick="test()">222222</button>
+
+<button id="test" onclick="test()">222222</button>
 </body>
 </html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>GES775 Synchronize Views</title>
+    <style>
+        html,
+        body,
+        #viewDiv {
+
+            padding: 0;
+            margin: 0;
+            height: 600px;
+            width: 1000px;
+            z-index: -1;
+        }
+
+        #overviewDiv {
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            width: 300px;
+            height: 200px;
+            border: 1px solid black;
+            z-index: 99;
+        }
+
+        #extentDiv {
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            z-index: 100;
+        }
+    </style>
+
+    <link rel="stylesheet" href="http://localhost/arcgis_js_v48_api/arcgis_js_api/library/4.8/esri/css/main.css">
+    <script src="http://localhost/arcgis_js_v48_api/arcgis_js_api/library/4.8/dojo/dojo.js"></script>
+
+
+
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/SceneView",
+            "esri/views/MapView",
+            "esri/core/watchUtils",
+            "dojo/dom",
+            "dojo/promise/all",
+            "dojo/domReady!"
+        ], function(Map, SceneView, MapView, watchUtils, dom, all) {
+
+            // Create a Map with a basemap, to be used with in the main view
+            var mainMap = new Map({
+                basemap: "hybrid",
+                ground: "world-elevation"
+            });
+
+            // Create another Map, to be used in the overview "view"
+            var overviewMap = new Map({
+                basemap: "topo"
+            });
+
+            // Create the SceneView
+            var mainView = new SceneView({
+                container: "viewDiv",
+                map: mainMap
+            });
+
+            mainView.when(function() {
+                mainView.goTo({
+                    center: [7, 46],
+
+
+                    scale: 200000,
+                    heading: 35,
+                    tilt: 60
+                }, {
+                    animate: false
+                });
+            });
+
+            // Create the MapView for overview map
+            var omapView = new MapView({
+                container: "overviewDiv",
+                map: overviewMap
+            });
+
+            // Remove the default widgets
+            omapView.ui.components = [];
+
+            var extentDiv = dom.byId("extentDiv");
+
+            omapView.when(function() {
+                // Update the overview extent whenever the omapView or SceneView extent changes
+                mainView.watch("extent", updateOverviewExtent);
+                omapView.watch("extent", updateOverviewExtent);
+
+                // Update the minimap overview when the main view becomes stationary
+                watchUtils.when(mainView, "stationary", updateOverview);
+
+                function updateOverview() {
+                    // Animate the omapView to a zoomed-out scale so we get a nice overview.
+                    // We use the "progress" callback of the goTo promise to update
+                    // the overview extent while animating
+                    omapView.goTo({
+                        center: mainView.center,
+                        scale: mainView.scale * 2 * Math.max(mainView.width /
+                            omapView.width,
+                            mainView.height / omapView.height)
+                    });
+                }
+
+                function updateOverviewExtent() {
+                    // Update the overview extent by converting the SceneView extent to the
+                    // omapView screen coordinates and updating the extentDiv position.
+                    var extent = mainView.extent;
+
+                    var bottomLeft = omapView.toScreen(extent.xmin, extent.ymin);
+                    var topRight = omapView.toScreen(extent.xmax, extent.ymax);
+
+                    extentDiv.style.top = topRight.y + "px";
+                    extentDiv.style.left = bottomLeft.x + "px";
+
+                    extentDiv.style.height = (bottomLeft.y - topRight.y) + "px";
+                    extentDiv.style.width = (topRight.x - bottomLeft.x) + "px";
+
+                }
+
+                // Click the overview map and center the map on the click point.
+                omapView.on("click", function(event) {
+
+
+                    mainView.goTo(event.mapPoint);
+
+                });
+
+
+            });
+
+        });
+
+    </script>
+</head>
+
+<body>
+<div id="viewDiv"></div>
+
+<div id="overviewDiv">
+    <div id="extentDiv"></div>
+</div>
+</body>
+</html>

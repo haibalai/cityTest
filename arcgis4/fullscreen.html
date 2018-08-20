@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Animate color visual variable [beta] - 4.8</title>
+
+    <link rel="stylesheet" href="http://localhost/arcgis_js_v48_api/arcgis_js_api/library/4.8/esri/css/main.css">
+    <script src="http://localhost/arcgis_js_v48_api/arcgis_js_api/library/4.8/dojo/dojo.js"></script>
+
+
+    <script>
+        require([
+            "esri/Map",
+            "esri/layers/FeatureLayer",
+            "esri/views/MapView",
+            "esri/widgets/Legend",
+            "esri/widgets/Home",
+            "esri/widgets/Fullscreen",
+            "dojo/domReady!"
+        ], function(
+            Map,
+            FeatureLayer,
+            MapView,
+            Legend, Home, Fullscreen
+        ) {
+
+            //--------------------------------------------------------------------------
+            //
+            //  Setup Map and View
+            //
+            //--------------------------------------------------------------------------
+
+            var layer = new FeatureLayer({
+                portalItem: {
+                    id: "dfe2d606134546f5a712e689d76540ac"
+                },
+                definitionExpression: "CNSTRCT_YR > 0",
+                title: "Building Footprints",
+                minScale: 72223.819286
+            });
+
+            var map = new Map({
+                basemap: {
+                    portalItem: {
+                        id: "4f2e99ba65e34bb8af49733d9778fb8e"
+                    }
+                },
+                layers: [layer]
+            });
+
+            var view = new MapView({
+                map: map,
+                container: "viewDiv",
+
+            });
+
+            //--------------------------------------------------------------------------
+            //
+            //  Setup UI
+            //
+            //--------------------------------------------------------------------------
+
+            var applicationDiv = document.getElementById("applicationDiv");
+
+            view.ui.add(new Fullscreen({
+                view: view,
+
+            }), "top-right");
+
+
+        });
+    </script>
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        #applicationDiv {
+            /*position: absolute;*/
+            width: 100%;
+            height: 100%;
+            /*display: flex;*/
+            /*flex-direction: column;*/
+            /*overflow: hidden;*/
+        }
+
+
+
+    </style>
+
+</head>
+
+<body>
+<div id="applicationDiv">
+    <div id="viewDiv" style=" width:500px;
+            height: 800px;">
+    </div>
+</div>
+</body>
+
+</html>

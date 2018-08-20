@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Use three.js from an external renderer - 4.1</title>
+
+
+
+    <script src="../js/three.js"></script>
+
+
+    <style>
+        body { margin: 0; }
+        canvas { width: 100%; height: 100% }
+    </style>
+
+    <!-- Our application -->
+    <script>
+
+        window.onload = function () {
+
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            document.body.appendChild( renderer.domElement );
+
+            var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 500 );
+            camera.position.set( 0, 0, 100 );
+            camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
+
+            var scene = new THREE.Scene();
+
+            var geometry = new THREE.BoxBufferGeometry( 1, 1, 1 );
+            var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+            var cube = new THREE.Mesh( geometry, material );
+            scene.add( cube );
+            renderer.render( scene, camera );
+        }
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

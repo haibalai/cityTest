@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Draw polyline - 4.8</title>
+
+    <link rel="stylesheet" href="http://localhost/arcgis_js_v48_api/arcgis_js_api/library/4.8/esri/css/main.css">
+    <script src="http://localhost/arcgis_js_v48_api/arcgis_js_api/library/4.8/dojo/dojo.js"></script>
+
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/views/SceneView",
+
+            "esri/views/2d/draw/Draw",
+            "esri/Graphic",
+            "esri/geometry/Polyline",
+            "esri/geometry/Polygon",
+            "esri/geometry/geometryEngine",
+
+            "dojo/domReady!"
+        ], function(
+            Map, MapView,
+            SceneView,
+            Draw, Graphic,
+            Polyline,Polygon, geometryEngine
+        ) {
+            var map = new Map({
+                basemap: "gray"
+            });
+
+            var view = new MapView({
+                container: "viewDiv",
+                map: map,
+                zoom: 16,
+                center: [18.06, 59.34]
+            });
+
+            // add the button for the draw tool
+            view.ui.add("line-button", "top-left");
+
+            view.when(function(event) {
+                var draw = new Draw({
+                    view: view
+                });
+
+                // ********************
+                // draw polyline button
+                // ********************
+                var drawLineButton = document.getElementById("line-button");
+                drawLineButton.onclick = function() {
+                    view.graphics.removeAll();
+                    enableCreateLine(draw, view);
+                }
+            });
+
+            function enableCreateLine(draw, view) {
+                // creates and returns an instance of PolyLineDrawAction
+                // can only draw a line by clicking on the map
+                var action = draw.create("rectangle");
+
+                // focus the view to activate keyboard shortcuts for sketching
+                // view.focus();
+
+                // listen to vertex-add event on the polyline draw action
+                action.on("vertex-add", drawPolygon);
+
+                // listen to cursor-update event on the action
+                action.on("cursor-update", drawPolygon);
+
+                // listen to vertex-remove event on the action
+                // action.on("vertex-remove", drawPolygon);
+
+                // *******************************************
+                // listen to draw-complete event on the action
+                // *******************************************
+                action.on("draw-complete", drawPolygon);
+
+            }
+
+            // This function is called from the "vertex-add" and "vertex-remove"
+            // events. Checks if the last vertex is making the line intersect itself.
+            function drawPolygon(event) {
+                console.log(event);
+
+                var vertices = event.vertices;
+
+                //remove existing graphic
+                view.graphics.removeAll();
+
+                // create a new polygon
+                var polygon = createPolygon(vertices);
+
+                // create a new graphic representing the polygon, add it to the view
+                var graphic = createGraphic(polygon);
+                view.graphics.add(graphic);
+
+            }
+
+            function createPolygon(vertices) {
+                return new Polygon({
+                    rings: vertices,
+                    spatialReference: view.spatialReference
+                });
+            }
+
+            // create a new graphic presenting the polyline that is being drawn on the view
+            function createGraphic(polygon) {
+                let graphic = new Graphic({
+                    geometry: polygon,
+                    symbol: {
+                        type: "simple-fill", // autocasts as SimpleFillSymbol
+                        color: [178, 102, 234, 0.8],
+                        style: "solid",
+                        outline: { // autocasts as SimpleLineSymbol
+                            color: [255, 255, 255],
+                            width: 2
+                        }
+                    }
+                });
+                return graphic;
+            }
+
+
+            // function that checks if the line intersects itself
+            function isSelfIntersecting(polyline) {
+                if (polyline.paths[0].length < 3) {
+                    return false
+                }
+                var line = polyline.clone();
+
+                //get the last segment from the polyline that is being drawn
+                var lastSegment = getLastSegment(polyline);
+                line.removePoint(0, line.paths[0].length - 1);
+
+                // returns true if the line intersects itself, false otherwise
+                return geometryEngine.crosses(lastSegment, line);
+            }
+
+            // Checks if the line intersects itself. If yes, changes the last
+            // segment's symbol giving a visual feedback to the user.
+            function getIntersectingFeature(polyline) {
+                if (isSelfIntersecting(polyline)) {
+                    return new Graphic({
+                        geometry: getLastSegment(polyline),
+                        symbol: {
+                            type: "simple-line", // autocasts as new SimpleLineSymbol
+                            style: "short-dot",
+                            width: 3.5,
+                            color: "yellow"
+                        }
+                    });
+                }
+                return null;
+            }
+
+            // Get the last segment of the polyline that is being drawn
+            function getLastSegment(polyline) {
+                var line = polyline.clone();
+                var lastXYPoint = line.removePoint(0, line.paths[0].length - 1);
+                var existingLineFinalPoint = line.getPoint(0, line.paths[0].length -
+                    1);
+
+                return new Polyline({
+                    spatialReference: view.spatialReference,
+                    hasZ: false,
+                    paths: [
+                        [
+                            [existingLineFinalPoint.x, existingLineFinalPoint.y],
+                            [lastXYPoint.x, lastXYPoint.y]
+                        ]
+                    ]
+                });
+            }
+        });
+    </script>
+</head>
+
+<body>
+<div id="viewDiv">
+    <div id="line-button" class="esri-widget esri-widget--button esri-interactive" title="Draw polyline">
+        <span class="esri-icon-polyline"></span>
+    </div>
+</div>
+</body>
+
+</html>
