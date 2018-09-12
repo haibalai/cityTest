@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Create a local scene - 4.3</title>
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        #homeDiv {
+            left: 15px;
+            top: 130px;
+            z-index: 35;
+            position: absolute;
+        }
+    </style>
+
+    <!--<link rel="stylesheet" href="http://arcgislg.ascs.tech/arcgis_js_v43_api/arcgis_js_api/library/4.3/4.3/esri/css/main.css">-->
+    <!--<script src="http://arcgislg.ascs.tech/arcgis_js_v43_api/arcgis_js_api/library/4.3/4.3/init.js"></script>-->
+    <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v48_api/arcgis_js_api/library/4.8/esri/css/main.css">
+    <script src="http://cityworks.cn/arcgis_js_v48_api/arcgis_js_api/library/4.8/dojo/dojo.js"></script>
+    <script>
+
+
+        require([
+            "esri/Map",
+            "esri/Basemap",
+            "esri/symbols/FillSymbol3DLayer",
+            "esri/symbols/MeshSymbol3D",
+            "esri/renderers/SimpleRenderer",
+            "esri/tasks/support/Date",
+            "esri/views/SceneView",
+            "esri/views/MapView",
+            "esri/layers/FeatureLayer",
+            "esri/layers/ImageryLayer",
+            "esri/layers/MapImageLayer",
+            "esri/layers/TileLayer",
+            "esri/layers/SceneLayer",
+            "esri/layers/ElevationLayer",
+            "esri/renderers/SimpleRenderer",
+            "esri/symbols/ObjectSymbol3DLayer",
+            "esri/symbols/IconSymbol3DLayer",
+            "esri/symbols/PointSymbol3D",
+            "esri/tasks/QueryTask",
+            "esri/tasks/support/Query",
+            "esri/widgets/Home",
+            "dojo/domReady!"
+        ], function(Map,Basemap,FillSymbol3DLayer,MeshSymbol3D,SimpleRenderer,Date, SceneView,MapView, FeatureLayer,ImageryLayer,MapImageLayer,TileLayer,SceneLayer,ElevationLayer,
+                    SimpleRenderer, ObjectSymbol3DLayer,
+                    IconSymbol3DLayer, PointSymbol3D, QueryTask, Query, Home
+        ) {
+
+            var solidEdges = {
+                type: "solid",
+                color: [255, 255, 255, 1],
+                size: 2
+            };
+
+            var sketchEdges = {
+                type: "sketch",
+                color: [255, 255, 255, 1],
+                size: 2,
+                extensionLength: 6
+            };
+
+            // Create the renderer and configure visual variables
+            var renderer = {
+                type: "simple", // autocasts as new SimpleRenderer()
+                symbol: {
+                    type: "mesh-3d",
+                    symbolLayers: [{
+                        type:"fill",
+                        material: {
+                            color: "#AAAAAA",
+                            // colorMixMode: "replace"
+                        },
+                        edges: solidEdges
+                    }]
+                },
+                // visualVariables: [{
+                //     // specifies a visual variable of continuous color
+                //     type: "color",
+                //     // based on a field indicating the walking time to public transport
+                //     field: "walkTimeToStopsInService",
+                //     legendOptions: {
+                //         title: "Walking time to public transport"
+                //     },
+                //     // color ramp from white to blue
+                //     // based on the walking time to public transport.
+                //     // Buildings will be assigned a color proportional
+                //     // to the min and max colors specified below
+                //     stops: [{
+                //         value: 1,
+                //         color: "#2887a1",
+                //         label: "less than 1 minute"
+                //     },
+                //         {
+                //             value: 15,
+                //             color: "#ffffff",
+                //             label: "more than 15 minutes"
+                //         }]
+                // }]
+            };
+
+
+
+            var layer1 = new TileLayer({
+                url: "https://bigdata.ascs.com/arcgis//rest/services/BAcoolmap_BaseMap0911_1/MapServer",
+                opacity:1,
+            });
+
+            var layer = new TileLayer({
+                url: "https://bigdata.ascs.com/arcgis//rest/services/BAcoolmap_BaseMap_0911_2/MapServer",
+                opacity:1,
+            });
+//            var layer = new ImageryLayer({
+//                url:'http://arcgis.ascs.tech/arcgis/rest/services/pingshan/ImageServer',
+//                format: "jpeg"
+//            });
+
+            // var elevationLayer = new ElevationLayer({
+            //     url: "http://10.10.120.2:6080/arcgis/rest/services/dem1/ImageServer",
+            //     visible: true
+            // });
+
+
+            var map = new Map({
+                // basemap:customBasemap,
+                layers:[layer,layer1]
+
+            });
+            // map.ground.layers.add(elevationLayer);
+
+
+            var view = new SceneView({
+
+                container:"viewDiv",
+                viewingMode: "global",
+                map:map,
+
+            })
+            // view.environment.lighting.date = Date.now();
+
+            // view.environment.lighting.cameraTrackingEnabled = false;
+            //
+            // view.environment.atmosphereEnabled = !1;
+            // view.environment.starsEnabled = !1;
+
+           var sceneLayer = new SceneLayer({
+               url: "http://bigdata.ascs.com/arcgis/rest/services/Hosted/BAcity_Building_0910/SceneServer",
+               popupEnabled: true,
+               opacity:.65,
+               renderer:renderer
+           });
+           map.add(sceneLayer);
+
+
+            var symbol = {
+                type: "point-3d",  // autocasts as new PointSymbol3D()
+                symbolLayers: [{
+                    type: "icon",  // autocasts as new IconSymbol3DLayer()
+                    resource: {
+                        href: "./images/Church.png"
+                    },
+                    size: 20
+                }],
+                verticalOffset: {
+                    screenLength: 40,
+                    maxWorldLength: 100,
+                    minWorldLength: 20
+                },
+                callout: {
+                    type: "line", // autocasts as new LineCallout3D()
+                    size: 1.5,
+                    color: "white",
+                    border: {
+                        color: "black"
+                    }
+                }
+            };
+            var citiesRenderer = {
+                type:"simple",
+                symbol:symbol
+
+            }
+            var pointsLayer = new FeatureLayer({
+                url: "http://172.25.10.61:6080/arcgis/rest/services/rjwpub/BAZT_Data_Test/FeatureServer/0",
+
+                elevationInfo: {
+                    mode: "relative-to-scene"
+                },
+                renderer: citiesRenderer,
+                outFields: ["*"],
+            });
+
+            map.add(pointsLayer);
+
+
+
+        });
+        
+        function test() {
+            var canvas = document.getElementsByClassName("esri-view-surface")[0].children[0];
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle= "#ffffff"
+
+        }
+    </script>
+</head>
+
+<body>
+<div id="viewDiv"></div>
+<button onclick="test()">222222</button>
+</body>
+</html>
