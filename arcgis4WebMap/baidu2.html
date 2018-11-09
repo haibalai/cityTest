@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Custom TileLayer - 4.6</title>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/esri/css/main.css">
+    <script src="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/dojo/dojo.js"></script>
+    <!--<link rel="stylesheet" href="https://js.arcgis.com/4.9/esri/css/main.css">-->
+    <!--<script src="https://js.arcgis.com/4.9/"></script>-->
+    <script>
+        require([
+            "esri/Map",
+            'esri/layers/MapImageLayer',
+            "esri/config",
+            "esri/request",
+            "esri/Color",
+            'esri/layers/support/TileInfo',
+            "esri/views/SceneView",
+            "esri/views/MapView",
+            "esri/widgets/LayerList",
+            "esri/layers/BaseTileLayer",
+
+            "dojo/domReady!"
+        ], function(
+            Map,MapImageLayer, esriConfig, esriRequest, Color,TileInfo,
+            SceneView,MapView, LayerList, BaseTileLayer
+        ) {
+
+            // *******************************************************
+            // Custom tile layer class code
+            // Create a subclass of BaseTileLayer
+            // *******************************************************
+            // esriConfig.request.corsEnabledServers.push("http://online0.map.bdimg.com/");
+            // esriConfig.request.corsEnabledServers.push("http://online1.map.bdimg.com/");
+            // esriConfig.request.corsEnabledServers.push("http://online2.map.bdimg.com/");
+            // esriConfig.request.corsEnabledServers.push("http://online3.map.bdimg.com/");
+            // esriConfig.request.corsEnabledServers.push("http://online4.map.bdimg.com/");
+            // esriConfig.request.corsEnabledServers.push("http://online5.map.bdimg.com/");
+            // esriConfig.request.corsEnabledServers.push("http://online6.map.bdimg.com/");
+            // esriConfig.request.corsEnabledServers.push("http://online7.map.bdimg.com/");
+            // esriConfig.request.corsEnabledServers.push("http://online8.map.bdimg.com/");
+            // esriConfig.request.corsEnabledServers.push("http://online9.map.bdimg.com/");
+
+
+            var TintLayer = BaseTileLayer.createSubclass({
+                properties: {
+                    urlTemplate: null,
+                    tint: {
+                        value: null,
+                        type: Color
+                    }
+                },
+
+                // generate the tile url for a given level, row and column
+                getTileUrl: function(level, row, col) {
+                    level = parseInt(level);
+
+                    let numX =parseInt(col) - Math.pow(2,level-1);
+                    let numY = Math.pow(2,level-1) - 1 - parseInt(row);
+                    let num = (col + row) % 8 + 1;
+
+                    return this.urlTemplate.replace("{level}", level).replace("{col}",
+                        numX).replace("{row}", numY).replace("{num}", num);
+                },
+
+                // This method fetches tiles for the specified level and size.
+                // Override this method to process the data returned from the server.
+                fetchTile: function(level, row, col) {
+
+                    // call getTileUrl() method to construct the URL to tiles
+                    // for a given level, row and col provided by the LayerView
+                    var url = this.getTileUrl(level, row, col);
+
+                    // request for tiles based on the generated url
+                    // set allowImageDataAccess to true to allow
+                    // cross-domain access to create WebGL textures for 3D.
+                    return esriRequest(url, {
+                        responseType: "image",
+                        allowImageDataAccess: true
+                    })
+                        .then(function(response) {
+                            // when esri request resolves successfully
+                            // get the image from the response
+                            var image = response.data;
+                            var width = this.tileInfo.size[0];
+                            var height = this.tileInfo.size[0];
+
+                            // create a canvas with 2D rendering context
+                            var canvas = document.createElement("canvas");
+                            var context = canvas.getContext("2d");
+                            canvas.width = width;
+                            canvas.height = height;
+
+
+                            // Draw the blended image onto the canvas.
+                            context.drawImage(image, 0, 0, width, height);
+
+                            return canvas;
+                        }.bind(this));
+                }
+            });
+
+
+
+
+            var scale = [591657527.591555,295828763.795777,147914381.897889,73957190.948944,36978595.474472,18489297.737236,9244648.868618,
+                4622324.434309,2311162.217155,1155581.108577,577790.554289,288895.277144,144447.638572,72223.819286,
+                36111.9096437,18055.9548224,9027.977411,4513.988705,2256.994353,1128.497176];
+            var resolution = [156543.033928,78271.5169639999,39135.7584820001,19567.8792409999,9783.93962049996,4891.96981024998,2445.98490512499,
+                1222.99245256249,611.49622628138,305.748113140558,152.874056570411,76.4370282850732,38.2185141425366,19.1092570712683,9.55462853563415,
+                4.77731426794937,2.38865713397468,1.19432856685505,0.597164283559817,0.298582141647617];
+
+
+            var tileInfo = new TileInfo({
+                "rows": 256,
+                "cols": 256,
+                "compressionQuality": 90,
+                "origin": {
+                    "x": -20037508.3427892,
+                    "y": 20037508.3427892
+                },
+                spatialReference : {
+                    wkid : 102113
+                },
+                "lods": [{ "level": 0, "resolution": resolution[0], "scale": scale[0] },
+                    { "level": 1, "resolution": resolution[1], "scale": scale[1] },
+                    { "level": 2, "resolution": resolution[2], "scale": scale[2] },
+                    { "level": 3, "resolution": resolution[3], "scale": scale[3] },
+                    { "level": 4, "resolution": resolution[4], "scale": scale[4] },
+                    { "level": 5, "resolution": resolution[5], "scale": scale[5] },
+                    { "level": 6, "resolution": resolution[6], "scale": scale[6] },
+                    { "level": 7, "resolution": resolution[7], "scale": scale[7] },
+                    { "level": 8, "resolution": resolution[8], "scale": scale[8] },
+                    { "level": 9, "resolution": resolution[9], "scale": scale[9] },
+                    { "level": 10, "resolution": resolution[10], "scale": scale[10] },
+                    { "level": 11, "resolution": resolution[11], "scale": scale[11] },
+                    { "level": 12, "resolution": resolution[12], "scale": scale[12] },
+                    { "level": 13, "resolution": resolution[13], "scale": scale[13] },
+                    { "level": 14, "resolution": resolution[14], "scale": scale[14] },
+                    { "level": 15, "resolution": resolution[15], "scale": scale[15] },
+                    { "level": 16, "resolution": resolution[16], "scale": scale[16] },
+                    { "level": 17, "resolution": resolution[17], "scale": scale[17] },
+                    { "level": 18, "resolution": resolution[18], "scale": scale[18] },
+                    { "level": 19, "resolution": resolution[19], "scale": scale[19] }
+                ]
+            });
+
+
+            esriConfig.request.corsEnabledServers.push("online1.map.bdimg.com/");
+            esriConfig.request.corsEnabledServers.push("online2.map.bdimg.com/");
+            esriConfig.request.corsEnabledServers.push("online3.map.bdimg.com/");
+            esriConfig.request.corsEnabledServers.push("online4.map.bdimg.com/");
+            esriConfig.request.corsEnabledServers.push("online5.map.bdimg.com/");
+            esriConfig.request.corsEnabledServers.push("online6.map.bdimg.com/");
+            esriConfig.request.corsEnabledServers.push("online7.map.bdimg.com/");
+            esriConfig.request.corsEnabledServers.push("online8.map.bdimg.com/");
+            esriConfig.request.corsEnabledServers.push("online9.map.bdimg.com/");
+            var stamenTileLayer = new TintLayer({
+                urlTemplate:"http://online{num}.map.bdimg.com/tile/?qt=tile&x={col}&y={row}&z={level}&styles=pl&scaler=1&udt=20181106",
+
+                // urlTemplate: "http://webst01.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
+                title: "baidu",
+                // tileInfo:tileInfo
+            });
+
+            // add the new instance of the custom tile layer the map
+            var map = new Map({
+                layers: [stamenTileLayer]
+            });
+
+            // create a new scene view and add the map
+            var view = new SceneView({
+                container: "viewDiv",
+                map: map,
+
+            });
+
+            // create a layer list widget
+            var layerList = new LayerList({
+                view: view,
+            });
+            view.ui.add(layerList, "top-right");
+
+            let dynamicLayer  = new MapImageLayer({
+                url:"http://121.201.65.133:2001/arcgis/rest/services/baoan_data5/MapServer",
+
+            });
+            map.add(dynamicLayer)
+        });
+    </script>
+</head>
+
+<body>
+<div id="viewDiv"></div>
+</body>
+
+</html>

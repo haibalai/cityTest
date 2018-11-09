@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>Add WMTS Layer</title>
+
+
+    <style>
+        html,
+        body,
+        #map {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #citationInfo {
+            position: absolute;
+            font-weight: bold;
+            font-size: 12pt;
+            left: 10px;
+            bottom: 10px;
+            z-Index: 999;
+        }
+    </style>
+
+    <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/esri/css/esri.css">
+    <script src="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/init.js"></script>
+
+
+    <script>
+        require([
+            "esri/map",
+            "esri/layers/WMTSLayer",
+            "esri/layers/WMTSLayerInfo",
+            "esri/geometry/Extent",
+            "esri/layers/TileInfo",
+            "esri/SpatialReference",
+            "esri/geometry/Point",
+            'esri/tasks/ProjectParameters',
+            'esri/tasks/GeometryService',
+            'esri/geometry/webMercatorUtils',
+            "esri/graphic",
+            "esri/symbols/SimpleFillSymbol",
+            "esri/symbols/SimpleLineSymbol",
+            "esri/symbols/SimpleMarkerSymbol",
+            "esri/symbols/PictureMarkerSymbol",
+            "esri/symbols/CartographicLineSymbol",
+            "esri/Color",
+            "dojo/parser",
+            "dojo/dom",
+            "dojo/on",
+            "dijit/layout/BorderContainer",
+            "dijit/layout/ContentPane",
+            "dojo/domReady!"
+        ], function(
+            Map,
+            WMTSLayer,
+            WMTSLayerInfo,
+            Extent,
+            TileInfo,
+            SpatialReference,
+            Point,
+            ProjectParameters,
+            GeometryService,
+            webMercatorUtils,
+            Graphic,
+            SimpleFillSymbol,
+            SimpleLineSymbol,
+            SimpleMarkerSymbol,
+            PictureMarkerSymbol,
+            CartographicLineSymbol,
+            Color,
+            parser,
+            dom,
+            on
+        ) {
+
+            esri.config.defaults.io.corsEnabledServers.push("http://172.25.10.61:6080/arcgis/rest/services/Vector2014_FzLocal/MapServer/WMTS");
+            var map = new Map("map", {
+
+            });
+
+            http://10.10.3.10:6080/arcgis/rest/services/%E7%A0%81%E5%A4%B4/MapServer
+            var layerInfo = new WMTSLayerInfo({
+
+                identifier: "Vector2014_FzLocal",
+                tileMatrixSet: "default028mm",
+                format: "image/png",
+                style: "default"
+            });
+
+
+
+            var options = {
+                serviceMode: "KVP",
+                layerInfo: layerInfo
+            };
+            var wmtsLayer = new WMTSLayer("http://172.25.10.61:6080/arcgis/rest/services/Vector2014_FzLocal/MapServer/WMTS", options);
+            map.addLayer(wmtsLayer);
+        });
+    </script>
+</head>
+
+<body>
+<div id="map">
+
+</div>
+</body>
+</html>

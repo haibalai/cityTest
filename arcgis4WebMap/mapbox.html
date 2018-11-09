@@ -1,0 +1,88 @@
+<!-- 2018-9-17 18:57:03 | 版权所有 火星科技 http://marsgis.cn  【联系我们QQ：516584683，微信：marsgis】 -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1,maximum-scale=1">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="x5-fullscreen" content="true">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="keywords" content="火星科技,cesium,3D,GIS,marsgis,三维,地球,地图,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国">
+    <meta name="description"
+          content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 cesium cesium开发 cesium框架 三维 地球 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 三维地图 全景漫游 地理信息系统 云GIS 三维GIS GIS平台 WebGIS">
+    <link rel="shortcut icon" type="image/x-icon" href="../docs/img/favicon/favicon.ico">
+    <title>加载Mapbox在线地图 |MarsGIS for Cesium|三维地图| 火星科技|合肥火星科技|合肥火星科技有限公司</title>
+    <script src="../lib/include-lib.js" libpath="../lib/"
+            include="jquery,font-awesome,bootstrap,layer,haoutil,cesium-mars"></script>
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+<div id="cesiumContainer" class="cesium-container"></div>
+<div id="toolbar" class="infoview"></div>
+<script src="js/Sandcastle-header.js"></script>
+<script>function centerAtHome() {
+    var e = 110.597446, i = 29.808307, t = 7852845.8, n = 352.7, a = -86.3, r = .7;
+    viewer.camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(e, i, t || 0),
+        orientation: {
+            heading: Cesium.Math.toRadians(n || 0),
+            pitch: Cesium.Math.toRadians(a || -Cesium.Math.PI_OVER_FOUR),
+            roll: Cesium.Math.toRadians(r || 0)
+        },
+        duration: 3
+    })
+}
+
+var viewer;
+
+function initMap() {
+    for (var t = [], e = [], i = [Cesium.BingMapsStyle.AERIAL, Cesium.BingMapsStyle.AERIAL_WITH_LABELS, Cesium.BingMapsStyle.CANVAS_DARK, Cesium.BingMapsStyle.CANVAS_GRAY, Cesium.BingMapsStyle.CANVAS_LIGHT, Cesium.BingMapsStyle.COLLINS_BART, Cesium.BingMapsStyle.ORDNANCE_SURVEY, Cesium.BingMapsStyle.ROAD], n = 0; n < i.length; n++) {
+        var a = new Cesium.BingMapsImageryProvider({
+            url: "https://dev.virtualearth.net",
+            mapStyle: i[n],
+            culture: "zh-Hans",
+            key: "AtkX3zhnRe5fyGuLU30uZw8r3sxdBDnpQly7KfFTCB2rGlDgXBG3yr-qEiQEicEc"
+        });
+        t.push(a)
+    }
+    for (n = 0; n < i.length; n++) {
+        var r = {
+            text: i[n], onselect: function (i) {
+                return function () {
+                    var e = o.get(0);
+                    o.addImageryProvider(t[i], 1), o.remove(e)
+                }
+            }(n)
+        };
+        e.push(r)
+    }
+    var o = (viewer = new Cesium.Viewer("cesiumContainer", {
+        animation: !1,
+        timeline: !1,
+        geocoder: !1,
+        sceneModePicker: !0,
+        homeButton: !0,
+        baseLayerPicker: !1,
+        imageryProvider: t[0]
+    })).imageryLayers;
+    Sandcastle.addDefaultToolbarMenu(e), viewer.cesiumWidget.creditContainer.style.display = "none", viewer.homeButton && viewer.homeButton.viewModel.command.beforeExecute.addEventListener(function (e) {
+        centerAtHome(), e.cancel = !0
+    }), centerAtHome()
+}
+
+$(document).ready(function () {
+    mars3d.util.webglreport() || (alert("系统检测到您使用的浏览器不支持WebGL功能"), layer.open({
+        type: 1,
+        title: "当前浏览器不支持WebGL功能",
+        closeBtn: 0,
+        shadeClose: !1,
+        resize: !1,
+        area: ["600px", "200px"],
+        content: '<div style="margin: 20px;"><h3>系统检测到您使用的浏览器不支持WebGL功能！</h3>  <p>1、请您检查浏览器版本，安装使用最新版chrome、火狐或IE11以上浏览器！</p> <p>2、WebGL支持取决于GPU支持，请保证客户端电脑已安装显卡驱动程序！</p></div>'
+    })), initMap()
+})</script>
+</body>
+</html>

@@ -7,7 +7,8 @@
     <title>天地图底图加载（经纬度版本）</title>
     <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v48_api/arcgis_js_api/library/4.8/esri/css/main.css">
     <script src="http://cityworks.cn/arcgis_js_v48_api/arcgis_js_api/library/4.8/dojo/dojo.js"></script>
-
+    <!--<link rel="stylesheet" href="https://js.arcgis.com/4.9/esri/css/main.css">-->
+    <!--<script src="https://js.arcgis.com/4.9/"></script>-->
 </head>
 <body style="height: 100%;">
 <!-- 100vh兼容性不好 -->
@@ -21,11 +22,12 @@
     require([
         'esri/Map',
         "esri/config",
+        "esri/views/SceneView",
         'esri/views/MapView',
         'esri/layers/WebTileLayer',
         'esri/layers/support/TileInfo',
         'dojo/domReady!'
-    ],function(Map, esriConfig,MapView, WebTileLayer, TileInfo){
+    ],function(Map, esriConfig,MapView,SceneView, WebTileLayer, TileInfo){
 
         // 我们是通过瓦片形式加载天地图的
         // 天地图根据投影又分为两种：墨卡托和经纬度
@@ -107,7 +109,7 @@
         map.add(layer);
 
         // 创建MapView
-        var view = new MapView({
+        var view = new SceneView({
             container: "map-container",
             spatialReference : {
                 wkid : 4326

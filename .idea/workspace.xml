@@ -2,12 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6de709f9-31f3-48e2-bff7-3a0f2e1887a4" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/arcgis4/images/Church.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/arcgis4Visual/FF.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/arcgis4Visual/images/Church.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arcgis4WebMap/baidu.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arcgis4WebMap/baidu2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arcgis4WebMap/baidu3.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arcgis4WebMap/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arcgis4WebMap/mapbox.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arcgis4WebMap/static/js/BDAnoLayer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arcgis4WebMap/static/js/BDImgLayer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arcgis4WebMap/static/js/BDVecLayer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arcgis4WebMap/tiandi.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arcgis4WebMap/天地图.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arcgis4WebMap/腾讯地图.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arcgis4WebMap/谷歌底图.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arcgis4WebMap/高德.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/d3/d3arcgis.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/iframe/iframe.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/iframe/test.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inputfile/inputfile.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wms/route.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wms/test.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wms/test1.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FF.html" beforeDir="false" afterPath="$PROJECT_DIR$/FF.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arcgis4/arcgisjs_tianditu_4.7.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4/arcgisjs_tianditu_4.7.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arcgis4/tiandi.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4/tiandi.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -25,87 +41,103 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="tiledlayer.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/arcgis4/tiledlayer.html">
+      <file leaf-file-name="天地图.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/arcgis4WebMap/天地图.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2662">
-              <caret line="121" column="11" selection-start-line="121" selection-start-column="11" selection-end-line="121" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tiandi.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/arcgis4/tiandi.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="421">
-              <caret line="40" column="37" lean-forward="true" selection-start-line="40" selection-start-column="37" selection-end-line="40" selection-end-column="37" />
+            <state relative-caret-position="154">
+              <caret line="7" selection-start-line="7" selection-end-line="8" selection-end-column="109" />
               <folding>
-                <element signature="n#style#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FF.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/arcgis4Visual/FF.html">
+      <file leaf-file-name="baidu.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/arcgis4WebMap/baidu.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="259">
-              <caret line="114" column="22" lean-forward="true" selection-start-line="114" selection-start-column="22" selection-end-line="114" selection-end-column="102" />
+            <state relative-caret-position="1320">
+              <caret line="60" column="63" selection-start-line="60" selection-start-column="63" selection-end-line="60" selection-end-column="63" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1541561004417" expanded="true" signature="338:456" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="three-animation.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="mapbox.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/arcgis4WebMap/mapbox.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="550">
+              <caret line="25" column="29" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="baidu3.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/arcgis4WebMap/baidu3.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3344">
+              <caret line="152" column="90" selection-start-line="152" selection-start-column="90" selection-end-line="152" selection-end-column="90" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="baidu2.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/arcgis4WebMap/baidu2.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2684">
+              <caret line="122" column="42" selection-start-line="122" selection-start-column="42" selection-end-line="122" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="腾讯地图.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/arcgis4WebMap/腾讯地图.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2486">
+              <caret line="113" selection-start-line="113" selection-end-line="113" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="谷歌底图.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/arcgis4WebMap/谷歌底图.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="29" column="35" lean-forward="true" selection-start-line="29" selection-start-column="10" selection-end-line="29" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tiandi.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/arcgis4WebMap/tiandi.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="462">
+              <caret line="24" column="40" lean-forward="true" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="d3arcgis.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/d3/d3arcgis.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="8" column="7" lean-forward="true" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
+              <folding>
+                <element signature="n#style#0;n#button#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="three-animation.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/arcgis4/three-animation.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="154">
               <caret line="7" column="13" lean-forward="true" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="three-addModel.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/arcgis4/three-addModel.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="283">
-              <caret line="133" column="50" selection-start-line="133" selection-start-column="50" selection-end-line="133" selection-end-column="50" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BaoAnTest.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wmts/BaoAnTest.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-770">
-              <caret line="18" column="8" lean-forward="true" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="gaode.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wmts/gaode.html">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="tiandi.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wmts/tiandi.html">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="WmtsTest.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wmts/WmtsTest.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1474">
-              <caret line="67" lean-forward="true" selection-start-line="20" selection-start-column="4" selection-end-line="67" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="arcgisjs_tianditu_4.7.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/arcgis4/arcgisjs_tianditu_4.7.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="24" column="15" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="15" />
             </state>
           </provider>
         </entry>
@@ -115,8 +147,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -147,7 +179,15 @@
       <find>editGraphic</find>
       <find>overviewDiv</find>
       <find>extentDiv</find>
+      <find>solveRoutesBtn</find>
+      <find> </find>
+      <find>LayerList</find>
+      <find>initstate</find>
+      <find>OpenStreetMapLayer</find>
     </findStrings>
+    <replaceStrings>
+      <replace />
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -155,23 +195,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/gaodeLayer.js" />
-        <option value="$PROJECT_DIR$/gaode.js" />
-        <option value="$PROJECT_DIR$/js/TDTLayer.js" />
-        <option value="$PROJECT_DIR$/js/TDTAnnoLayer.js" />
-        <option value="$PROJECT_DIR$/tiandi.html" />
-        <option value="$PROJECT_DIR$/js/gaodeLayer.js" />
-        <option value="$PROJECT_DIR$/js/GaodeLayer.js" />
-        <option value="$PROJECT_DIR$/gaode.html" />
-        <option value="$PROJECT_DIR$/mapbox2.html" />
-        <option value="$PROJECT_DIR$/mapbox3.html" />
-        <option value="$PROJECT_DIR$/js/build.js" />
-        <option value="$PROJECT_DIR$/Test7.html" />
-        <option value="$PROJECT_DIR$/js/canvasLayer.js" />
-        <option value="$PROJECT_DIR$/test8.html" />
-        <option value="$PROJECT_DIR$/ckeditor/IframeTest.html" />
-        <option value="$PROJECT_DIR$/wmts/tiandi.html" />
-        <option value="$PROJECT_DIR$/skyline/Test4.html" />
         <option value="$PROJECT_DIR$/CkTest.html" />
         <option value="$PROJECT_DIR$/管线剖切参数获取.html" />
         <option value="$PROJECT_DIR$/js/test.js" />
@@ -204,8 +227,25 @@
         <option value="$PROJECT_DIR$/shp/ShpTest.html" />
         <option value="$PROJECT_DIR$/FF.html" />
         <option value="$PROJECT_DIR$/arcgis4/arcgisjs_tianditu_4.7.html" />
-        <option value="$PROJECT_DIR$/arcgis4/tiandi.html" />
         <option value="$PROJECT_DIR$/arcgis4Visual/FF.html" />
+        <option value="$PROJECT_DIR$/iframe/iframe.html" />
+        <option value="$PROJECT_DIR$/iframe/test.html" />
+        <option value="$PROJECT_DIR$/inputfile/inputfile.html" />
+        <option value="$PROJECT_DIR$/test.html" />
+        <option value="$PROJECT_DIR$/wms/test.html" />
+        <option value="$PROJECT_DIR$/wms/test1.html" />
+        <option value="$PROJECT_DIR$/wms/route.html" />
+        <option value="$PROJECT_DIR$/arcgis4/tiandi.html" />
+        <option value="$PROJECT_DIR$/arcgis4WebMap/index.html" />
+        <option value="$PROJECT_DIR$/arcgis4WebMap/baidu.html" />
+        <option value="$PROJECT_DIR$/arcgis4WebMap/天地图.html" />
+        <option value="$PROJECT_DIR$/arcgis4WebMap/高德.html" />
+        <option value="$PROJECT_DIR$/arcgis4WebMap/baidu3.html" />
+        <option value="$PROJECT_DIR$/arcgis4WebMap/腾讯地图.html" />
+        <option value="$PROJECT_DIR$/arcgis4WebMap/mapbox.html" />
+        <option value="$PROJECT_DIR$/arcgis4WebMap/baidu2.html" />
+        <option value="$PROJECT_DIR$/arcgis4WebMap/tiandi.html" />
+        <option value="$PROJECT_DIR$/d3/d3arcgis.html" />
       </list>
     </option>
   </component>
@@ -252,13 +292,12 @@
             <path>
               <item name="cityTest" type="b2602c69:ProjectViewProjectNode" />
               <item name="cityTest" type="462c0819:PsiDirectoryNode" />
-              <item name="arcgis4Visual" type="462c0819:PsiDirectoryNode" />
+              <item name="arcgis4WebMap" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cityTest" type="b2602c69:ProjectViewProjectNode" />
               <item name="cityTest" type="462c0819:PsiDirectoryNode" />
-              <item name="arcgis4Visual" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
+              <item name="d3" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -273,24 +312,24 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../pingtai/cityworks-renjuwei" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../temp/dp-baoan" />
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="settings.editor.selected.configurable" value="Settings.JavaScript.Linters" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\D\myWork\cityTest\arcgis4Visual" />
-      <recent name="D:\D\myWork\cityTest\arcgis4\images" />
-      <recent name="D:\D\myWork\cityTest\shp" />
-      <recent name="D:\D\myWork\cityTest\js" />
-      <recent name="D:\D\myWork\cityTest\data" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\D\myWork\cityTest\arcgis4WebMap\static" />
       <recent name="D:\D\myWork\cityTest\arcgis4\js" />
       <recent name="D:\D\myWork\cityTest\gismap3test" />
       <recent name="D:\D\myWork\cityTest\swiptest" />
       <recent name="D:\D\myWork\cityTest\linlaoshi" />
-      <recent name="D:\D\myWork\cityTest\skyline" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\D\myWork\cityTest\arcgis4WebMap" />
+      <recent name="D:\D\myWork\cityTest\arcgis4Visual" />
+      <recent name="D:\D\myWork\cityTest\arcgis4\images" />
+      <recent name="D:\D\myWork\cityTest\shp" />
+      <recent name="D:\D\myWork\cityTest\js" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -305,7 +344,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.ShpTest.html">
+  <component name="RunManager" selected="Firefox Remote.Test1">
     <configuration name="Test1" type="FirefoxRemoteDebugType" factoryName="Firefox Remote" />
     <configuration default="true" type="FirefoxRemoteDebugType" factoryName="Firefox Remote">
       <method>
@@ -316,6 +355,195 @@
     <configuration name="T1.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/cityTest/testjs/T1.html" />
     <configuration name="Test1.html" type="JavascriptDebugType" factoryName="JavaScript Debug" nameIsGenerated="true" uri="http://localhost:63342/cityTest/skyline/Test1.html" />
     <configuration name="WmtsTest.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/cityTest/wmts/WmtsTest.html" />
+    <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="cityTest" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="TARGET" value="" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="cityTest" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PyLettuceRunConfigurationType" factoryName="Lettuce">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="cityTest" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="cityTest" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <module name="cityTest" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Attests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="cityTest" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="cityTest" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="cityTest" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="cityTest" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="cityTest" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="testToRun" value="" />
+      <option name="keywords" value="" />
+      <option name="params" value="" />
+      <option name="USE_PARAM" value="false" />
+      <option name="USE_KEYWORD" value="false" />
+      <method />
+    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-interpreter>project</node-interpreter>
       <node-options />
@@ -327,15 +555,15 @@
     <list>
       <item itemvalue="Firefox Remote.Test1" />
       <item itemvalue="JavaScript Debug.Test1.html" />
-      <item itemvalue="JavaScript Debug.WmtsTest.html" />
-      <item itemvalue="JavaScript Debug.T1.html" />
       <item itemvalue="JavaScript Debug.ShpTest.html" />
+      <item itemvalue="JavaScript Debug.T1.html" />
+      <item itemvalue="JavaScript Debug.WmtsTest.html" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JavaScript Debug.ShpTest.html" />
-        <item itemvalue="JavaScript Debug.T1.html" />
         <item itemvalue="JavaScript Debug.WmtsTest.html" />
+        <item itemvalue="JavaScript Debug.T1.html" />
+        <item itemvalue="JavaScript Debug.ShpTest.html" />
       </list>
     </recent_temporary>
   </component>
@@ -404,31 +632,42 @@
       <workItem from="1535614719012" duration="3519000" />
       <workItem from="1535623299563" duration="598000" />
       <workItem from="1535682371194" duration="22154000" />
-      <workItem from="1536199112769" duration="25267000" />
+      <workItem from="1536199112769" duration="30153000" />
+      <workItem from="1537233454992" duration="599000" />
+      <workItem from="1537257329176" duration="5980000" />
+      <workItem from="1538293484230" duration="1261000" />
+      <workItem from="1539323284062" duration="37000" />
+      <workItem from="1539580016751" duration="1414000" />
+      <workItem from="1540351265306" duration="39211000" />
+      <workItem from="1541660625971" duration="1611000" />
+      <workItem from="1541665434357" duration="1200000" />
+      <workItem from="1541745853654" duration="5727000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="389193000" />
+    <option name="totallyTimeSpent" value="451119000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14383562" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15384616" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50105375" side_tool="true" visible="true" weight="0.1868009" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" visible="true" weight="0.14988814" />
       <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49420443" weight="0.32997763" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49894625" weight="0.3131991" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Python Console" order="7" />
+      <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -458,110 +697,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" selection-start-line="3" selection-end-line="31" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/canvastest/canvas.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="814">
-          <caret line="37" column="35" selection-start-line="37" selection-start-column="26" selection-end-line="37" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/three/Test.js" />
-    <entry file="file://$PROJECT_DIR$/json/config2D.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1738">
-          <caret line="79" column="22" selection-start-line="79" selection-start-column="22" selection-end-line="79" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/svgtest/svg.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="24" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ajax/tt.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="5" column="7" lean-forward="true" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mector/test.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="14" column="41" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/a.js" />
-    <entry file="file://$PROJECT_DIR$/js/three.min.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/iss.obj">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/three.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="37484" column="51" selection-start-line="37484" selection-start-column="51" selection-end-line="37484" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/OBJLoader.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/monster/readme.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/threejs/loaders/collada/Animation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="10" column="40" lean-forward="true" selection-start-line="10" selection-start-column="40" selection-end-line="10" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/js/widgets.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/js/webglUtils.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/gismap3.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="14" column="18" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gismap3test/Test7.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="17" column="21" lean-forward="true" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/three-precision.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="243" column="25" selection-start-line="243" selection-start-column="16" selection-end-line="243" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/threejs-addbox.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="116" column="45" lean-forward="true" selection-start-line="116" selection-start-column="45" selection-end-line="116" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/arcgis4/three-flow.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="121">
@@ -580,13 +715,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4752">
           <caret line="216" column="37" selection-start-line="216" selection-start-column="37" selection-end-line="216" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/draw2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4444">
-          <caret line="202" selection-start-line="202" selection-end-line="202" />
         </state>
       </provider>
     </entry>
@@ -625,9 +753,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shp/vendor/terraformer/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/arcgis4/three2.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="109">
@@ -664,7 +789,7 @@
         <state relative-caret-position="374">
           <caret line="32" selection-start-line="32" selection-end-line="32" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" />
           </folding>
         </state>
       </provider>
@@ -704,39 +829,234 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wmts/gaode.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wmts/tiandi.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wmts/WmtsTest.html">
+    <entry file="file://$PROJECT_DIR$/arcgis4/arcgisjs_tianditu_4.7.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1474">
-          <caret line="67" lean-forward="true" selection-start-line="20" selection-start-column="4" selection-end-line="67" />
+        <state relative-caret-position="391">
+          <caret line="24" column="15" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/tiledlayer.html">
+    <entry file="file://$PROJECT_DIR$/iframe/iframe.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2662">
-          <caret line="121" column="11" selection-start-line="121" selection-start-column="11" selection-end-line="121" selection-end-column="11" />
+        <state relative-caret-position="275">
+          <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iframe/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4Visual/FF.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="26" column="26" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inputfile/inputfile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4/draw2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4444">
+          <caret line="202" selection-start-line="202" selection-end-line="202" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4/three-addModel.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="704">
+          <caret line="32" column="101" lean-forward="true" selection-start-line="31" selection-start-column="4" selection-end-line="32" selection-end-column="101" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wmts/BaoAnTest.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-770">
+        <state relative-caret-position="-440">
           <caret line="18" column="8" lean-forward="true" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wmts/WmtsTest.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="562">
+          <caret line="63" column="16" lean-forward="true" selection-start-line="63" selection-start-column="16" selection-end-line="63" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wms/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="16" column="106" lean-forward="true" selection-start-line="6" selection-start-column="4" selection-end-line="16" selection-end-column="106" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wms/route.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-814">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wms/test1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-824">
+          <caret line="33" column="12" lean-forward="true" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="13" column="11" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wmts/gaode.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="26" selection-start-line="26" selection-end-line="29" selection-end-column="106" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mector/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="33">
+          <caret line="14" column="41" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4/tiledlayer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="30" column="73" selection-start-line="30" selection-start-column="73" selection-end-line="30" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/static/js/BDAnoLayer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="327">
+          <caret line="49" column="10" lean-forward="true" selection-start-line="49" selection-start-column="10" selection-end-line="49" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="6" column="123" lean-forward="true" selection-start-line="6" selection-start-column="123" selection-end-line="6" selection-end-column="123" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/static/js/BDImgLayer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-311">
+          <caret line="19" column="41" selection-start-line="19" selection-start-column="41" selection-end-line="19" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/static/js/BDVecLayer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="14" column="34" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="34" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/arcgis4/tiandi.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="40" column="37" lean-forward="true" selection-start-line="40" selection-start-column="37" selection-end-line="40" selection-end-column="37" />
+        <state relative-caret-position="2486">
+          <caret line="113" column="32" selection-start-line="113" selection-start-column="32" selection-end-line="113" selection-end-column="32" />
           <folding>
-            <element signature="n#style#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/高德.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2310">
+          <caret line="105" column="86" selection-start-line="105" selection-start-column="86" selection-end-line="105" selection-end-column="86" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/腾讯地图.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2486">
+          <caret line="113" selection-start-line="113" selection-end-line="113" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/baidu.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1320">
+          <caret line="60" column="63" selection-start-line="60" selection-start-column="63" selection-end-line="60" selection-end-column="63" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1541561004417" expanded="true" signature="338:456" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/mapbox.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="25" column="29" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/baidu3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3344">
+          <caret line="152" column="90" selection-start-line="152" selection-start-column="90" selection-end-line="152" selection-end-column="90" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/baidu2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2684">
+          <caret line="122" column="42" selection-start-line="122" selection-start-column="42" selection-end-line="122" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/tiandi.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="24" column="40" lean-forward="true" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/天地图.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" selection-start-line="7" selection-end-line="8" selection-end-column="109" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/谷歌底图.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="29" column="35" lean-forward="true" selection-start-line="29" selection-start-column="10" selection-end-line="29" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/d3/d3arcgis.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="7" lean-forward="true" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
+          <folding>
+            <element signature="n#style#0;n#button#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -745,27 +1065,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
           <caret line="7" column="13" lean-forward="true" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/three-addModel.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="133" column="50" selection-start-line="133" selection-start-column="50" selection-end-line="133" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/arcgisjs_tianditu_4.7.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="24" column="15" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4Visual/FF.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="114" column="22" lean-forward="true" selection-start-line="114" selection-start-column="22" selection-end-line="114" selection-end-column="102" />
         </state>
       </provider>
     </entry>

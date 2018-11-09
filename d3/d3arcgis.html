@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/esri/css/main.css">
+    <script src="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/dojo/dojo.js"></script>
+</head>
+<style>
+    html,body,#mapContainer{
+        padding:0px;
+        margin:0px;
+        width:100%;
+        height:900px;
+    }
+    .svgTransform{
+        position: absolute;
+        left:0px;
+        top:0px;
+        width:100%;
+        height:100%;
+    }
+</style>
+<script>
+
+    let myMap,view,reyuan,initstate
+    function init() {
+        require([
+            "esri/views/MapView",
+            "esri/Map",
+            "esri/views/SceneView",
+            "esri/layers/OpenStreetMapLayer",
+            "esri/geometry/Extent",
+            "esri/geometry/Point",
+            "esri/geometry/ScreenPoint",
+            "esri/tasks/support/Query",
+            "esri/tasks/QueryTask"
+        ], function(MapView,
+                    Map,
+                    SceneView,
+                    OpenStreetMapLayer,
+                    Extent,
+                    Point,
+                    ScreenPoint,
+                    Query,
+                    QueryTask) {
+            myMap = new Map({
+                basemap:'osm'
+            });
+            view = new SceneView({
+                map: myMap,
+                container: "mapContainer",
+                center : [112.53,37.87],
+                zoom : 12,
+            });
+            //由于我用的是测试数据，我在这自己发布了一个图层，调取他们的坐标
+            var layer="http://121.201.65.133:2001/arcgis/rest/services/baoan_data2000/MapServer"
+            var queryTask = new QueryTask(layer+"/0");
+            var query= new Query();
+            query.where = "1 = 1";
+            query.outFields = ["*"];
+            query.returnGeometry = true;
+            queryTask.execute(query).then(function(results){
+                if (results.features.length >= 1) {
+                    reyuan = results.features;
+                }
+            });
+            //监听平移，缩放和旋转
+            view.watch('center, scale, rotation',function(){
+                if(initstate){
+                    geoToscreen();
+                }
+            })
+        });
+    }
+
+    function play(){
+        initstate=true;//用来一个变量区别初始化，逻辑可忽略
+        //(".esri-view-surface")是我把svg绘制添加到了这个view里面
+        var poitMoveSvg = d3.select(".esri-view-surface")
+            .append("svg")
+            .attr("id", "d3_svg")
+            .attr("class", "svgTransform")
+        g = d3.select("#d3_svg")
+            .append("g")
+            .attr("id", "pointMove");
+        geoToscreen();
+    }
+    function geoToscreen(){
+        document.getElementById("d3_svg").pauseAnimations()
+        d3.selectAll("#pointMove path").remove();
+        d3.selectAll("#pointMove circle").remove()
+        var s_screen=view.toScreen(reyuan[0].geometry);
+        for(var i=1,len=reyuan.length;i<len;i++){
+            var color='#17A05D';
+            var e_screen=view.toScreen(reyuan[i].geometry);
+            var path='M'+s_screen.x+','+s_screen.y+'A800,800 0 0,1 '+e_screen.x+','+e_screen.y
+            var arrow='m0,0L-20,-10,-13,0,-20,10,0,0';
+            g.append("path")//画路径
+                .attr("d", path)
+                .attr("stroke", color)
+                .attr("fill", "none")
+                .attr("stroke-width", "2");
+            g.append("path")//画箭头.
+                .attr("d", arrow)
+                .attr("stroke", "#0188FB")
+                .attr("fill", "#0188FB")
+                .attr("stroke-width", "2")
+                .append('animateMotion')
+                .attr('path', path)
+                .attr('rotate', "auto")
+                .attr('dur', "8s")
+                .attr('repeatCount', "indefinite");
+            g.append("circle")//起始点的圆圈
+                .attr("r", 8)
+                .attr("fill", "#E9A938")
+                .attr("cx",s_screen.x)
+                .attr("cy",s_screen.y);
+            g.append("circle")
+                .attr("r", 8)
+                .attr("fill", "#81D841")
+                .attr("cx",e_screen.x)
+                .attr("cy",e_screen.y)
+
+        }
+        document.getElementById("d3_svg").unpauseAnimations()
+    }
+
+
+
+</script>
+
+
+<body onload="init()">
+
+
+
+
+<div id="mapContainer"></div>
+<div>
+    <button style="position:absolute;left:20px;top:20px;" onclick="play()">飞行图</button>
+
+</div>
+</body>
+</html>

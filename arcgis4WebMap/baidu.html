@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>���ͼ��ͼ���أ���γ�Ȱ汾��</title>
+    <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v48_api/arcgis_js_api/library/4.8/esri/css/main.css">
+    <script src="http://cityworks.cn/arcgis_js_v48_api/arcgis_js_api/library/4.8/dojo/dojo.js"></script>
+    <!--<link rel="stylesheet" href="https://js.arcgis.com/4.9/esri/css/main.css">-->
+    <!--<script src="https://js.arcgis.com/4.9/"></script>-->
+</head>
+<body style="height: 100%;">
+<!-- 100vh�����Բ��� -->
+<div id="map-container" style="width: 100%;height: 100%;"></div>
+<script type="text/javascript">
+
+
+
+    require([
+        'esri/Map',
+        'esri/views/MapView',
+
+        "esri/geometry/Extent",
+         "esri/geometry/SpatialReference",
+        "esri/config",
+        "esri/views/SceneView",
+        'esri/layers/WebTileLayer',
+        'esri/layers/support/TileInfo',
+        'dojo/domReady!'
+    ],function(Map, MapView,Extent,SpatialReference,esriConfig, SceneView,WebTileLayer, TileInfo){
+
+
+
+        var scale = [591657527.591555,295828763.795777,147914381.897889,73957190.948944,36978595.474472,18489297.737236,9244648.868618,
+            4622324.434309,2311162.217155,1155581.108577,577790.554289,288895.277144,144447.638572,72223.819286,
+            36111.9096437,18055.9548224,9027.977411,4513.988705,2256.994353,1128.497176];
+        var resolution = [156543.033928,78271.5169639999,39135.7584820001,19567.8792409999,9783.93962049996,4891.96981024998,2445.98490512499,
+            1222.99245256249,611.49622628138,305.748113140558,152.874056570411,76.4370282850732,38.2185141425366,19.1092570712683,9.55462853563415,
+            4.77731426794937,2.38865713397468,1.19432856685505,0.597164283559817,0.298582141647617];
+
+
+        var tileInfo = new TileInfo({
+            "rows": 256,
+            "cols": 256,
+            dpi: 90.71428571427429,
+            "compressionQuality": 90,
+            "origin": {
+                "x": -20037508.3427892,
+                "y": 20037508.3427892
+            },
+            spatialReference : {
+                wkid : 102100
+            },
+            "lods": [{ "level": 0, "resolution": resolution[0], "scale": scale[0] },
+                { "level": 1, "resolution": resolution[1], "scale": scale[1] },
+                { "level": 2, "resolution": resolution[2], "scale": scale[2] },
+                { "level": 3, "resolution": resolution[3], "scale": scale[3] },
+                { "level": 4, "resolution": resolution[4], "scale": scale[4] },
+                { "level": 5, "resolution": resolution[5], "scale": scale[5] },
+                { "level": 6, "resolution": resolution[6], "scale": scale[6] },
+                { "level": 7, "resolution": resolution[7], "scale": scale[7] },
+                { "level": 8, "resolution": resolution[8], "scale": scale[8] },
+                { "level": 9, "resolution": resolution[9], "scale": scale[9] },
+                { "level": 10, "resolution": resolution[10], "scale": scale[10] },
+                { "level": 11, "resolution": resolution[11], "scale": scale[11] },
+                { "level": 12, "resolution": resolution[12], "scale": scale[12] },
+                { "level": 13, "resolution": resolution[13], "scale": scale[13] },
+                { "level": 14, "resolution": resolution[14], "scale": scale[14] },
+                { "level": 15, "resolution": resolution[15], "scale": scale[15] },
+                { "level": 16, "resolution": resolution[16], "scale": scale[16] },
+                { "level": 17, "resolution": resolution[17], "scale": scale[17] },
+                { "level": 18, "resolution": resolution[18], "scale": scale[18] },
+                { "level": 19, "resolution": resolution[19], "scale": scale[19] }
+            ]
+        });
+
+
+
+
+        esriConfig.request.corsEnabledServers.push("http://online1.map.bdimg.com/");
+        esriConfig.request.corsEnabledServers.push("http://online2.map.bdimg.com/");
+        esriConfig.request.corsEnabledServers.push("http://online3.map.bdimg.com/");
+        esriConfig.request.corsEnabledServers.push("http://online4.map.bdimg.com/");
+        esriConfig.request.corsEnabledServers.push("http://online5.map.bdimg.com/");
+        esriConfig.request.corsEnabledServers.push("http://online6.map.bdimg.com/");
+        esriConfig.request.corsEnabledServers.push("http://online7.map.bdimg.com/");
+        esriConfig.request.corsEnabledServers.push("http://online8.map.bdimg.com/");
+
+        var layer = new WebTileLayer("http://{subDomain}.map.bdimg.com/tile/?qt=tile&x=${col}&y=${row}&z=${level}&styles=pl&scaler=1&udt=20180505",{
+            subDomains: ["online1", "online2","online3","online4","online5","online6","online7","online8"],
+            tileInfo: tileInfo
+        });
+
+
+        // var layer = WebTileLayer('http://{subDomain}.tianditu.com/DataServer?T=vec_c&x={col}&y={row}&l={level}',{
+        //     // subDomains: ['t0','t1','t2','t3','t4','t5','t6','t7'],
+        //     subDomains: ['t0'],
+        //     tileInfo: tileInfo
+        // })
+        // var layer_anno = WebTileLayer('http://{subDomain}.tianditu.com/DataServer?T=cva_c&x={col}&y={row}&l={level}',{
+        //     //subDomains: ['t0','t1','t2','t3','t4','t5','t6','t7'],
+        //     subDomains: ['t0'],
+        //     tileInfo: tileInfo
+        // })
+
+        // ������ͼ�������õ�ͼ��������õ�ͼ���������ϵ�޷���ת���� ESPG:4326 (WGS1984)
+        var map = new Map({
+            spatialReference : {
+                wkid : 102100
+            },
+            // basemap: {
+            //   baseLayers: [layer, layer_anno]
+            // }
+        });
+
+        // ����MapView
+        var view = new MapView({
+            container: "map-container",
+            spatialReference : {
+                wkid : 102100
+            },
+            map: map,
+
+
+        });
+        map.add(layer);
+
+        // �����ṩ�������ͼ��γ��ͶӰ��ͼ���ַ�Լ�ת�����URLģ��
+
+        // ============================================================================================================================================================================================
+
+        // ��γ��ʸ����ͼ
+        // http://t4.tianditu.com/DataServer?T=vec_c&x=28&y=4&l=5
+        // http://{subDomain}.tianditu.com/DataServer?T=vec_c&x={col}&y={row}&l={level}
+
+        // ��γ��ʸ������ע�ǣ����ʸ����ͼʹ�ã�
+        // http://t0.tianditu.com/DataServer?T=cva_c&x=28&y=4&l=5
+        // http://{subDomain}.tianditu.com/DataServer?T=cva_c&x={col}&y={row}&l={level}
+
+        // ��γ��ʸ��Ӣ��ע�ǣ����ʸ����ͼʹ�ã�
+        // http://t0.tianditu.cn/eva_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=eva&tileMatrixSet=c&TileMatrix=10&TileRow=158&TileCol=821&style=default&format=tiles
+        // http://{subDomain}.tianditu.cn/eva_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=eva&tileMatrixSet=c&TileMatrix={level}&TileRow={row}&TileCol={col}&style=default&format=tiles
+
+        // ��γ��ʸ���ɹ���ע�ǣ����ʸ����ͼʹ�ã�
+        // http://t7.tianditu.cn/mva_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=mva&tileMatrixSet=c&TileMatrix=10&TileRow=158&TileCol=823&style=default&format=tiles
+        // http://{subDomain}.tianditu.cn/mva_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=mva&tileMatrixSet=c&TileMatrix={level}&TileRow={row}&TileCol={col}&style=default&format=tiles
+
+        // ��γ��ʸ��ά�����ע�ǣ����ʸ����ͼʹ�ã�
+        // http://t5.tianditu.cn/wva_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=wva&tileMatrixSet=c&TileMatrix=3&TileRow=0&TileCol=6&style=default&format=tiles
+        // http://{subDomain}.tianditu.cn/wva_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=wva&tileMatrixSet=c&TileMatrix={level}&TileRow={row}&TileCol={col}&style=default&format=tiles
+
+        // ============================================================================================================================================================================================
+
+        // ��γ��Ӱ���ͼ
+        // http://t3.tianditu.cn/img_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=c&TileMatrix=5&TileRow=4&TileCol=26&style=default&format=tiles
+        // http://{subDomain}.tianditu.cn/img_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=c&TileMatrix={level}&TileRow={row}&TileCol={col}&style=default&format=tiles
+
+        // ��γ�������߽磨��Ͼ�γ��Ӱ���ͼʹ�ã�
+        // http://t3.tianditu.cn/ibo_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=ibo&tileMatrixSet=c&TileMatrix=10&TileRow=160&TileCol=849&style=default&format=tiles
+        // http://{subDomain}.tianditu.cn/ibo_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=ibo&tileMatrixSet=c&TileMatrix={level}&TileRow={row}&TileCol={col}&style=default&format=tiles
+
+        // ��γ������ע�ǣ���Ͼ�γ��Ӱ���ͼʹ�ã�
+        // http://t5.tianditu.cn/cia_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cia&tileMatrixSet=c&TileMatrix=5&TileRow=4&TileCol=26&style=default&format=tiles
+        // http://{subDomain}.tianditu.cn/cia_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cia&tileMatrixSet=c&TileMatrix={level}&TileRow={row}&TileCol={col}&style=default&format=tiles
+
+        // ��γ��Ӣ��ע�ǣ���Ͼ�γ��Ӱ���ͼʹ�ã�
+        // http://t4.tianditu.cn/eia_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=eia&tileMatrixSet=c&TileMatrix=7&TileRow=18&TileCol=106&style=default&format=tiles
+        // http://{subDomain}.tianditu.cn/eia_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=eia&tileMatrixSet=c&TileMatrix={level}&TileRow={row}&TileCol={col}&style=default&format=tiles
+
+        // ��γ���ɹ���ע�ǣ���Ͼ�γ��Ӱ���ͼʹ�ã�
+        // http://t2.tianditu.cn/mia_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=mia&tileMatrixSet=c&TileMatrix=7&TileRow=20&TileCol=105&style=default&format=tiles
+        // http://{subDomain}.tianditu.cn/mia_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=mia&tileMatrixSet=c&TileMatrix={level}&TileRow={row}&TileCol={col}&style=default&format=tiles
+
+        // ��γ��ά�����ע�ǣ���Ͼ�γ��Ӱ���ͼʹ�ã�
+        // http://t6.tianditu.cn/wia_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=wia&tileMatrixSet=c&TileMatrix=7&TileRow=19&TileCol=106&style=default&format=tiles
+        // http://{subDomain}.tianditu.cn/wia_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=wia&tileMatrixSet=c&TileMatrix={level}&TileRow={row}&TileCol={col}&style=default&format=tiles
+
+        // ============================================================================================================================================================================================
+
+        // ��γ�ȵ��ε�ͼ
+        // http://t4.tianditu.cn/ter_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=ter&tileMatrixSet=c&TileMatrix=5&TileRow=5&TileCol=26&style=default&format=tiles
+        // http://{subDomain}.tianditu.cn/ter_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=ter&tileMatrixSet=c&TileMatrix={level}&TileRow={row}&TileCol={col}&style=default&format=tiles
+
+        // ��γ�������߽磨��ϵ��ε�ͼʹ�ã�
+        // http://t0.tianditu.cn/tbo_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=tbo&tileMatrixSet=c&TileMatrix=5&TileRow=5&TileCol=23&style=default&format=tiles
+        // http://{subDomain}.tianditu.cn/tbo_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=tbo&tileMatrixSet=c&TileMatrix={level}&TileRow={row}&TileCol={col}&style=default&format=tiles
+
+        // ��γ������ע�ǣ���Ͼ�γ�ȵ��ε�ͼʹ�ã�
+        // http://t6.tianditu.cn/cta_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cta&tileMatrixSet=c&TileMatrix=5&TileRow=4&TileCol=26&style=default&format=tiles
+        // http://{subDomain}.tianditu.cn/cta_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cta&tileMatrixSet=c&TileMatrix={level}&TileRow={row}&TileCol={col}&style=default&format=tiles
+
+        // ��γ��Ӣ��ע�ǣ���Ͼ�γ�ȵ��ε�ͼʹ�ã�
+        // http://t6.tianditu.cn/eta_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=eta&tileMatrixSet=c&TileMatrix=7&TileRow=20&TileCol=106&style=default&format=tiles
+        // http://{subDomain}.tianditu.cn/eta_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=eta&tileMatrixSet=c&TileMatrix={level}&TileRow={row}&TileCol={col}&style=default&format=tiles
+
+        // ��γ���ɹ���ע�ǣ���Ͼ�γ�ȵ��ε�ͼʹ�ã�
+        // http://t7.tianditu.cn/mta_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=mta&tileMatrixSet=c&TileMatrix=7&TileRow=19&TileCol=105&style=default&format=tiles
+        // http://{subDomain}.tianditu.cn/mta_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=mta&tileMatrixSet=c&TileMatrix={level}&TileRow={row}&TileCol={col}&style=default&format=tiles
+
+        // ��γ��ά�����ע�ǣ���Ͼ�γ�ȵ��ε�ͼʹ�ã�
+        // http://t0.tianditu.cn/wta_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=wta&tileMatrixSet=c&TileMatrix=7&TileRow=19&TileCol=106&style=default&format=tiles
+        // http://{subDomain}.tianditu.cn/wta_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=wta&tileMatrixSet=c&TileMatrix={level}&TileRow={row}&TileCol={col}&style=default&format=tiles
+
+        // ============================================================================================================================================================================================
+
+        // ��γ��ˮϵ
+        // http://t4.tianditu.cn/wat_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=wat&tileMatrixSet=c&TileMatrix=4&TileRow=0&TileCol=14&style=default&format=tiles
+        // http://{subDomain}.tianditu.cn/wat_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=wat&tileMatrixSet=c&TileMatrix={level}&TileRow={row}&TileCol={col}&style=default&format=tiles
+
+        // ��γ����·
+        // http://t3.tianditu.cn/raw_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=raw&tileMatrixSet=c&TileMatrix=9&TileRow=77&TileCol=414&style=default&format=tiles
+        // http://{subDomain}.tianditu.cn/raw_c/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=raw&tileMatrixSet=c&TileMatrix={level}&TileRow={row}&TileCol={col}&style=default&format=tiles
+
+        // �ܽ�һ�£�
+        //
+        // 1. ���ھ�γ��ͶӰ��Ƭ�ļ���ֱ��ʹ�� WebTiledLayer �Ϳ���ֱ�Ӽ��أ����ǲ���ֱ�����õ�ͼ��ͬʱ��Ҫ������Ƭ��Ϣ�����������ͼ��֮��ʹ�� centerAndZoom �������õ�ͼ������Ϊ ESPG:4326 (WGS1984)
+        // 2. ����URLģ����滻��Ҫע��ʹ�õ��� {subDomain}, {col}, {row}, {level} ���ж�Ӧ�ֶε��滻����Ҫ�����ĵ��е� ${X}, ${Y} ,${Z} ��
+        // 3. ���ͼĿǰ������Ϊ t0,t1,t2,t3,t4,t5,t6,t7
+    })
+</script>
+</body>
+</html>

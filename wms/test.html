@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title></title>
+    <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/esri/css/esri.css">
+    <style type="text/css">
+        html, body, #map {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-size: 62.5%;
+            font-family:"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
+        }
+    </style>
+    <script src="http://cityworks.cn/arcgis_js_v320_api/arcgis_js_api/library/3.20/3.20/init.js"></script>
+    <script type="text/javascript">
+        var map;
+        require([
+                "esri/map",
+                "esri/layers/WMSLayer",
+                "esri/geometry/Point",
+                "esri/geometry/Extent",
+                "dojo/domReady!"],
+            function(Map,
+                     WMSLayer,
+                     Point,
+                     Extent)
+            {
+                map = new Map("map",{logo:false});
+
+                var resourceInfo = {
+                    extent: new Extent(119.24909048347526,26.0877261271969,119.25973143309334,26.096320740349967,{wkid: 4490}),
+                    layerInfos: [],
+                    version : '1.1.1'
+                };
+
+                var agsWmsUrl = "http://172.25.10.61:6080/arcgis/services/POI2016/MapServer/WMSServer";
+                var agsWmsLayer = new WMSLayer(agsWmsUrl,{resourceInfo: resourceInfo});
+                agsWmsLayer.setImageFormat("png");
+                agsWmsLayer.setVisibleLayers([0]);
+                map.addLayer(agsWmsLayer);
+
+                // var geoWmsUrl = "http://200.200.200.220:8080/geoserver/wms";
+                // var geoWmsLayer = new WMSLayer(geoWmsUrl,{resourceInfo: resourceInfo});
+                // geoWmsLayer.setImageFormat("png");
+                // geoWmsLayer.setVisibleLayers(["capital","pro"]);
+                // map.addLayer(geoWmsLayer);
+
+                // var mapCenter = new Point(103.847, 36.0473, map.spatialReference);
+                // map.centerAndZoom(mapCenter,4);
+            });
+    </script>
+</head>
+<body>
+<div id="map">
+</div>
+</body>
+</html>

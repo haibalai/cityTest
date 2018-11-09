@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<script>
+function upload(input) {
+	//支持chrome IE10
+
+    var file = input.files[0];
+ function getObjectURL(file) {
+            var url = null;
+            if (window.createObjectURL != undefined) { // basic
+                url = window.createObjectURL(file);
+            } else if (window.URL != undefined) { // mozilla(firefox)
+                url = window.URL.createObjectURL(file);
+            } else if (window.webkitURL != undefined) { // webkit or chrome
+                url = window.webkitURL.createObjectURL(file);
+            }
+            return url;
+        }
+       var objUrl = getObjectURL(file)
+            alert(objUrl)
+
+
+}
+</script>
+<title>file upload</title>
+</head>
+<body>
+	<input type="file" onchange="upload(this)" />
+</body>
+</html>
