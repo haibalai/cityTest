@@ -1,220 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6de709f9-31f3-48e2-bff7-3a0f2e1887a4" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/d3/s.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/d3/test1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/arcgisTest.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/pixi.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/0123456789.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/0123456789.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/BGrotate.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/LightRotate1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/LightRotate2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/SceneRotate.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/basics/bunny-alpha.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/basics/bunny.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/basics/fighter.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/basics/fighter.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/basics/shader.frag" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/basics/strip.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/basics/tilingsky.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bkg-grass.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bkg.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bricks.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bubble_32x32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bubble_64x64.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bunnies/square_blue.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bunnies/square_green.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bunny.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bunny_saturated.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/button.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/buttonDown.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/buttonOver.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/button_test_BG.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/cells.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/click.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/Official-Chimera-Logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building1.dds" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building1.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building1@2x.dds" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building1@2x.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building1@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building2.dds" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building2.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building2@2x.dds" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building2@2x.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building2@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/buildings@1x.dds" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/buildings@1x.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/buildings@1x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/buildings@2x.dds" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/buildings@2x.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/buildings@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/dracula_house_4.dds" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/dracula_house_4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/depth_blur_BG.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/depth_blur_dudes.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/depth_blur_moby.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/desyrel.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/desyrel.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displace-old.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displace.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displacementMAP.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displacement_BG.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displacement_fish1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displacement_fish2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displacement_fish3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displacement_fish4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displacement_map.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displacement_overlay.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/eggHead.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/flowerTop.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/grass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/helmlok.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/maggot.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/mc.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/mc.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/monsters.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/monsters.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/p2.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/panda.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/photonstorm.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/pixel.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/pixi.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/proj/casino/cards.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/proj/casino/cards.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/proj/casino/table.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/proj/dudes/SpriteSheet.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/proj/dudes/SpriteSheet.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/proj/flip/back2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/ring.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/skully.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/smoke.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/snake.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spinObj_01.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spinObj_02.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spinObj_03.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spinObj_04.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spinObj_05.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spinObj_06.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spinObj_07.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spinObj_08.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/Pixie.atlas" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/Pixie.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/Pixie.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/dragon.atlas" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/dragon.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/dragon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/dragon2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/goblins.atlas" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/goblins.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/goblins.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/iP4_BGtile.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/iP4_ground.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/spineboy.atlas" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/spineboy.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/spineboy.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/testVideo.mp4" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/textDemoBG.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/tinyMaggot.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/trail.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/assets/zeldaWaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/codemirror/codemirror.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/codemirror/codemirror.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/codemirror/javascript.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/basic.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/click.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/container-pivot.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/container.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/custom-filter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/graphics.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/render-texture.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/spritesheet.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/text.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/textured-mesh.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/tiling-sprite.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/video.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/alpha-mask.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/animatedsprite-animationspeed.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/animatedsprite-demo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/batch.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/blendmodes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/cacheAsBitmap.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/custom-mouse-icon.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/dragging.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/graphics-demo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/interactivity.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/mask-drawing.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/mask-render-texture.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/masking.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/mouse-trail.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/render-texture-demo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/slots-demo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/star-warp-sprites.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/strip-demo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/text-demo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/texture-rotate.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/texture-swap.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/tinting.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/transparent-background.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/filters/blur-filter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/filters/displacement-map.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/filters/filter-mouse.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/filters/filter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/filters/outline-filter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/layers/lighting.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/layers/normals-drag.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/layers/normals.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/layers/trail.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/layers/zorder.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/mesh/interleaving-geometry.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/mesh/merging-geometry.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/mesh/shared-shader.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/mesh/sharing-geometry.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/mesh/triangle-color.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/mesh/triangle-textured.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/mesh/triangle.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/mesh/uniforms.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/picture/overlay.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/projection/basic.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/projection/camera-spine-layers.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/projection/cards.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/projection/plane-tiling.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/projection/plane.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/projection/quad-bi.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/projection/quad-homo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/projection/runner.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/spine/dragon.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/spine/goblins.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/spine/pixie.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/spine/spineboy.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/textures/dds.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/examples/textures/not-premultiplied-alpha.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-compressed-textures.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-extra-filters.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-layers.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-legacy.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-lights.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-picture.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-projection-spine.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-projection.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-spine.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pixi/test1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/threejs/t1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arcgis4/three-addModel.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4/three-addModel.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arcgis4/three-animation.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4/three-animation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arcgis4/three-cameralight.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4/three-cameralight.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arcgis4/three-flow.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4/three-flow.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arcgis4/three-precision.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4/three-precision.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arcgis4/threejs-addbox.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4/threejs-addbox.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arcgis4WebMap/tiandi.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4WebMap/tiandi.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arcgis4WebMap/天地图.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4WebMap/天地图.html" afterDir="false" />
-    </list>
+    <list default="true" id="6de709f9-31f3-48e2-bff7-3a0f2e1887a4" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -242,8 +29,8 @@
       <file leaf-file-name="three-addModel.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/arcgis4/three-addModel.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="528">
-              <caret line="81" column="88" selection-start-line="81" selection-start-column="88" selection-end-line="81" selection-end-column="88" />
+            <state relative-caret-position="401">
+              <caret line="98" column="27" lean-forward="true" selection-start-line="98" selection-start-column="27" selection-end-line="98" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -850,25 +637,24 @@
       <workItem from="1547602637098" duration="597000" />
       <workItem from="1547705324909" duration="2634000" />
       <workItem from="1548059034949" duration="52000" />
-      <workItem from="1548747939294" duration="567000" />
+      <workItem from="1548747939294" duration="897000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="521191000" />
+    <option name="totallyTimeSpent" value="521521000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15331928" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15331928" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5005319" side_tool="true" weight="0.336758" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.4994681" weight="0.336758" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" sideWeight="0.4994681" visible="true" weight="0.33668903" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1273,8 +1059,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/arcgis4/three-addModel.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="81" column="88" selection-start-line="81" selection-start-column="88" selection-end-line="81" selection-end-column="88" />
+        <state relative-caret-position="401">
+          <caret line="98" column="27" lean-forward="true" selection-start-line="98" selection-start-column="27" selection-end-line="98" selection-end-column="27" />
         </state>
       </provider>
     </entry>
