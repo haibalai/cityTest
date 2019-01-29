@@ -146,20 +146,20 @@
             })
 
 
-
-            esriConfig.request.corsEnabledServers.push("t0.tianditu.com/");
-            esriConfig.request.corsEnabledServers.push("t1.tianditu.com/");
-            esriConfig.request.corsEnabledServers.push("t2.tianditu.com/");
-            esriConfig.request.corsEnabledServers.push("t3.tianditu.com/");
-            esriConfig.request.corsEnabledServers.push("t4.tianditu.com/");
-            esriConfig.request.corsEnabledServers.push("t5.tianditu.com/");
-            esriConfig.request.corsEnabledServers.push("t6.tianditu.com/");
-            esriConfig.request.corsEnabledServers.push("t7.tianditu.com/");
-            esriConfig.request.corsEnabledServers.push("t8.tianditu.com/");
-            esriConfig.request.corsEnabledServers.push("t9.tianditu.com/");
+            esriConfig.request.corsEnabledServers.push("t0.tianditu.gov.cn/");
+            esriConfig.request.corsEnabledServers.push("t1.tianditu.gov.cn/");
+            esriConfig.request.corsEnabledServers.push("t2.tianditu.gov.cn/");
+            esriConfig.request.corsEnabledServers.push("t3.tianditu.gov.cn/");
+            esriConfig.request.corsEnabledServers.push("t4.tianditu.gov.cn/");
+            esriConfig.request.corsEnabledServers.push("t5.tianditu.gov.cn/");
+            esriConfig.request.corsEnabledServers.push("t6.tianditu.gov.cn/");
+            esriConfig.request.corsEnabledServers.push("t7.tianditu.gov.cn/");
+            esriConfig.request.corsEnabledServers.push("t8.tianditu.gov.cn/");
+            esriConfig.request.corsEnabledServers.push("t9.tianditu.gov.cn/");
             var stamenTileLayer = new TintLayer({
 
-                urlTemplate:"http://t{num}.tianditu.com/vec_w/wmts?service=WMTS&version=1.0.0&request=GetTile&tilematrix={level}&layer=vec&style=default&tilerow={row}&tilecol={col}&tilematrixset=w&format=tiles",
+                // urlTemplate:"http://t{num}.tianditu.gov.cn/vec_w/wmts?service=WMTS&version=1.0.0&request=GetTile&tilematrix={level}&layer=vec&style=default&tilerow={row}&tilecol={col}&tilematrixset=w&format=tiles",
+                urlTemplate:"http://t{num}.tianditu.gov.cn/DataServer?T=vec_w&x={col}&y={row}&l={level}&tk=2ce94f67e58faa24beb7cb8a09780552",
                 // urlTemplate:"http://t{num}.tianditu.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&TILEMATRIX={level}&TILEROW={row}&TILECOL={col}&FORMAT=tiles",
                 // urlTemplate:"http://t{num}.tianditu.com/DataServer?T=vec_c&x={col}&y={row}&l={level}",
 

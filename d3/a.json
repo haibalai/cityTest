@@ -1,0 +1,171 @@
+{
+  "menu": {
+    "title": [
+      {
+        "class": "space",
+        "show": true,
+        "title": "空间信息",
+        "data": [
+          {
+            "tit": "基础地理数据",
+            "show": false,
+            "status": true,
+            "isLeaf": false,
+            "lists": [
+              {
+                "tit": "岛礁",
+                "layerName": "岛礁",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_dao_jiao"
+              },
+              {
+                "tit": "赵述岛影像",
+                "layerName": "赵述岛影像",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_zhaoShuDaoImage"
+              },
+              {
+                "tit": "永兴岛影像",
+                "layerName": "永兴岛影像",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_yongXingDaoImage"
+              },
+              {
+                "tit": "2000年三沙影像",
+                "layerName": "shansha_ProjectRaster_2000",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_sanShaImage2000"
+              },
+              {
+                "tit": "2015年三沙影像",
+                "layerName": "shansha_image_2015",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_sanShaImage2015"
+              },
+              {
+                "tit": "2016年三沙影像",
+                "layerName": "sansha_image_2016",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_sanShaImage2015"
+              }
+            ]
+          },
+          {
+            "tit": "专题数据",
+            "show": false,
+            "status": true,
+            "isLeaf": false,
+            "lists": [
+              {
+                "tit": "西沙文物",
+                "layerName": "西沙文物",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_xishawenwu"
+              },
+              {
+                "tit": "三沙旅游产品类型",
+                "layerName": "三沙旅游产品类型",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_sanShaTourismProductType"
+              },
+              {
+                "tit": "三沙旅游项目分布图",
+                "layerName": "三沙旅游项目分布图",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_sanShaTravelDist"
+              },
+              {
+                "tit": "三沙近期航线规划图",
+                "layerName": "三沙近期航线规划图",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_sanShaRecentLanePlan"
+              },
+              {
+                "tit": "三亚中远期航线规划图",
+                "layerName": "三亚中远期航线规划图",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_sanYaMiddleLanePlan"
+              },
+              {
+                "tit": "三沙道路平面图",
+                "layerName": "三沙道路平面图",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_sanShaRoadPlan"
+              },
+              {
+                "tit": "用地规划红线图",
+                "layerName": "用地规划红线图",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_landProjectRedLineMap"
+              },
+              {
+                "tit": "三沙土地利用现状项目",
+                "layerName": "三沙土地利用现状项目彩图",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_sanShaLandUseStatusProject"
+              },
+              {
+                "tit": "三沙七连屿控规数据",
+                "layerName": "三沙七连屿控规数据",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_sanShaQiLianYuKongGuiShuJu"
+              },
+              {
+                "tit": "控规数据图层",
+                "layerName": "控规数据图层",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_kongGuiShuJuTuCeng"
+              },
+              {
+                "tit": "岛礁管控",
+                "layerName": "岛礁管控",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_daoJiaoGuanKong"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "class": "dynamic",
+        "show": false,
+        "title": "管线信息",
+        "data": [
+          {
+            "tit": "管线",
+            "show": false,
+            "status": true,
+            "show": false,
+            "isLeaf": false,
+            "lists": [
+              {
+                "tit": "管线",
+                "layerName": "管线",
+                "isLeaf": true,
+                "show": false,
+                "permissCode":"layer_guanXian"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

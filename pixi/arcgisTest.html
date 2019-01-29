@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/esri/css/main.css">
+    <script src="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/dojo/dojo.js"></script>
+    <script src="pixi.js"></script>
+</head>
+<style>
+    html,body,#mapContainer{
+        padding:0px;
+        margin:0px;
+        width:100%;
+        height:900px;
+    }
+    .svgTransform{
+        position: absolute;
+        left:0px;
+        top:0px;
+        width:100%;
+        height:100%;
+    }
+</style>
+<script>
+
+    let myMap,view,reyuan,initstate
+    function init() {
+        require([
+            "esri/views/MapView",
+            "esri/Map",
+            "esri/views/SceneView",
+            "esri/layers/OpenStreetMapLayer",
+            "esri/geometry/Extent",
+            "esri/geometry/Point",
+            "esri/geometry/ScreenPoint",
+            "esri/tasks/support/Query",
+            "esri/tasks/QueryTask"
+        ], function(MapView,
+                    Map,
+                    SceneView,
+                    OpenStreetMapLayer,
+                    Extent,
+                    Point,
+                    ScreenPoint,
+                    Query,
+                    QueryTask) {
+            myMap = new Map({
+                basemap:'osm'
+            });
+            view = new SceneView({
+                map: myMap,
+                container: "mapContainer",
+                center : [112.53,37.87],
+                zoom : 12,
+            });
+            //由于我用的是测试数据，我在这自己发布了一个图层，调取他们的坐标
+            var layer="http://121.201.65.133:2001/arcgis/rest/services/baoan_data2000/MapServer"
+            var queryTask = new QueryTask(layer+"/0");
+            var query= new Query();
+            query.where = "1 = 1";
+            query.outFields = ["*"];
+            query.returnGeometry = true;
+            queryTask.execute(query).then(function(results){
+                if (results.features.length >= 1) {
+                    reyuan = results.features;
+                }
+            });
+            //监听平移，缩放和旋转
+            view.watch('extent,camera',function(){
+                if(initstate){
+                    geoToscreen();
+                }
+            })
+            view.on("click",(e)=>{
+                console.log(e)
+            })
+        });
+    }
+
+    var uiElement;var app;
+    function play(){
+         uiElement  = document.getElementsByClassName("esri-view-surface")[0];
+
+         app = new PIXI.Application(1920, 900, {transparent:true});
+         app.view.id = "pixi";
+         uiElement.appendChild(app.view);
+         document.getElementById("pixi").style = "position: absolute;left: 0px;top: 0px;width: 1920px;height: 900px;user-select: none;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);padding: 0px;margin: 0px;border-width: 0px;"
+         geoToscreen();
+        initstate = true;
+    }
+    function geoToscreen(){
+
+         if(app.stage.children.length > 0){
+             app.stage.removeChildren(0,app.stage.children.length -1);
+         }
+
+        let reyuan = [ [12522198.235164301,4558161.645626687],[ 12533010.504924843,4559040.655173764]]
+        for(let i=0;i<reyuan.length;i++){
+            let point  = {
+                x:reyuan[i][0],
+                y:reyuan[i][1],
+                spatialReference:view.spatialReference
+            }
+            let e_screen=view.toScreen(point)
+
+
+
+            let bunny = PIXI.Sprite.fromImage('./required/assets/basics/bunny.png')
+
+            // center the sprite's anchor point
+            bunny.anchor.set(0.5);
+
+            // move the sprite to the center of the screen
+            bunny.x = e_screen.x;
+            bunny.y = e_screen.y;
+
+            app.stage.addChild(bunny);
+
+            // Listen for animate update
+            app.ticker.add(function(delta) {
+                // just for fun, let's rotate mr rabbit a little
+                // delta is 1 if running at 100% performance
+                // creates frame-independent transformation
+                bunny.rotation += 0.1 * delta;
+            });
+
+        }
+
+    }
+
+
+
+</script>
+
+
+<body onload="init()">
+
+
+
+
+<div id="mapContainer"></div>
+<div>
+    <button style="position:absolute;left:20px;top:20px;" onclick="play()">飞行图</button>
+
+</div>
+</body>
+</html>

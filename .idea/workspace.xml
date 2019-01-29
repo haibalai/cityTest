@@ -2,18 +2,218 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6de709f9-31f3-48e2-bff7-3a0f2e1887a4" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/testjs/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/d3/s.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/d3/test1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/arcgisTest.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/pixi.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/0123456789.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/0123456789.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/BGrotate.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/LightRotate1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/LightRotate2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/SceneRotate.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/basics/bunny-alpha.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/basics/bunny.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/basics/fighter.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/basics/fighter.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/basics/shader.frag" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/basics/strip.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/basics/tilingsky.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bkg-grass.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bkg.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bricks.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bubble_32x32.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bubble_64x64.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bunnies/square_blue.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bunnies/square_green.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bunny.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/bunny_saturated.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/button.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/buttonDown.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/buttonOver.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/button_test_BG.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/cells.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/click.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/Official-Chimera-Logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building1.dds" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building1.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building1@2x.dds" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building1@2x.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building1@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building2.dds" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building2@2x.dds" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building2@2x.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/building2@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/buildings@1x.dds" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/buildings@1x.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/buildings@1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/buildings@2x.dds" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/buildings@2x.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/buildings@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/dracula_house_4.dds" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/compressed/dracula_house_4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/depth_blur_BG.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/depth_blur_dudes.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/depth_blur_moby.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/desyrel.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/desyrel.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displace-old.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displace.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displacementMAP.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displacement_BG.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displacement_fish1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displacement_fish2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displacement_fish3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displacement_fish4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displacement_map.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/displacement_overlay.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/eggHead.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/flowerTop.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/grass.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/helmlok.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/maggot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/mc.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/mc.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/monsters.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/monsters.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/p2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/panda.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/photonstorm.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/pixel.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/pixi.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/proj/casino/cards.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/proj/casino/cards.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/proj/casino/table.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/proj/dudes/SpriteSheet.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/proj/dudes/SpriteSheet.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/proj/flip/back2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/ring.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/skully.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/smoke.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/snake.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spinObj_01.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spinObj_02.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spinObj_03.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spinObj_04.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spinObj_05.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spinObj_06.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spinObj_07.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spinObj_08.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/Pixie.atlas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/Pixie.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/Pixie.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/dragon.atlas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/dragon.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/dragon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/dragon2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/goblins.atlas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/goblins.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/goblins.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/iP4_BGtile.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/iP4_ground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/spineboy.atlas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/spineboy.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/spine/spineboy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/testVideo.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/textDemoBG.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/tinyMaggot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/trail.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/assets/zeldaWaves.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/codemirror/codemirror.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/codemirror/codemirror.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/codemirror/javascript.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/basic.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/click.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/container-pivot.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/container.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/custom-filter.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/graphics.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/render-texture.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/spritesheet.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/text.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/textured-mesh.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/tiling-sprite.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/basics/video.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/alpha-mask.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/animatedsprite-animationspeed.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/animatedsprite-demo.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/batch.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/blendmodes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/cacheAsBitmap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/custom-mouse-icon.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/dragging.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/graphics-demo.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/interactivity.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/mask-drawing.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/mask-render-texture.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/masking.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/mouse-trail.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/render-texture-demo.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/slots-demo.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/star-warp-sprites.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/strip-demo.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/text-demo.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/texture-rotate.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/texture-swap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/tinting.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/demos/transparent-background.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/filters/blur-filter.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/filters/displacement-map.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/filters/filter-mouse.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/filters/filter.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/filters/outline-filter.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/layers/lighting.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/layers/normals-drag.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/layers/normals.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/layers/trail.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/layers/zorder.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/mesh/interleaving-geometry.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/mesh/merging-geometry.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/mesh/shared-shader.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/mesh/sharing-geometry.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/mesh/triangle-color.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/mesh/triangle-textured.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/mesh/triangle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/mesh/uniforms.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/picture/overlay.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/projection/basic.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/projection/camera-spine-layers.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/projection/cards.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/projection/plane-tiling.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/projection/plane.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/projection/quad-bi.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/projection/quad-homo.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/projection/runner.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/spine/dragon.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/spine/goblins.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/spine/pixie.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/spine/spineboy.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/textures/dds.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/examples/textures/not-premultiplied-alpha.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-compressed-textures.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-extra-filters.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-layers.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-legacy.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-lights.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-picture.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-projection-spine.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-projection.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/required/plugins/pixi-spine.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pixi/test1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/threejs/t1.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arcgis4/three-addModel.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4/three-addModel.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arcgis4/three-animation.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4/three-animation.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arcgis4/three-cameralight.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4/three-cameralight.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arcgis4/three-flow.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4/three-flow.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arcgis4/three-precision.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4/three-precision.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arcgis4/three-video.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4/three-video.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arcgis4/three2.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4/three2.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arcgis4/threejs-addbox.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4/threejs-addbox.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gismap3test/Test7.html" beforeDir="false" afterPath="$PROJECT_DIR$/gismap3test/Test7.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arcgis4WebMap/tiandi.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4WebMap/tiandi.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arcgis4WebMap/天地图.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4WebMap/天地图.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -30,11 +230,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="three-addModel.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="d3arcgis.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/d3/d3arcgis.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="164">
+              <caret line="45" column="26" lean-forward="true" selection-start-line="45" selection-start-column="26" selection-end-line="45" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="three-addModel.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/arcgis4/three-addModel.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="506">
-              <caret line="32" column="104" selection-start-line="32" selection-start-column="104" selection-end-line="32" selection-end-column="104" />
+            <state relative-caret-position="528">
+              <caret line="81" column="88" selection-start-line="81" selection-start-column="88" selection-end-line="81" selection-end-column="88" />
             </state>
           </provider>
         </entry>
@@ -42,21 +251,8 @@
       <file leaf-file-name="three-animation.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/arcgis4/three-animation.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="32" column="104" selection-start-line="32" selection-start-column="104" selection-end-line="32" selection-end-column="104" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="three-cameralight.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/arcgis4/three-cameralight.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="77" column="30" lean-forward="true" selection-start-line="77" selection-start-column="30" selection-end-line="77" selection-end-column="30" />
-              <folding>
-                <element signature="n#style#0;n#span#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="472">
+              <caret line="67" column="118" lean-forward="true" selection-start-line="67" selection-start-column="56" selection-end-line="67" selection-end-column="118" />
             </state>
           </provider>
         </entry>
@@ -64,8 +260,8 @@
       <file leaf-file-name="three-flow.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/arcgis4/three-flow.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="57" column="41" lean-forward="true" selection-start-line="57" selection-start-column="41" selection-end-line="57" selection-end-column="41" />
+            <state relative-caret-position="450">
+              <caret line="82" column="88" selection-start-line="82" selection-start-column="88" selection-end-line="82" selection-end-column="88" />
             </state>
           </provider>
         </entry>
@@ -73,44 +269,8 @@
       <file leaf-file-name="three-precision.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/arcgis4/three-precision.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="37" lean-forward="true" selection-start-line="35" selection-start-column="4" selection-end-line="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="three-video.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/arcgis4/three-video.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="threejs-addbox.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/arcgis4/threejs-addbox.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="60" column="15" lean-forward="true" selection-start-line="60" selection-start-column="15" selection-end-line="60" selection-end-column="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tiandi.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/arcgis4/tiandi.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2486">
-              <caret line="113" column="32" selection-start-line="113" selection-start-column="32" selection-end-line="113" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="arcgisjs_tianditu_4.7.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/arcgis4/arcgisjs_tianditu_4.7.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="281">
-              <caret line="19" column="58" lean-forward="true" selection-start-line="19" selection-start-column="58" selection-end-line="19" selection-end-column="58" />
+            <state relative-caret-position="-484">
+              <caret line="41" column="17" lean-forward="true" selection-start-line="41" selection-start-column="17" selection-end-line="41" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -120,6 +280,46 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="220">
               <caret line="10" column="88" lean-forward="true" selection-start-line="10" selection-start-column="88" selection-end-line="10" selection-end-column="88" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="threejs-addbox.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/arcgis4/threejs-addbox.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="164">
+              <caret line="63" column="118" selection-start-line="63" selection-start-column="118" selection-end-line="63" selection-end-column="118" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="three-cameralight.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/arcgis4/three-cameralight.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="472">
+              <caret line="73" column="118" selection-start-line="73" selection-start-column="118" selection-end-line="73" selection-end-column="118" />
+              <folding>
+                <element signature="n#style#0;n#span#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="three-video.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/arcgis4/three-video.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="64" column="121" lean-forward="true" selection-start-line="64" selection-start-column="56" selection-end-line="64" selection-end-column="121" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="arcgisTest.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pixi/arcgisTest.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="33" column="45" lean-forward="true" selection-start-line="33" selection-start-column="45" selection-end-line="33" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -136,11 +336,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>canvasWidth</find>
-      <find>skeletonRenderer</find>
-      <find>深圳选</find>
-      <find>深圳市规划选址意见书</find>
-      <find>vecBasemap</find>
       <find>TileLayer</find>
       <find>map-container</find>
       <find>https</find>
@@ -166,6 +361,11 @@
       <find>MapDraw</find>
       <find>OpenStreetMapLayer</find>
       <find>centerPoint</find>
+      <find>layer_sanShaImage2015</find>
+      <find>p</find>
+      <find>t</find>
+      <find>e</find>
+      <find>x</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -177,12 +377,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/canvastest/canvas.html" />
-        <option value="$PROJECT_DIR$/three/Test.js" />
-        <option value="$PROJECT_DIR$/three/test.html" />
-        <option value="$PROJECT_DIR$/json/config2D.json" />
-        <option value="$PROJECT_DIR$/svgtest/svg.html" />
-        <option value="$PROJECT_DIR$/ajax/tt.html" />
         <option value="$PROJECT_DIR$/mector/test.html" />
         <option value="$PROJECT_DIR$/arcgis4/index.html" />
         <option value="$PROJECT_DIR$/arcgis4/a.js" />
@@ -208,26 +402,32 @@
         <option value="$PROJECT_DIR$/arcgis4/tiandi.html" />
         <option value="$PROJECT_DIR$/arcgis4WebMap/index.html" />
         <option value="$PROJECT_DIR$/arcgis4WebMap/baidu.html" />
-        <option value="$PROJECT_DIR$/arcgis4WebMap/天地图.html" />
         <option value="$PROJECT_DIR$/arcgis4WebMap/高德.html" />
         <option value="$PROJECT_DIR$/arcgis4WebMap/baidu3.html" />
         <option value="$PROJECT_DIR$/arcgis4WebMap/腾讯地图.html" />
         <option value="$PROJECT_DIR$/arcgis4WebMap/mapbox.html" />
         <option value="$PROJECT_DIR$/arcgis4WebMap/baidu2.html" />
-        <option value="$PROJECT_DIR$/arcgis4WebMap/tiandi.html" />
-        <option value="$PROJECT_DIR$/d3/d3arcgis.html" />
         <option value="$PROJECT_DIR$/testjs/index.html" />
         <option value="$PROJECT_DIR$/gismap3test/Test7.html" />
         <option value="$PROJECT_DIR$/babylonjs/babylonjs.js" />
         <option value="$PROJECT_DIR$/test.html" />
         <option value="$PROJECT_DIR$/arcgis4/three2.html" />
-        <option value="$PROJECT_DIR$/arcgis4/three-addModel.html" />
+        <option value="$PROJECT_DIR$/d3/test1.html" />
+        <option value="$PROJECT_DIR$/pixi/test1.html" />
+        <option value="$PROJECT_DIR$/d3/d3arcgis.html" />
+        <option value="$PROJECT_DIR$/pixi/arcgisTest.html" />
+        <option value="$PROJECT_DIR$/threejs/t1.html" />
+        <option value="$PROJECT_DIR$/d3/a.json" />
+        <option value="$PROJECT_DIR$/d3/s.js" />
+        <option value="$PROJECT_DIR$/arcgis4WebMap/天地图.html" />
+        <option value="$PROJECT_DIR$/arcgis4WebMap/tiandi.html" />
         <option value="$PROJECT_DIR$/arcgis4/three-animation.html" />
+        <option value="$PROJECT_DIR$/arcgis4/three-video.html" />
         <option value="$PROJECT_DIR$/arcgis4/three-cameralight.html" />
         <option value="$PROJECT_DIR$/arcgis4/three-flow.html" />
         <option value="$PROJECT_DIR$/arcgis4/three-precision.html" />
-        <option value="$PROJECT_DIR$/arcgis4/three-video.html" />
         <option value="$PROJECT_DIR$/arcgis4/threejs-addbox.html" />
+        <option value="$PROJECT_DIR$/arcgis4/three-addModel.html" />
       </list>
     </option>
   </component>
@@ -258,7 +458,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -271,10 +470,36 @@
               <item name="cityTest" type="462c0819:PsiDirectoryNode" />
               <item name="arcgis4" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="cityTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cityTest" type="462c0819:PsiDirectoryNode" />
+              <item name="arcgis4Visual" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cityTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cityTest" type="462c0819:PsiDirectoryNode" />
+              <item name="arcgis4WebMap" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cityTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cityTest" type="462c0819:PsiDirectoryNode" />
+              <item name="d3" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cityTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cityTest" type="462c0819:PsiDirectoryNode" />
+              <item name="pixi" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cityTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cityTest" type="462c0819:PsiDirectoryNode" />
+              <item name="threejs" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -284,24 +509,24 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../pingtai/baopai/cityworks" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="settings.editor.selected.configurable" value="Settings.JavaScript.Linters" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\D\myWork\cityTest\testjs" />
-      <recent name="D:\D\myWork\cityTest\arcgis4WebMap" />
-      <recent name="D:\D\myWork\cityTest\arcgis4Visual" />
-      <recent name="D:\D\myWork\cityTest\arcgis4\images" />
-      <recent name="D:\D\myWork\cityTest\shp" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\D\myWork\cityTest\arcgis4WebMap\static" />
       <recent name="D:\D\myWork\cityTest\arcgis4\js" />
       <recent name="D:\D\myWork\cityTest\gismap3test" />
       <recent name="D:\D\myWork\cityTest\swiptest" />
       <recent name="D:\D\myWork\cityTest\linlaoshi" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\D\myWork\cityTest\pixi" />
+      <recent name="D:\D\myWork\cityTest\testjs" />
+      <recent name="D:\D\myWork\cityTest\arcgis4WebMap" />
+      <recent name="D:\D\myWork\cityTest\arcgis4Visual" />
+      <recent name="D:\D\myWork\cityTest\arcgis4\images" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -617,27 +842,35 @@
       <workItem from="1542348833726" duration="1873000" />
       <workItem from="1543549517018" duration="125000" />
       <workItem from="1543558360197" duration="7219000" />
-      <workItem from="1544161409818" duration="1954000" />
+      <workItem from="1544161409818" duration="2854000" />
+      <workItem from="1545373412339" duration="1540000" />
+      <workItem from="1545702097011" duration="1803000" />
+      <workItem from="1545718564586" duration="33911000" />
+      <workItem from="1546911274129" duration="8585000" />
+      <workItem from="1547602637098" duration="597000" />
+      <workItem from="1547705324909" duration="2634000" />
+      <workItem from="1548059034949" duration="52000" />
+      <workItem from="1548747939294" duration="567000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="470602000" />
+    <option name="totallyTimeSpent" value="521191000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15384616" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15331928" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5005319" side_tool="true" weight="0.336758" />
-      <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.4994681" weight="0.336758" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -694,63 +927,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/shp/lib/proj4.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="568">
-          <caret line="2" column="8755" selection-start-line="2" selection-start-column="8755" selection-end-line="2" selection-end-column="8755" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shp/src/geojsonlayer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="16" column="21" lean-forward="true" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shp/preprocess.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2046" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shp/preview.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="32" selection-start-line="32" selection-end-line="32" />
-          <folding>
-            <element signature="n#!!doc" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shp/ShpTest.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2002">
-          <caret line="91" column="35" selection-start-line="91" selection-start-column="35" selection-end-line="91" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/draw.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="8" selection-start-line="8" selection-end-line="9" selection-end-column="101" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/fullscreen.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="11" selection-start-line="8" selection-start-column="4" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/iframe/iframe.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="275">
@@ -849,20 +1025,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/高德.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2310">
-          <caret line="105" column="86" selection-start-line="105" selection-start-column="86" selection-end-line="105" selection-end-column="86" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/腾讯地图.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2486">
-          <caret line="113" selection-start-line="113" selection-end-line="113" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/arcgis4WebMap/baidu.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1320">
@@ -891,31 +1053,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/天地图.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="7" selection-start-line="7" selection-end-line="8" selection-end-column="109" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/谷歌底图.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="638">
-          <caret line="29" column="35" selection-start-line="29" selection-start-column="10" selection-end-line="29" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wmts/BaoAnTest.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4510">
           <caret line="205" column="9" selection-start-line="205" selection-start-column="9" selection-end-line="205" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/tiandi.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="24" column="40" lean-forward="true" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
         </state>
       </provider>
     </entry>
@@ -952,19 +1093,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="25" column="36" lean-forward="true" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="36" />
-          <folding>
-            <element signature="n#style#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/d3/d3arcgis.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="7" column="104" lean-forward="true" selection-start-line="6" selection-end-line="7" selection-end-column="104" />
-          <folding>
-            <element signature="n#style#0;n#button#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -982,66 +1110,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/three2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="10" column="88" lean-forward="true" selection-start-line="10" selection-start-column="88" selection-end-line="10" selection-end-column="88" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/three-addModel.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="32" column="104" selection-start-line="32" selection-start-column="104" selection-end-line="32" selection-end-column="104" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/three-animation.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="32" column="104" selection-start-line="32" selection-start-column="104" selection-end-line="32" selection-end-column="104" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/three-cameralight.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="77" column="30" lean-forward="true" selection-start-line="77" selection-start-column="30" selection-end-line="77" selection-end-column="30" />
-          <folding>
-            <element signature="n#style#0;n#span#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/three-flow.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="57" column="41" lean-forward="true" selection-start-line="57" selection-start-column="41" selection-end-line="57" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/three-precision.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="37" lean-forward="true" selection-start-line="35" selection-start-column="4" selection-end-line="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/three-video.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/threejs-addbox.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="60" column="15" lean-forward="true" selection-start-line="60" selection-start-column="15" selection-end-line="60" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/arcgis4/tiandi.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2486">
@@ -1051,8 +1119,162 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/arcgis4/arcgisjs_tianditu_4.7.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="19" column="58" lean-forward="true" selection-start-line="19" selection-start-column="58" selection-end-line="19" selection-end-column="58" />
+        <state relative-caret-position="396">
+          <caret line="18" column="33" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/d3/test1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="9" column="7" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pixi/pixi.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/threejs/drawLine.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="770">
+          <caret line="35" column="40" selection-end-line="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/threejs/t1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1166">
+          <caret line="53" column="36" lean-forward="true" selection-start-line="53" selection-start-column="36" selection-end-line="53" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/d3/s.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="38" column="56" selection-start-line="38" selection-start-column="56" selection-end-line="38" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/d3/a.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1320">
+          <caret line="60" column="26" selection-start-line="60" selection-start-column="26" selection-end-line="60" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/高德.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1694">
+          <caret line="77" column="54" lean-forward="true" selection-start-line="77" selection-start-column="54" selection-end-line="77" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/谷歌底图.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="10" column="11" lean-forward="true" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/腾讯地图.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1936">
+          <caret line="88" column="54" lean-forward="true" selection-start-line="88" selection-start-column="54" selection-end-line="88" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/天地图.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1518">
+          <caret line="69" column="25" selection-start-line="69" selection-start-column="25" selection-end-line="69" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4WebMap/tiandi.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="161" column="26" selection-start-line="161" selection-end-line="162" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pixi/test1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="18" column="39" lean-forward="true" selection-start-line="18" selection-start-column="39" selection-end-line="18" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pixi/arcgisTest.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="33" column="45" lean-forward="true" selection-start-line="33" selection-start-column="45" selection-end-line="33" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/d3/d3arcgis.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="45" column="26" lean-forward="true" selection-start-line="45" selection-start-column="26" selection-end-line="45" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4/three-cameralight.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="472">
+          <caret line="73" column="118" selection-start-line="73" selection-start-column="118" selection-end-line="73" selection-end-column="118" />
+          <folding>
+            <element signature="n#style#0;n#span#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4/three2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="10" column="88" lean-forward="true" selection-start-line="10" selection-start-column="88" selection-end-line="10" selection-end-column="88" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4/three-flow.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="82" column="88" selection-start-line="82" selection-start-column="88" selection-end-line="82" selection-end-column="88" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4/three-precision.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-484">
+          <caret line="41" column="17" lean-forward="true" selection-start-line="41" selection-start-column="17" selection-end-line="41" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4/three-animation.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="472">
+          <caret line="67" column="118" lean-forward="true" selection-start-line="67" selection-start-column="56" selection-end-line="67" selection-end-column="118" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4/three-video.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="64" column="121" lean-forward="true" selection-start-line="64" selection-start-column="56" selection-end-line="64" selection-end-column="121" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4/threejs-addbox.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="63" column="118" selection-start-line="63" selection-start-column="118" selection-end-line="63" selection-end-column="118" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4/three-addModel.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="81" column="88" selection-start-line="81" selection-start-column="88" selection-end-line="81" selection-end-column="88" />
         </state>
       </provider>
     </entry>
