@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/d3/5.9.2/d3.min.js"></script>
+</head>
+<body>
+
+<style>
+
+</style>
+
+<script>
+    const svg = d3.select("body").append("svg").attr("width", 1920).attr("height", 1080);
+
+    // const defs = svg.append("defs");
+
+   svg.append("image")
+       .attr("x",0)
+       .attr("y",0)
+       .attr("width",50)
+       .attr("height",50)
+       .attr("xlink:href","执法员.png")
+       .transition().duration(2000)
+       .attr("transform", `translate(${[600,500]})`)
+       .transition()
+        .duration(2000)//开启动画
+       .ease(d3.easePoly )
+       .attr("width",100)
+       .attr("height",100)
+
+    // svg.append("circle")
+    //     .attr("r", 30)
+    //     .attr("fill","url(#grad)")
+    //     .attr("transform", `translate(${[0,0]})`)
+    //     .transition().duration(2000)
+    //     .ease(d3.easePoly )
+    //     .attr("transform", `translate(${[600,500]})`)
+    //     .transition()
+    //     .duration(2000)//开启动画
+    //     .style('opacity',0)
+    //     .remove();
+    //
+    // svg.append("text")
+    //     .text("ddd")
+    //     .attr("transform", `translate(${[-15,0]})`)
+    //     .transition().duration(2000)
+    //     .ease(d3.easePoly )
+    //     .attr("transform", `translate(${[600-15,500]})`)
+    //     .transition()
+    //     .duration(2000)//开启动画//设置动画持续时间1500毫秒
+    //     .style('opacity',0)
+    //     .remove();
+
+</script>
+
+</body>
+</html>
