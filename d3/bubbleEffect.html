@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>arcgis气泡效果</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+    <script src="https://cdn.bootcss.com/d3/5.9.2/d3.min.js"></script>
+    <!--<link rel="stylesheet" href="http://localhost/arcgis_js_api/library/4.11/dijit/themes/claro/claro.css"/>-->
+
+    <!--<link rel="stylesheet" href="http://localhost/arcgis_js_api/library/4.11/esri/css/main.css"/>-->
+    <!--<script src="http://localhost/arcgis_js_api/library/4.11/dojo/dojo.js"></script>-->
+
+        <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/esri/css/main.css">
+        <script src="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/dojo/dojo.js"></script>
+    <style>
+        html,
+        body,
+        #App {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #viewDiv {
+            width: 100%;
+            height: 90%;
+        }
+
+        .svgTransform {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+        }
+        .myRect{
+            /*rect.setAttribute("x","858");*/
+            /*rect.setAttribute("y","492");*/
+            /*rect.setAttribute("ry","10");*/
+            /*rect.setAttribute("width","40");*/
+            /*rect.setAttribute("height","40");*/
+            x: 858;
+            y: 492;
+            ry: 10;
+            width: 40px;
+            height: 40px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="App">
+    <div id="viewDiv"></div>
+    <div id="dd" class="aa" ></div>
+    &nbsp<button onclick="D3.addBubble()">添加气泡</button>
+    <button onclick="D3.addSVG()">添加SVG</button>
+    <button onclick="D3.test()">测试</button>
+
+</div>
+
+<script>
+    var D3 = new Vue({
+        el: '#App',
+        data: {
+            myMap: null,
+            view: null,
+            initstate: null,
+            poitChangeSvg: null,
+            circles: null,
+            screenPoint: null,
+            mapPoint: {
+                x: 12522198.235164301,
+                y: 4558161.645626687,
+            }
+        },
+        mounted() {
+            this.initMap();
+        },
+        methods: {
+            initMap() {
+                var self = this;
+                require([
+                    "esri/views/MapView",
+                    "esri/Map",
+                    "esri/views/SceneView",
+                    "esri/geometry/Point",
+                ], function (MapView, Map, SceneView) {
+                    self.myMap = new Map({
+                        basemap: "gray"
+                    });
+                    self.view = new MapView({
+                        map: self.myMap,
+                        container: "viewDiv",
+                        zoom: 5,
+                        center: [127.9826437, 37.5227601]
+                    });
+
+                    //监听平移，缩放和旋转
+                    self.view.watch('extent,camera,zoom', function () {
+                        if (self.initstate) {
+                            self.geoToscreen();
+                        }
+                    });
+
+                })
+            },
+
+            addBubble() {
+                var self = this;
+                self.initstate = true;//用来一个变量区别初始化，逻辑可忽略
+                //(".esri-view-surface")是我把svg绘制添加到了这个view里面
+                var w = 500;
+                var h = 500;
+                //初始化svg
+                self.poitChangeSvg = d3.select(".esri-view-surface")
+                    .append("svg")
+                    .attr("id", "d3_svg")
+                    .attr("style", "position: absolute;\n" +
+                        "            left: 0px;\n" +
+                        "            top: 0px;\n" +
+                        "            width: 100%;\n" +
+                        "            height: 100%;");
+                //初始化⚪
+                self.circles = self.poitChangeSvg.selectAll("circle")
+                    .data([0])
+                    .enter()
+                    .append("circle");
+
+                //设置⚪属性
+                this.mapPoint.spatialReference = this.view.spatialReference;
+                this.screenPoint = this.view.toScreen(this.mapPoint);
+                x = this.screenPoint.x;
+                y = this.screenPoint.y;
+                self.circles.attr("cx", x)
+                    .attr("cy", y)
+                    .attr("r", 10)
+                    .attr("fill", "green")
+                    .attr("id","myCircle")
+                    .on("mousedown",function(){
+                        console.log("23333333333")
+                        // self.view.on("click",(e)=>{
+                        //     console.log(e,"23333333333")
+                        // })
+                    });
+                // self.geoToscreen();
+            },
+
+            geoToscreen() {
+
+                this.poitChangeSvg.selectAll('circle')
+                    .transition()	//开启动画
+                    .duration(800)	//设置动画持续时间1500毫秒
+                    .ease(d3.easeElasticOut)	//动画的缓动函数为elastic-out
+                    .attr('r', 30)
+                    //设置动画结束时，圆的半径为100
+                    .transition()
+                    .duration(800)
+                    .ease(d3.easePoly)	//缓动函数换为poly(3)等价于cubic
+                    .attr('r', 10)
+                    .on('end', () => {
+                        this.geoToscreen()
+                    });
+                self=this;
+                this.screenPoint = this.view.toScreen(this.mapPoint);
+                x = this.screenPoint.x;
+                y = this.screenPoint.y;
+
+                this.circles.attr("cx", x)
+                    .attr("cy", y)
+                    .attr("r", 10)
+                    .attr("fill", "yellow")
+                    // .on("click",function(){
+                    //     console.log("23333333333333")
+                    //
+                    // });
+
+                // console.log(this.circles._groups)
+                // this.circles._groups[0][0].addEventListener("click",()=>{
+                //     console.log("111")
+                // });
+
+            },
+            test() {
+                console.log("5555555555555")
+                document.getElementById("myCircle").addEventListener("click",function () {
+                    console.log(document.getElementById("myCircle"));
+                    // self.view.on("click",(e)=>{
+                    //     console.log(e,"2019年4月29日16点37分")
+                    // })
+                })
+                self.view.on("click",(event)=>{
+                    self.view.hitTest(event).then(function(response) {
+                            console.log(response)
+                        })
+                })
+            },
+            addSVG() {
+                var b=document.getElementsByClassName("esri-view-surface");
+                var a=document.getElementById("viewDiv");
+                var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                svg.setAttribute("class","svgTransform");
+                svg.addEventListener("load", function () {
+                    alert('loaded');
+                });
+                // document.body.appendChild(svg);
+                // a.appendChild(svg);
+                b[0].appendChild(svg);
+
+                var main = document.getElementById("main");
+                var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                rect.setAttribute("class","myRect");
+                rect.setAttribute("id","rectID");
+                svg.appendChild(rect);
+            }
+        },
+
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Intro to MapImageLayer - 4.10</title>
+
+    <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v48_api/arcgis_js_api/library/4.8/esri/css/main.css">
+    <script src="http://cityworks.cn/arcgis_js_v48_api/arcgis_js_api/library/4.8/dojo/dojo.js"></script>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <script>
+        require([
+                "esri/Map",
+                "esri/views/SceneView",
+                "esri/layers/MapImageLayer"
+            ],
+            function(
+                Map, SceneView, MapImageLayer
+            ) {
+
+                /*****************************************************************
+                 * Create a MapImageLayer instance pointing to a Map Service
+                 * containing data about pool permits in Southern California.
+                 *****************************************************************/
+                // var permitsLayer = new MapImageLayer({
+                //    url:"https://bp.ascs.com/arcgis/rest/services/BP_PIPE_SZ_LOCAL/MapServer"
+                // });
+                var permitsLayer1= new MapImageLayer({
+                    url:"https://bp.ascs.com/arcgis/rest/services/BP_PIPE_SZ/MapServer"
+                });
+
+                /*****************************************************************
+                 * Add the layer to a map
+                 *****************************************************************/
+                var map = new Map({
+
+                    layers: [permitsLayer1]
+                });
+
+                var view = new SceneView({
+                    container: "viewDiv",
+                    map: map
+                });
+
+                /*****************************************************************
+                 * Animate to the layer's full extent when the layer loads.
+                 *****************************************************************/
+                // permitsLayer.when(function() {
+                //     // view.goTo(permitsLayer.fullExtent);
+                // });
+            });
+    </script>
+</head>
+
+<body>
+<div id="viewDiv"></div>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta
+            name="viewport"
+            content="initial-scale=1, maximum-scale=1,user-scalable=no"
+    />
+    <title>Print widget - 4.11</title>
+    <link
+            rel="stylesheet"
+            href="https://js.arcgis.com/4.11/esri/themes/light/main.css"
+    />
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+    </style>
+
+    <script src="https://js.arcgis.com/4.11/"></script>
+    <script>
+        require([
+            "esri/views/MapView",
+            "esri/layers/TileLayer",
+            "esri/widgets/Print",
+            "esri/Map"
+
+        ], function(MapView,TileLayer, Print, Map) {
+
+            let map = new Map({
+                layers:[]
+            });
+            var view = new MapView({
+                container: "viewDiv",
+                map: map
+            });
+
+            let titleLayer = new TileLayer("http://121.201.65.133:2001/arcgis/rest/services/szmap_10_170117/MapServer");
+            map.add(titleLayer);
+
+            view.when(function() {
+                var print = new Print({
+                    view: view,
+                    // specify your own print service
+                    printServiceUrl:
+                        "http://192.168.2.58/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+                });
+
+                // Add widget to the top right corner of the view
+                view.ui.add(print, "top-right");
+            });
+        });
+    </script>
+</head>
+
+<body class="calcite">
+<div id="viewDiv"></div>
+</body>
+</html>

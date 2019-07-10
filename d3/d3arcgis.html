@@ -116,12 +116,16 @@
                 .attr("r", 8)
                 .attr("fill", "#E9A938")
                 .attr("cx",s_screen.x)
-                .attr("cy",s_screen.y);
+                .attr("cy",s_screen.y).on("click",()=>{
+                    console.log("1111")
+            });
             g.append("circle")
                 .attr("r", 8)
                 .attr("fill", "#81D841")
                 .attr("cx",e_screen.x)
-                .attr("cy",e_screen.y)
+                .attr("cy",e_screen.y).on("click",()=>{
+                console.log("1111")
+            });
 
         }
         document.getElementById("d3_svg").unpauseAnimations()
