@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script
+        src="http://code.jquery.com/jquery-2.2.4.js"
+        integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+        crossorigin="anonymous"></script>
+<body>
+<style>
+    .selector{
+
+        -webkit-filter: url("#blur");
+
+
+
+    }
+</style>
+<svg height="120" width="120">
+    <defs>
+
+        <filter id="blur" x="-50%" y="-50%" width="200%" height="200%">
+
+            <!--<fegaussianblur in="SourceGraphic" stddeviation="0,0"/>-->
+<feDropShadow dx="0" dy="0" stdDeviation="0"  flood-color="hsla(132,68%,49%,0.9)" ></feDropShadow>
+        </filter>
+    </defs>
+    <rect id="re" class="selector" width="90" height="90" stroke="green" stroke-width="1"
+          fill="yellow" />
+</svg>
+<script>
+
+
+    var defs = document.querySelector("defs"); // the  element inside the SVG
+    var blur = defs.querySelector("#blur"); // the blur filter
+    var blurFilter = blur.firstElementChild; // the feGaussianBlur primitive
+
+
+    var $element=$(".selector");
+    // storing the last position, to be able to measure changes
+    var lastPos=$element.offset();
+    // a multiplier, to be able to control the intensity of the effect
+    var multiplier=0.2;
+        // blurFilter.setAttribute("stdDeviation","15,0");
+
+    // a helper to simplify setting the blur. 
+        var xDiff= 0.01;
+        var yDiff= 0.01;
+    function setBlur(x,y){
+        blurFilter.setAttribute("stdDeviation",x);
+    }
+
+    let flag = true;
+    (function updateMotionBlur(){
+// get the current position of the element
+        var currentPos=$element.offset();
+
+// calculate the changes from the last frame and apply the multiplier
+
+
+        if(xDiff > 16){
+
+            flag = false;
+            xDiff = xDiff - multiplier;
+
+
+        }
+        if(  xDiff <= 16 && flag){
+            xDiff = xDiff + multiplier;
+        }else{
+
+            xDiff = xDiff - multiplier;
+            if(xDiff <= 0){
+                flag = true;
+            }
+        }
+        yDiff = 0;
+
+        setBlur(xDiff,yDiff);
+
+        console.log(xDiff)
+
+
+// call to update in the next frame
+        requestAnimationFrame(updateMotionBlur);
+    })();
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动虚线</title>
+    <style>
+        #line {
+            width: 100%;
+            margin: 20px 0;
+            height: 300px;
+            background: #eee;
+        }
+
+        path {
+            stroke: steelblue;
+            stroke-width: 1;
+            fill: none;
+            stroke-dasharray: 10;
+            animation: dash 5s linear infinite;
+            animation-direction: reverse;
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 1000;
+            }
+        }
+
+        button {
+            margin: 20px 0 0 20px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+</head>
+<body>
+<script>
+    var svg = d3.select("body")
+        .append("svg")
+        .attr("width", 500).attr("height", 400);
+
+    var x = d3.scale.linear().domain([0, 10]).range([0, 700]);
+    var y = d3.scale.linear().domain([0, 10]).range([10, 290]);
+
+    var data = d3.range(50).map(function() {
+        return Math.random() * 10
+    })
+    var line = d3.svg.line()
+        .interpolate("cardinal")
+        .x(function(d, i) {
+            return x(i);
+        })
+        .y(function(d) {
+            return y(d);
+        });
+
+    var path = svg.append("svg:path").attr("d", line(data));
+</script>
+</body>
+</html>
