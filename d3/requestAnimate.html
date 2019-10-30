@@ -1,0 +1,37 @@
+<html>
+<head>
+    <meta charset="gbk">
+    <title>动画</title>
+</head>
+<body>
+<div id="test" style="width:1px;height:17px;background:#0f0;">0%</div>
+<input type="button" value="Run" id="run"/>
+<input type="button" value="停止" id="stop"/>
+</body>
+<script>
+
+    window.requestAnimationFrame =
+        window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame
+        || window.msRequestAnimationFrame;
+    var start = null;
+    var ele = document.getElementById("test");
+    var progress = 0;
+    var stop=null;
+    function step(timestamp) {
+        if(progress>=100) progress=0;
+        progress += 1;
+        ele.style.width = progress + "%";
+        ele.innerHTML=progress + "%";
+        if (progress < 100) {
+            stop=requestAnimationFrame(step);
+        }
+    }
+    document.getElementById("run").addEventListener("click", function() {
+        ele.style.width = "1px";
+        step();
+    }, false);
+    document.getElementById("stop").addEventListener("click", function() {
+        window.cancelAnimationFrame(stop);//可以取消该次动画。
+    }, false);
+</script>
+</html>

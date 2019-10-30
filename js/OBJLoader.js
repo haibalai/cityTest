@@ -117,7 +117,7 @@ THREE.OBJLoader.prototype = {
 						// after the material, then it must be preserved for proper MultiMaterial continuation.
 						if ( previous && ( previous.inherited || previous.groupCount <= 0 ) ) {
 
-							this.materials.splice( previous.index, 1 );
+							this.materials.splice( previous.继承实现, 1 );
 
 						}
 

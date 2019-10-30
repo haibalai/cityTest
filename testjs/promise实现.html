@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<script>
+    class MyPromise {
+        constructor(fn){
+            if(typeof fn !== 'function') {
+                throw new TypeError(`MyPromise fn ${fn} is not a function`)
+            }
+            this.state = 'pending';
+            this.value = void 0;
+            fn(this.resolve.bind(this),this.reject.bind(this))
+        }
+        resolve(value){
+            if(this.state !== 'pending') return;
+            this.state = 'fulfilled';
+            this.value = value
+        }
+        reject(reason){
+            if(this.state !== 'pending') return;
+            this.state = 'rejected';
+            this.value = reason
+        }
+        then(fulfilled,rejected){
+            if (typeof fulfilled !== 'function' && typeof rejected !== 'function' ) {
+                return this;
+            }
+            if (typeof fulfilled !== 'function' && this.state === 'fulfilled' ||
+                typeof rejected !== 'function' && this.state === 'rejected') {
+                return this;
+            }
+            return new MyPromise((resolve,reject)=>{
+                if(fulfilled && typeof fulfilled === 'function' && this.state === 'fulfilled'){
+                    let result = fulfilled(this.value);
+                    if(result && typeof result.then === 'function'){
+                        return result.then(resolve,reject)
+                    }else{
+                        resolve(result)
+                    }
+                }
+                if(rejected && typeof rejected === 'function' && this.state === 'rejected'){
+                    let result = rejected(this.value);
+                    if(result && typeof result.then === 'function'){
+                        return result.then(resolve,reject)
+                    }else{
+                        resolve(result)
+                    }
+                }
+            })
+        }
+        catch(rejected){
+            return this.then(null,rejected)
+        }
+    }
+
+    new MyPromise((resolve,reject)=>{
+        console.log(1);
+        //reject(2)
+        resolve(2)
+        console.log(3)
+        setTimeout(()=>{console.log(4)},0)
+    }).then(res=>{
+        console.log(res)
+        return new MyPromise((resolve,reject)=>{
+            resolve(5)
+        }).then(res=>{
+            return res
+        })
+    }).then(res=>{
+        console.log(res)
+    }).catch(e=>{
+        console.log('e',e)
+    })
+
+
+</script>
+
+</body>
+</html>

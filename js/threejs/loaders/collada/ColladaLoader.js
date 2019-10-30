@@ -643,7 +643,7 @@ THREE.ColladaLoader = function () {
 			for ( var j = 0; j < bones[ i ].weights.length; j ++ ) {
 
 				var w = bones[ i ].weights[ j ];
-				var vidx = w.index;
+				var vidx = w.继承实现;
 				var weight = w.weight;
 
 				var o = geometry.vertices[vidx];

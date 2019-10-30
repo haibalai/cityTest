@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+    var unique1 =function(arr){
+        // 法一：es6
+        // let res=new Map();
+        // arr.forEach(item=>{
+        //     item.sort((a,b)=>a-b);
+        //     res.set(item.join(),item);
+        // });
+        // return Array.from(res.values);
+
+        // 法二：
+        let res={}
+        arr.forEach(item=>{
+            item.sort((a,b)=>a-b);
+            res[item]=item;
+        });
+        return Object.values(res)
+    }
+
+
+
+    var arr = [ [undefined,undefined, null],[undefined,1],[undefined,undefined, null]];
+    console.log(unique1(arr));
+
+
+</script>
+
+</body>
+</html>

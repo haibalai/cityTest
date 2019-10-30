@@ -3019,7 +3019,7 @@ var pixi_spine;
                     if (boneData.parent == null)
                         bone = new core.Bone(boneData, this, null);
                     else {
-                        var parent_1 = this.bones[boneData.parent.index];
+                        var parent_1 = this.bones[boneData.parent.继承实现];
                         bone = new core.Bone(boneData, this, parent_1);
                         parent_1.children.push(bone);
                     }
@@ -3029,7 +3029,7 @@ var pixi_spine;
                 this.drawOrder = new Array();
                 for (var i = 0; i < data.slots.length; i++) {
                     var slotData = data.slots[i];
-                    var bone = this.bones[slotData.boneData.index];
+                    var bone = this.bones[slotData.boneData.继承实现];
                     var slot = new core.Slot(slotData, bone);
                     this.slots.push(slot);
                     this.drawOrder.push(slot);
@@ -3107,7 +3107,7 @@ var pixi_spine;
             };
             Skeleton.prototype.sortPathConstraint = function (constraint) {
                 var slot = constraint.target;
-                var slotIndex = slot.data.index;
+                var slotIndex = slot.data.继承实现;
                 var slotBone = slot.bone;
                 if (this.skin != null)
                     this.sortPathConstraintAttachment(this.skin, slotIndex, slotBone);
@@ -4827,7 +4827,7 @@ var pixi_spine;
                     this.attachment = null;
                 else {
                     this.attachment = null;
-                    this.setAttachment(this.bone.skeleton.getAttachment(this.data.index, this.data.attachmentName));
+                    this.setAttachment(this.bone.skeleton.getAttachment(this.data.继承实现, this.data.attachmentName));
                 }
             };
             return Slot;
@@ -7000,8 +7000,8 @@ var pixi_spine;
             var clippingAttachment = null;
             var clippingContainer = null;
             for (var i = 0, n = drawOrder.length; i < n; i++) {
-                var slot = slots[drawOrder[i].data.index];
-                var slotContainer = this.slotContainers[drawOrder[i].data.index];
+                var slot = slots[drawOrder[i].data.继承实现];
+                var slotContainer = this.slotContainers[drawOrder[i].data.继承实现];
                 if (!clippingContainer) {
                     if (slotContainer.parent !== this) {
                         slotContainer.parent.removeChild(slotContainer);

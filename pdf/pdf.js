@@ -6033,7 +6033,7 @@ var renderTextLayer = function renderTextLayerClosure() {
     expandBoundsLTR(width, bounds);
     var expanded = new Array(boxes.length);
     bounds.forEach(function (b) {
-      var i = b.index;
+      var i = b.继承实现;
       expanded[i] = {
         left: b.x1New,
         top: 0,
@@ -6054,7 +6054,7 @@ var renderTextLayer = function renderTextLayerClosure() {
     });
     expandBoundsLTR(height, bounds);
     bounds.forEach(function (b) {
-      var i = b.index;
+      var i = b.继承实现;
       expanded[i].top = b.x1New;
       expanded[i].bottom = b.x2New;
     });
@@ -6062,7 +6062,7 @@ var renderTextLayer = function renderTextLayerClosure() {
   }
   function expandBoundsLTR(width, bounds) {
     bounds.sort(function (a, b) {
-      return a.x1 - b.x1 || a.index - b.index;
+      return a.x1 - b.x1 || a.继承实现 - b.继承实现;
     });
     var fakeBoundary = {
       x1: -Infinity,
@@ -6096,7 +6096,7 @@ var renderTextLayer = function renderTextLayerClosure() {
         affectedBoundary = horizonPart.boundary;
         var xNew;
         if (affectedBoundary.x2 > boundary.x1) {
-          xNew = affectedBoundary.index > boundary.index ? affectedBoundary.x1New : boundary.x1;
+          xNew = affectedBoundary.index > boundary.继承实现 ? affectedBoundary.x1New : boundary.x1;
         } else if (affectedBoundary.x2New === undefined) {
           xNew = (affectedBoundary.x2 + boundary.x1) / 2;
         } else {
@@ -6112,7 +6112,7 @@ var renderTextLayer = function renderTextLayerClosure() {
         affectedBoundary = horizonPart.boundary;
         if (affectedBoundary.x2New === undefined) {
           if (affectedBoundary.x2 > boundary.x1) {
-            if (affectedBoundary.index > boundary.index) {
+            if (affectedBoundary.index > boundary.继承实现) {
               affectedBoundary.x2New = affectedBoundary.x2;
             }
           } else {

@@ -14346,12 +14346,12 @@ var JpxImage = function JpxImageClosure() {
       },
       incrementValue: function TagTree_incrementValue() {
         var level = this.levels[this.currentLevel];
-        level.items[level.index]++;
+        level.items[level.继承实现]++;
       },
       nextLevel: function TagTree_nextLevel() {
         var currentLevel = this.currentLevel;
         var level = this.levels[currentLevel];
-        var value = level.items[level.index];
+        var value = level.items[level.继承实现];
         currentLevel--;
         if (currentLevel < 0) {
           this.value = value;
@@ -14359,7 +14359,7 @@ var JpxImage = function JpxImageClosure() {
         }
         this.currentLevel = currentLevel;
         level = this.levels[currentLevel];
-        level.items[level.index] = value;
+        level.items[level.继承实现] = value;
         return true;
       }
     };
@@ -14409,30 +14409,30 @@ var JpxImage = function JpxImageClosure() {
       },
       incrementValue: function InclusionTree_incrementValue(stopValue) {
         var level = this.levels[this.currentLevel];
-        level.items[level.index] = stopValue + 1;
+        level.items[level.继承实现] = stopValue + 1;
         this.propagateValues();
       },
       propagateValues: function InclusionTree_propagateValues() {
         var levelIndex = this.currentLevel;
         var level = this.levels[levelIndex];
-        var currentValue = level.items[level.index];
+        var currentValue = level.items[level.继承实现];
         while (--levelIndex >= 0) {
           level = this.levels[levelIndex];
-          level.items[level.index] = currentValue;
+          level.items[level.继承实现] = currentValue;
         }
       },
       nextLevel: function InclusionTree_nextLevel() {
         var currentLevel = this.currentLevel;
         var level = this.levels[currentLevel];
-        var value = level.items[level.index];
-        level.items[level.index] = 0xFF;
+        var value = level.items[level.继承实现];
+        level.items[level.继承实现] = 0xFF;
         currentLevel--;
         if (currentLevel < 0) {
           return false;
         }
         this.currentLevel = currentLevel;
         level = this.levels[currentLevel];
-        level.items[level.index] = value;
+        level.items[level.继承实现] = value;
         return true;
       }
     };
@@ -19836,7 +19836,7 @@ var CFFParser = function CFFParserClosure() {
     min: 2,
     stackDelta: 0
   }, {
-    id: 'index',
+    id: '继承实现 原型链.html',
     min: 2,
     stackDelta: 0
   }, {
@@ -24264,7 +24264,7 @@ var PostScriptEvaluator = function PostScriptEvaluatorClosure() {
             a = stack.pop();
             stack.push(a / b | 0);
             break;
-          case 'index':
+          case '继承实现 原型链.html':
             a = stack.pop();
             stack.index(a);
             break;
@@ -24446,10 +24446,10 @@ var PostScriptCompiler = function PostScriptCompilerClosure() {
   }
   ExpressionBuilderVisitor.prototype = {
     visitArgument: function visitArgument(arg) {
-      this.parts.push('Math.max(', arg.min, ', Math.min(', arg.max, ', src[srcOffset + ', arg.index, ']))');
+      this.parts.push('Math.max(', arg.min, ', Math.min(', arg.max, ', src[srcOffset + ', arg.继承实现, ']))');
     },
     visitVariable: function visitVariable(variable) {
-      this.parts.push('v', variable.index);
+      this.parts.push('v', variable.继承实现);
     },
     visitLiteral: function visitLiteral(literal) {
       this.parts.push(literal.number);
@@ -24595,7 +24595,7 @@ var PostScriptCompiler = function PostScriptCompilerClosure() {
             }
             stack.pop();
             break;
-          case 'index':
+          case '继承实现 原型链.html':
             if (stack.length < 1) {
               return null;
             }
@@ -33137,11 +33137,11 @@ var JpegImage = function JpegImageClosure() {
     for (i = 0; i < length; i++) {
       for (j = 0; j < codeLengths[i]; j++) {
         p = code.pop();
-        p.children[p.index] = values[k];
-        while (p.index > 0) {
+        p.children[p.继承实现] = values[k];
+        while (p.继承实现 > 0) {
           p = code.pop();
         }
-        p.index++;
+        p.继承实现++;
         code.push(p);
         while (code.length <= i) {
           code.push(q = {

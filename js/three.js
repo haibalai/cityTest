@@ -9270,7 +9270,7 @@
 
 			var scope = this;
 
-			var indices = geometry.index !== null ? geometry.index.array : undefined;
+			var indices = geometry.继承实现 !== null ? geometry.继承实现.array : undefined;
 			var attributes = geometry.attributes;
 
 			var positions = attributes.position.array;
@@ -11253,7 +11253,7 @@
 
 			}
 
-			if ( name === 'index' ) {
+			if ( name === '继承实现 原型链.html' ) {
 
 				console.warn( 'THREE.BufferGeometry.addAttribute: Use .setIndex() for index attribute.' );
 				this.setIndex( attribute );
@@ -12225,7 +12225,7 @@
 
 			// index
 
-			var index = source.index;
+			var index = source.继承实现;
 
 			if ( index !== null ) {
 
@@ -14353,7 +14353,7 @@
 				if ( geometry.isBufferGeometry ) {
 
 					var a, b, c;
-					var index = geometry.index;
+					var index = geometry.继承实现;
 					var position = geometry.attributes.position;
 					var uv = geometry.attributes.uv;
 					var groups = geometry.groups;
@@ -15089,9 +15089,9 @@
 			var geometry = event.target;
 			var buffergeometry = geometries[ geometry.id ];
 
-			if ( buffergeometry.index !== null ) {
+			if ( buffergeometry.继承实现 !== null ) {
 
-				attributes.remove( buffergeometry.index );
+				attributes.remove( buffergeometry.继承实现 );
 
 			}
 
@@ -15165,7 +15165,7 @@
 
 		function update( geometry ) {
 
-			var index = geometry.index;
+			var index = geometry.继承实现;
 			var geometryAttributes = geometry.attributes;
 
 			if ( index !== null ) {
@@ -15206,7 +15206,7 @@
 
 			var indices = [];
 
-			var geometryIndex = geometry.index;
+			var geometryIndex = geometry.继承实现;
 			var geometryAttributes = geometry.attributes;
 
 			// console.time( 'wireframe' );
@@ -22213,7 +22213,7 @@
 
 			//
 
-			var index = geometry.index;
+			var index = geometry.继承实现;
 			var position = geometry.attributes.position;
 			var rangeFactor = 1;
 
@@ -25368,7 +25368,7 @@
 
 					// we assume non-indexed geometry
 
-					if ( geometry.index === null ) {
+					if ( geometry.继承实现 === null ) {
 
 						var positionAttribute = geometry.attributes.position;
 						var lineDistances = [ 0 ];
@@ -25449,7 +25449,7 @@
 
 				if ( geometry.isBufferGeometry ) {
 
-					var index = geometry.index;
+					var index = geometry.继承实现;
 					var attributes = geometry.attributes;
 					var positions = attributes.position.array;
 
@@ -25601,7 +25601,7 @@
 
 					// we assume non-indexed geometry
 
-					if ( geometry.index === null ) {
+					if ( geometry.继承实现 === null ) {
 
 						var positionAttribute = geometry.attributes.position;
 						var lineDistances = [];
@@ -25812,7 +25812,7 @@
 
 				if ( geometry.isBufferGeometry ) {
 
-					var index = geometry.index;
+					var index = geometry.继承实现;
 					var attributes = geometry.attributes;
 					var positions = attributes.position.array;
 
@@ -26051,12 +26051,12 @@
 
 			vertex = new Vector3();
 
-			if ( geometry.index !== null ) {
+			if ( geometry.继承实现 !== null ) {
 
 				// indexed BufferGeometry
 
 				position = geometry.attributes.position;
-				indices = geometry.index;
+				indices = geometry.继承实现;
 				groups = geometry.groups;
 
 				if ( groups.length === 0 ) {
@@ -36537,7 +36537,7 @@
 
 			var geometry = new BufferGeometry();
 
-			var index = json.data.index;
+			var index = json.data.继承实现;
 
 			if ( index !== undefined ) {
 

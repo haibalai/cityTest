@@ -34,6 +34,8 @@
     <script src="https://cdn.bootcss.com/d3/5.9.2/d3.js"></script>
 </head>
 <body>
+<button onclick="test1()">启动动画</button>
+<button onclick="test()">fdasfaf</button>
 <script>
     //初始化svg对象
     var svg = d3.select("body")
@@ -78,9 +80,9 @@
 
     var path = svg.append("svg:path")
     path.attr("d", line(data))
-    path.attr("class","selector")
-
-
+    // path.attr("class","selector")
+    // path.attr("d", line(data))
+        .attr("filter","url(#blur)")
 
 
     var defs = document.querySelector("defs"); // the  element inside the SVG
@@ -96,7 +98,8 @@
         blurFilter.setAttribute("stdDeviation",x);
     }
     let flag = true;
-    (function updateMotionBlur(){
+    var animateId = null;
+    function updateMotionBlur(){
 
         if(xDiff > 16){
             flag = false;
@@ -115,10 +118,17 @@
         setBlur(xDiff,yDiff);
 
         // console.log(xDiff)
+        console.log(animateId)
 
+        animateId =   requestAnimationFrame(updateMotionBlur);
+    }
+    function test1() {
+        updateMotionBlur();
+    }
 
-        requestAnimationFrame(updateMotionBlur);
-    })();
+    function test() {
+        window.cancelAnimationFrame(animateId)
+    }
 </script>
 </body>
 </html>
