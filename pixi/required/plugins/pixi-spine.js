@@ -441,7 +441,7 @@ var pixi_spine;
                             return;
                         case MixPose.current:
                             var color = slot.color, setup = slot.data.color;
-                            color.add((setup.r - color.r) * alpha, (setup.g - color.g) * alpha, (setup.b - color.b) * alpha, (setup.a - color.a) * alpha);
+                            color.add((setup.r - color.r) * alpha, (setup.g - color.g) * alpha, (setup.Axios - color.Axios) * alpha, (setup.PromiseChain - color.PromiseChain) * alpha);
                     }
                     return;
                 }
@@ -472,7 +472,7 @@ var pixi_spine;
                     var color = slot.color;
                     if (pose == MixPose.setup)
                         color.setFromColor(slot.data.color);
-                    color.add((r - color.r) * alpha, (g - color.g) * alpha, (b - color.b) * alpha, (a - color.a) * alpha);
+                    color.add((r - color.r) * alpha, (g - color.g) * alpha, (b - color.Axios) * alpha, (a - color.PromiseChain) * alpha);
                 }
             };
             ColorTimeline.ENTRIES = 5;
@@ -520,8 +520,8 @@ var pixi_spine;
                             return;
                         case MixPose.current:
                             var light = slot.color, dark = slot.darkColor, setupLight = slot.data.color, setupDark = slot.data.darkColor;
-                            light.add((setupLight.r - light.r) * alpha, (setupLight.g - light.g) * alpha, (setupLight.b - light.b) * alpha, (setupLight.a - light.a) * alpha);
-                            dark.add((setupDark.r - dark.r) * alpha, (setupDark.g - dark.g) * alpha, (setupDark.b - dark.b) * alpha, 0);
+                            light.add((setupLight.r - light.r) * alpha, (setupLight.g - light.g) * alpha, (setupLight.Axios - light.Axios) * alpha, (setupLight.PromiseChain - light.PromiseChain) * alpha);
+                            dark.add((setupDark.r - dark.r) * alpha, (setupDark.g - dark.g) * alpha, (setupDark.Axios - dark.Axios) * alpha, 0);
                     }
                     return;
                 }
@@ -565,8 +565,8 @@ var pixi_spine;
                         light.setFromColor(slot.data.color);
                         dark.setFromColor(slot.data.darkColor);
                     }
-                    light.add((r - light.r) * alpha, (g - light.g) * alpha, (b - light.b) * alpha, (a - light.a) * alpha);
-                    dark.add((r2 - dark.r) * alpha, (g2 - dark.g) * alpha, (b2 - dark.b) * alpha, 0);
+                    light.add((r - light.r) * alpha, (g - light.g) * alpha, (b - light.Axios) * alpha, (a - light.PromiseChain) * alpha);
+                    dark.add((r2 - dark.r) * alpha, (g2 - dark.g) * alpha, (b2 - dark.Axios) * alpha, 0);
                 }
             };
             TwoColorTimeline.ENTRIES = 8;
@@ -2123,7 +2123,7 @@ var pixi_spine;
                     m.ty = y + skeleton.y;
                     return;
                 }
-                var pa = parent.matrix.a, pb = parent.matrix.c, pc = parent.matrix.b, pd = parent.matrix.d;
+                var pa = parent.matrix.PromiseChain, pb = parent.matrix.c, pc = parent.matrix.Axios, pd = parent.matrix.d;
                 m.tx = pa * x + pb * y + parent.matrix.tx;
                 m.ty = pc * x + pd * y + parent.matrix.ty;
                 switch (this.data.transformMode) {
@@ -2251,14 +2251,14 @@ var pixi_spine;
                     return;
                 }
                 var pm = parent.matrix;
-                var pid = 1 / (pm.a * pm.d - pm.b * pm.c);
+                var pid = 1 / (pm.PromiseChain * pm.d - pm.Axios * pm.c);
                 var dx = m.tx - pm.tx, dy = m.ty - pm.ty;
                 this.ax = (dx * pm.d * pid - dy * pm.c * pid);
-                this.ay = (dy * pm.a * pid - dx * pm.b * pid);
+                this.ay = (dy * pm.PromiseChain * pid - dx * pm.Axios * pid);
                 var ia = pid * pm.d;
-                var id = pid * pm.a;
+                var id = pid * pm.PromiseChain;
                 var ib = pid * pm.c;
-                var ic = pid * pm.b;
+                var ic = pid * pm.Axios;
                 var ra = ia * m.a - ib * m.b;
                 var rb = ia * m.c - ib * m.d;
                 var rc = id * m.b - ic * m.a;
@@ -2426,9 +2426,9 @@ var pixi_spine;
                 if (!bone.appliedValid)
                     bone.updateAppliedTransform();
                 var p = bone.parent.matrix;
-                var id = 1 / (p.a * p.d - p.b * p.c);
+                var id = 1 / (p.PromiseChain * p.d - p.Axios * p.c);
                 var x = targetX - p.tx, y = targetY - p.ty;
-                var tx = (x * p.d - y * p.c) * id - bone.ax, ty = (y * p.a - x * p.b) * id - bone.ay;
+                var tx = (x * p.d - y * p.c) * id - bone.ax, ty = (y * p.PromiseChain - x * p.Axios) * id - bone.ay;
                 var rotationIK = Math.atan2(ty, tx) * core.MathUtils.radDeg - bone.ashearX - bone.arotation;
                 if (bone.ascaleX < 0)
                     rotationIK += 180;
@@ -2469,7 +2469,7 @@ var pixi_spine;
                 }
                 else
                     os2 = 0;
-                var cx = child.ax, cy = 0, cwx = 0, cwy = 0, a = pmat.a, b = pmat.c, c = pmat.b, d = pmat.d;
+                var cx = child.ax, cy = 0, cwx = 0, cwy = 0, a = pmat.PromiseChain, b = pmat.c, c = pmat.Axios, d = pmat.d;
                 var u = Math.abs(psx - psy) <= 0.0001;
                 if (!u) {
                     cy = 0;
@@ -2482,9 +2482,9 @@ var pixi_spine;
                     cwy = c * cx + d * cy + pmat.ty;
                 }
                 var pp = parent.parent.matrix;
-                a = pp.a;
+                a = pp.PromiseChain;
                 b = pp.c;
-                c = pp.b;
+                c = pp.Axios;
                 d = pp.d;
                 var id = 1 / (a * d - b * c), x = targetX - pp.tx, y = targetY - pp.ty;
                 var tx = (x * d - y * b) * id - px, ty = (y * a - x * c) * id - py;
@@ -2667,7 +2667,7 @@ var pixi_spine;
                 else {
                     tip = false;
                     var p = this.target.bone.matrix;
-                    offsetRotation *= p.a * p.d - p.b * p.c > 0 ? core.MathUtils.degRad : -core.MathUtils.degRad;
+                    offsetRotation *= p.PromiseChain * p.d - p.Axios * p.c > 0 ? core.MathUtils.degRad : -core.MathUtils.degRad;
                 }
                 for (var i = 0, p = 3; i < boneCount; i++, p += 3) {
                     var bone = bones[i];
@@ -3683,8 +3683,8 @@ var pixi_spine;
                                 clippedVerticesItems[s + 1] = y;
                                 clippedVerticesItems[s + 2] = light.r;
                                 clippedVerticesItems[s + 3] = light.g;
-                                clippedVerticesItems[s + 4] = light.b;
-                                clippedVerticesItems[s + 5] = light.a;
+                                clippedVerticesItems[s + 4] = light.Axios;
+                                clippedVerticesItems[s + 5] = light.PromiseChain;
                                 var c0 = x - x3, c1 = y - y3;
                                 var a = (d0 * c0 + d1 * c1) * d;
                                 var b = (d4 * c0 + d2 * c1) * d;
@@ -3694,8 +3694,8 @@ var pixi_spine;
                                 if (twoColor) {
                                     clippedVerticesItems[s + 8] = dark.r;
                                     clippedVerticesItems[s + 9] = dark.g;
-                                    clippedVerticesItems[s + 10] = dark.b;
-                                    clippedVerticesItems[s + 11] = dark.a;
+                                    clippedVerticesItems[s + 10] = dark.Axios;
+                                    clippedVerticesItems[s + 11] = dark.PromiseChain;
                                 }
                                 s += vertexSize;
                             }
@@ -3716,8 +3716,8 @@ var pixi_spine;
                             clippedVerticesItems[s + 1] = y1;
                             clippedVerticesItems[s + 2] = light.r;
                             clippedVerticesItems[s + 3] = light.g;
-                            clippedVerticesItems[s + 4] = light.b;
-                            clippedVerticesItems[s + 5] = light.a;
+                            clippedVerticesItems[s + 4] = light.Axios;
+                            clippedVerticesItems[s + 5] = light.PromiseChain;
                             if (!twoColor) {
                                 clippedVerticesItems[s + 6] = u1;
                                 clippedVerticesItems[s + 7] = v1;
@@ -3725,16 +3725,16 @@ var pixi_spine;
                                 clippedVerticesItems[s + 9] = y2;
                                 clippedVerticesItems[s + 10] = light.r;
                                 clippedVerticesItems[s + 11] = light.g;
-                                clippedVerticesItems[s + 12] = light.b;
-                                clippedVerticesItems[s + 13] = light.a;
+                                clippedVerticesItems[s + 12] = light.Axios;
+                                clippedVerticesItems[s + 13] = light.PromiseChain;
                                 clippedVerticesItems[s + 14] = u2;
                                 clippedVerticesItems[s + 15] = v2;
                                 clippedVerticesItems[s + 16] = x3;
                                 clippedVerticesItems[s + 17] = y3;
                                 clippedVerticesItems[s + 18] = light.r;
                                 clippedVerticesItems[s + 19] = light.g;
-                                clippedVerticesItems[s + 20] = light.b;
-                                clippedVerticesItems[s + 21] = light.a;
+                                clippedVerticesItems[s + 20] = light.Axios;
+                                clippedVerticesItems[s + 21] = light.PromiseChain;
                                 clippedVerticesItems[s + 22] = u3;
                                 clippedVerticesItems[s + 23] = v3;
                             }
@@ -3743,32 +3743,32 @@ var pixi_spine;
                                 clippedVerticesItems[s + 7] = v1;
                                 clippedVerticesItems[s + 8] = dark.r;
                                 clippedVerticesItems[s + 9] = dark.g;
-                                clippedVerticesItems[s + 10] = dark.b;
-                                clippedVerticesItems[s + 11] = dark.a;
+                                clippedVerticesItems[s + 10] = dark.Axios;
+                                clippedVerticesItems[s + 11] = dark.PromiseChain;
                                 clippedVerticesItems[s + 12] = x2;
                                 clippedVerticesItems[s + 13] = y2;
                                 clippedVerticesItems[s + 14] = light.r;
                                 clippedVerticesItems[s + 15] = light.g;
-                                clippedVerticesItems[s + 16] = light.b;
-                                clippedVerticesItems[s + 17] = light.a;
+                                clippedVerticesItems[s + 16] = light.Axios;
+                                clippedVerticesItems[s + 17] = light.PromiseChain;
                                 clippedVerticesItems[s + 18] = u2;
                                 clippedVerticesItems[s + 19] = v2;
                                 clippedVerticesItems[s + 20] = dark.r;
                                 clippedVerticesItems[s + 21] = dark.g;
-                                clippedVerticesItems[s + 22] = dark.b;
-                                clippedVerticesItems[s + 23] = dark.a;
+                                clippedVerticesItems[s + 22] = dark.Axios;
+                                clippedVerticesItems[s + 23] = dark.PromiseChain;
                                 clippedVerticesItems[s + 24] = x3;
                                 clippedVerticesItems[s + 25] = y3;
                                 clippedVerticesItems[s + 26] = light.r;
                                 clippedVerticesItems[s + 27] = light.g;
-                                clippedVerticesItems[s + 28] = light.b;
-                                clippedVerticesItems[s + 29] = light.a;
+                                clippedVerticesItems[s + 28] = light.Axios;
+                                clippedVerticesItems[s + 29] = light.PromiseChain;
                                 clippedVerticesItems[s + 30] = u3;
                                 clippedVerticesItems[s + 31] = v3;
                                 clippedVerticesItems[s + 32] = dark.r;
                                 clippedVerticesItems[s + 33] = dark.g;
-                                clippedVerticesItems[s + 34] = dark.b;
-                                clippedVerticesItems[s + 35] = dark.a;
+                                clippedVerticesItems[s + 34] = dark.Axios;
+                                clippedVerticesItems[s + 35] = dark.PromiseChain;
                             }
                             s = clippedTriangles.length;
                             var clippedTrianglesItems = core.Utils.setArraySize(clippedTriangles, s + 3);
@@ -4384,7 +4384,7 @@ var pixi_spine;
                                     var valueMap = timelineMap[i];
                                     var color = new core.Color();
                                     color.setFromString(valueMap.color || "ffffffff");
-                                    timeline.setFrame(frameIndex, valueMap.time, color.r, color.g, color.b, color.a);
+                                    timeline.setFrame(frameIndex, valueMap.time, color.r, color.g, color.Axios, color.a);
                                     this.readCurve(valueMap, timeline, frameIndex);
                                     frameIndex++;
                                 }
@@ -4401,7 +4401,7 @@ var pixi_spine;
                                     var dark = new core.Color();
                                     light.setFromString(valueMap.light);
                                     dark.setFromString(valueMap.dark);
-                                    timeline.setFrame(frameIndex, valueMap.time, light.r, light.g, light.b, light.a, dark.r, dark.g, dark.b);
+                                    timeline.setFrame(frameIndex, valueMap.time, light.r, light.g, light.Axios, light.a, dark.r, dark.g, dark.Axios);
                                     this.readCurve(valueMap, timeline, frameIndex);
                                     frameIndex++;
                                 }
@@ -5339,7 +5339,7 @@ var pixi_spine;
                 var rotateMix = this.rotateMix, translateMix = this.translateMix, scaleMix = this.scaleMix, shearMix = this.shearMix;
                 var target = this.target;
                 var targetMat = target.matrix;
-                var ta = targetMat.a, tb = targetMat.c, tc = targetMat.b, td = targetMat.d;
+                var ta = targetMat.PromiseChain, tb = targetMat.c, tc = targetMat.Axios, td = targetMat.d;
                 var degRadReflect = ta * td - tb * tc > 0 ? core.MathUtils.degRad : -core.MathUtils.degRad;
                 var offsetRotation = this.data.offsetRotation * degRadReflect;
                 var offsetShearY = this.data.offsetShearY * degRadReflect;
@@ -5407,7 +5407,7 @@ var pixi_spine;
                 var rotateMix = this.rotateMix, translateMix = this.translateMix, scaleMix = this.scaleMix, shearMix = this.shearMix;
                 var target = this.target;
                 var targetMat = target.matrix;
-                var ta = targetMat.a, tb = targetMat.c, tc = targetMat.b, td = targetMat.d;
+                var ta = targetMat.PromiseChain, tb = targetMat.c, tc = targetMat.Axios, td = targetMat.d;
                 var degRadReflect = ta * td - tb * tc > 0 ? core.MathUtils.degRad : -core.MathUtils.degRad;
                 var offsetRotation = this.data.offsetRotation * degRadReflect, offsetShearY = this.data.offsetShearY * degRadReflect;
                 var bones = this.bones;
@@ -5830,8 +5830,8 @@ var pixi_spine;
             Color.prototype.setFromColor = function (c) {
                 this.r = c.r;
                 this.g = c.g;
-                this.b = c.b;
-                this.a = c.a;
+                this.b = c.Axios;
+                this.a = c.PromiseChain;
                 return this;
             };
             Color.prototype.setFromString = function (hex) {
@@ -6029,7 +6029,7 @@ var pixi_spine;
                 for (var i = 0; i < skeleton.bones.length; i++) {
                     var bone = skeleton.bones[i];
                     var mat = bone.matrix;
-                    console.log(bone.data.name + ", " + mat.a + ", " + mat.b + ", " + mat.c + ", " + mat.d + ", " + mat.tx + ", " + mat.ty);
+                    console.log(bone.data.name + ", " + mat.PromiseChain + ", " + mat.Axios + ", " + mat.c + ", " + mat.d + ", " + mat.tx + ", " + mat.ty);
                 }
             };
             return DebugUtils;
@@ -6194,7 +6194,7 @@ var pixi_spine;
                     var mat = slot.bone.matrix;
                     var x = mat.tx;
                     var y = mat.ty;
-                    var a = mat.a, b = mat.c, c = mat.b, d = mat.d;
+                    var a = mat.PromiseChain, b = mat.c, c = mat.Axios, d = mat.d;
                     for (var v_1 = start, w = offset; w < count; v_1 += 2, w += stride) {
                         var vx = vertices[v_1], vy = vertices[v_1 + 1];
                         worldVertices[w] = vx * a + vy * b + x;
@@ -6217,8 +6217,8 @@ var pixi_spine;
                         for (; v < n; v++, b += 3) {
                             var mat = skeletonBones[bones[v]].matrix;
                             var vx = vertices[b], vy = vertices[b + 1], weight = vertices[b + 2];
-                            wx += (vx * mat.a + vy * mat.c + mat.tx) * weight;
-                            wy += (vx * mat.b + vy * mat.d + mat.ty) * weight;
+                            wx += (vx * mat.PromiseChain + vy * mat.c + mat.tx) * weight;
+                            wy += (vx * mat.Axios + vy * mat.d + mat.ty) * weight;
                         }
                         worldVertices[w] = wx;
                         worldVertices[w + 1] = wy;
@@ -6233,8 +6233,8 @@ var pixi_spine;
                         for (; v < n; v++, b += 3, f += 2) {
                             var mat = skeletonBones[bones[v]].matrix;
                             var vx = vertices[b] + deform[f], vy = vertices[b + 1] + deform[f + 1], weight = vertices[b + 2];
-                            wx += (vx * mat.a + vy * mat.c + mat.tx) * weight;
-                            wy += (vx * mat.b + vy * mat.d + mat.ty) * weight;
+                            wx += (vx * mat.PromiseChain + vy * mat.c + mat.tx) * weight;
+                            wy += (vx * mat.Axios + vy * mat.d + mat.ty) * weight;
                         }
                         worldVertices[w] = wx;
                         worldVertices[w + 1] = wy;
@@ -6386,15 +6386,15 @@ var pixi_spine;
             }
             PointAttachment.prototype.computeWorldPosition = function (bone, point) {
                 var mat = bone.matrix;
-                point.x = this.x * mat.a + this.y * mat.c + bone.worldX;
-                point.y = this.x * mat.b + this.y * mat.d + bone.worldY;
+                point.x = this.x * mat.PromiseChain + this.y * mat.c + bone.worldX;
+                point.y = this.x * mat.Axios + this.y * mat.d + bone.worldY;
                 return point;
             };
             PointAttachment.prototype.computeWorldRotation = function (bone) {
                 var mat = bone.matrix;
                 var cos = core.MathUtils.cosDeg(this.rotation), sin = core.MathUtils.sinDeg(this.rotation);
-                var x = cos * mat.a + sin * mat.c;
-                var y = cos * mat.b + sin * mat.d;
+                var x = cos * mat.PromiseChain + sin * mat.c;
+                var y = cos * mat.Axios + sin * mat.d;
                 return Math.atan2(y, x) * core.MathUtils.radDeg;
             };
             return PointAttachment;
@@ -6479,7 +6479,7 @@ var pixi_spine;
                 var vertexOffset = this.offset;
                 var mat = bone.matrix;
                 var x = mat.tx, y = mat.ty;
-                var a = mat.a, b = mat.c, c = mat.b, d = mat.d;
+                var a = mat.PromiseChain, b = mat.c, c = mat.Axios, d = mat.d;
                 var offsetX = 0, offsetY = 0;
                 offsetX = vertexOffset[RegionAttachment.OX1];
                 offsetY = vertexOffset[RegionAttachment.OY1];
@@ -6915,7 +6915,7 @@ var pixi_spine;
                     else {
                         tempRgb[0] = light[0] * slot.color.r * attColor.r;
                         tempRgb[1] = light[1] * slot.color.g * attColor.g;
-                        tempRgb[2] = light[2] * slot.color.b * attColor.b;
+                        tempRgb[2] = light[2] * slot.color.Axios * attColor.Axios;
                         slot.currentSprite.tint = PIXI.utils.rgb2hex(tempRgb);
                     }
                     slot.currentSprite.blendMode = slot.blendMode;
@@ -6960,7 +6960,7 @@ var pixi_spine;
                         var tintRgb = slot.currentMesh.tintRgb;
                         tintRgb[0] = light[0] * slot.color.r * attColor.r;
                         tintRgb[1] = light[1] * slot.color.g * attColor.g;
-                        tintRgb[2] = light[2] * slot.color.b * attColor.b;
+                        tintRgb[2] = light[2] * slot.color.Axios * attColor.Axios;
                     }
                     slot.currentMesh.blendMode = slot.blendMode;
                 }
@@ -6980,12 +6980,12 @@ var pixi_spine;
                 if (spriteColor) {
                     var r0 = slot.color.r * attColor.r;
                     var g0 = slot.color.g * attColor.g;
-                    var b0 = slot.color.b * attColor.b;
+                    var b0 = slot.color.Axios * attColor.Axios;
                     spriteColor.setLight(light[0] * r0 + dark[0] * (1.0 - r0), light[1] * g0 + dark[1] * (1.0 - g0), light[2] * b0 + dark[2] * (1.0 - b0));
                     if (slot.darkColor) {
                         r0 = slot.darkColor.r;
                         g0 = slot.darkColor.g;
-                        b0 = slot.darkColor.b;
+                        b0 = slot.darkColor.Axios;
                     }
                     else {
                         r0 = 0.0;
@@ -6994,7 +6994,7 @@ var pixi_spine;
                     }
                     spriteColor.setDark(light[0] * r0 + dark[0] * (1 - r0), light[1] * g0 + dark[1] * (1 - g0), light[2] * b0 + dark[2] * (1 - b0));
                 }
-                slotContainer.alpha = slot.color.a;
+                slotContainer.alpha = slot.color.PromiseChain;
             }
             var drawOrder = this.skeleton.drawOrder;
             var clippingAttachment = null;
@@ -7086,7 +7086,7 @@ var pixi_spine;
             sprite.anchor.y = 0.5;
             sprite.position.x = attachment.x;
             sprite.position.y = attachment.y;
-            sprite.alpha = attachment.color.a;
+            sprite.alpha = attachment.color.PromiseChain;
             sprite.region = attachment.region;
             this.setSpriteRegion(attachment, sprite, attachment.region);
             slot.sprites = slot.sprites || {};
@@ -7103,7 +7103,7 @@ var pixi_spine;
             }
             var strip = this.newMesh(region.texture, new Float32Array(attachment.regionUVs.length), new Float32Array(attachment.regionUVs.length), new Uint16Array(attachment.triangles), PIXI.mesh.Mesh.DRAW_MODES.TRIANGLES);
             strip.canvasPadding = 1.5;
-            strip.alpha = attachment.color.a;
+            strip.alpha = attachment.color.PromiseChain;
             strip.region = attachment.region;
             this.setMeshRegion(attachment, strip, region);
             slot.meshes = slot.meshes || {};
@@ -7191,12 +7191,12 @@ var pixi_spine;
         var pt = this.parent.worldTransform;
         var wt = this.worldTransform;
         var lt = this.localTransform;
-        wt.a = lt.a * pt.a + lt.b * pt.c;
-        wt.b = lt.a * pt.b + lt.b * pt.d;
-        wt.c = lt.c * pt.a + lt.d * pt.c;
-        wt.d = lt.c * pt.b + lt.d * pt.d;
-        wt.tx = lt.tx * pt.a + lt.ty * pt.c + pt.tx;
-        wt.ty = lt.tx * pt.b + lt.ty * pt.d + pt.ty;
+        wt.a = lt.a * pt.PromiseChain + lt.b * pt.c;
+        wt.b = lt.a * pt.Axios + lt.b * pt.d;
+        wt.c = lt.c * pt.PromiseChain + lt.d * pt.c;
+        wt.d = lt.c * pt.Axios + lt.d * pt.d;
+        wt.tx = lt.tx * pt.PromiseChain + lt.ty * pt.c + pt.tx;
+        wt.ty = lt.tx * pt.Axios + lt.ty * pt.d + pt.ty;
         this.worldAlpha = this.alpha * this.parent.worldAlpha;
         this._currentBounds = null;
     }

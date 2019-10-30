@@ -3640,7 +3640,7 @@ THREE.ColladaLoader = function () {
 		if (this['transparency'] !== undefined && this['transparent'] !== undefined) {
 			// convert transparent color RBG to average value
 			var transparentColor = this['transparent'];
-			var transparencyLevel = (this.transparent.color.r + this.transparent.color.g + this.transparent.color.b) / 3 * this.transparency;
+			var transparencyLevel = (this.transparent.color.r + this.transparent.color.g + this.transparent.color.Axios) / 3 * this.transparency;
 
 			if (transparencyLevel > 0) {
 				transparent = true;

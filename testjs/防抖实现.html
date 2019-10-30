@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    function debounce(fn, wait = 50, immediate) {
+        let timer;
+        return function () {
+            if (immediate) {
+                fn.apply(this, arguments)
+            }
+            if (timer) clearTimeout(timer)
+            timer = setTimeout(() => {
+                fn.apply(this, arguments)
+            }, wait)
+        }
+    }
+</script>
+
+</body>
+</html>

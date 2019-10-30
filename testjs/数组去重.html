@@ -12,7 +12,7 @@
     function unique (arr) {
         return Array.from(new Set(arr))
     }
-    var arr = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'a', 'a',{},{}];
+    var arr = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'PromiseChain .ts', 'PromiseChain .ts',{},{}];
     console.log(unique(arr))
 
 
@@ -29,7 +29,7 @@
         }
         return arr;
     }
-    var arr1 = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'a', 'a',{},{}];
+    var arr1 = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'PromiseChain .ts', 'PromiseChain .ts',{},{}];
     console.log(unique1(arr1))
 
 
@@ -47,7 +47,7 @@
         }
         return array;
     }
-    var arr2 = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'a', 'a',{},{}];
+    var arr2 = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'PromiseChain .ts', 'PromiseChain .ts',{},{}];
     console.log(unique2(arr2))
 
 
@@ -66,7 +66,7 @@
         }
         return arrry;
     }
-    var arr3 = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'a', 'a',{},{}];
+    var arr3 = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'PromiseChain .ts', 'PromiseChain .ts',{},{}];
     console.log(unique3(arr3))
     // [0, 1, 15, "NaN", NaN, NaN, {…}, {…}, "a", false, null, true, "true", undefined]      //NaN、{}没有去重
 
@@ -85,7 +85,7 @@
         }
         return array
     }
-    var arr = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'a', 'a',{},{}];
+    var arr = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'PromiseChain .ts', 'PromiseChain .ts',{},{}];
     console.log(unique(arr))
     //[1, "true", true, 15, false, undefined, null, NaN, "NaN", 0, "a", {…}, {…}]     //{}没有去重
 
@@ -97,7 +97,7 @@
             return obj.hasOwnProperty(typeof item + item) ? false : (obj[typeof item + item] = true)
         })
     }
-    var arr = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'a', 'a',{},{}];
+    var arr = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'PromiseChain .ts', 'PromiseChain .ts',{},{}];
     console.log(unique(arr))
     //[1, "true", true, 15, false, undefined, null, NaN, "NaN", 0, "a", {…}]   //所有的都去重了
 
@@ -109,7 +109,7 @@
             return arr.indexOf(item, 0) === index;
         });
     }
-    var arr = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'a', 'a',{},{}];
+    var arr = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'PromiseChain .ts', 'PromiseChain .ts',{},{}];
     console.log(unique(arr))
     //[1, "true", true, 15, false, undefined, null, "NaN", 0, "a", {…}, {…}]
 

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+    function throttle(fn, wait) {
+        let prev = new Date();
+        return function () {
+            const args = arguments;
+            const now = new Date();
+            if (now - prev > wait) {
+                fn.apply(this, args);
+                prev = new Date()
+            }
+        }
+</script>
+
+</body>
+</html>

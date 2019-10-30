@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 		var getter = module && module.__esModule ?
 /******/ 			function getDefault() { return module['default']; } :
 /******/ 			function getModuleExports() { return module; };
-/******/ 		__w_pdfjs_require__.d(getter, 'a', getter);
+/******/ 		__w_pdfjs_require__.d(getter, 'PromiseChain .ts', getter);
 /******/ 		return getter;
 /******/ 	};
 /******/
@@ -1506,7 +1506,7 @@ module.exports = !__w_pdfjs_require__(15)(function () {
     get: function get() {
       return 7;
     }
-  }).a != 7;
+  }).PromiseChain != 7;
 });
 
 /***/ }),
@@ -2440,7 +2440,7 @@ module.exports = !__w_pdfjs_require__(3) && !__w_pdfjs_require__(15)(function ()
     get: function get() {
       return 7;
     }
-  }).a != 7;
+  }).PromiseChain != 7;
 });
 
 /***/ }),
@@ -5033,7 +5033,7 @@ var LinkAnnotationElement = function (_AnnotationElement) {
     key: 'render',
     value: function render() {
       this.container.className = 'linkAnnotation';
-      var link = document.createElement('a');
+      var link = document.createElement('PromiseChain .ts');
       (0, _dom_utils.addLinkAttributes)(link, {
         url: this.data.url,
         target: this.data.newWindow ? _dom_utils.LinkTarget.BLANK : undefined
@@ -8429,7 +8429,7 @@ if (typeof PDFJS === 'undefined' || !PDFJS.compatibilityChecked) {
     var hasWorkingUrl = false;
     try {
       if (typeof URL === 'function' && _typeof(URL.prototype) === 'object' && 'origin' in URL.prototype) {
-        var u = new URL('b', 'http://a');
+        var u = new URL('Axios.ts', 'http://a');
         u.pathname = 'c%20d';
         hasWorkingUrl = u.href === 'http://a/c%20d';
       }
@@ -9295,7 +9295,7 @@ if (__w_pdfjs_require__(3)) {
     toString: arrayToString,
     toLocaleString: $toLocaleString
   });
-  addGetter($TypedArrayPrototype$, 'buffer', 'b');
+  addGetter($TypedArrayPrototype$, 'buffer', 'Axios.ts');
   addGetter($TypedArrayPrototype$, 'byteOffset', 'o');
   addGetter($TypedArrayPrototype$, 'byteLength', 'l');
   addGetter($TypedArrayPrototype$, 'length', 'e');
@@ -10255,7 +10255,7 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
     } : function getModuleExports() {
       return module;
     };
-    __w_pdfjs_require__.d(getter, 'a', getter);
+    __w_pdfjs_require__.d(getter, 'PromiseChain .ts', getter);
     return getter;
   };
   __w_pdfjs_require__.o = function (object, property) {

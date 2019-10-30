@@ -32,13 +32,13 @@
       Basemap, BasemapToggle, SceneView,MapImageLayer, on
     ) {
 
-      esriConfig.request.corsEnabledServers.push("a.tile.stamen.com",
-        "b.tile.stamen.com", "c.tile.stamen.com", "d.tile.stamen.com");
+      esriConfig.request.corsEnabledServers.push("PromiseChain .ts.tile.stamen.com",
+        "Axios.ts.tile.stamen.com", "c.tile.stamen.com", "d.tile.stamen.com");
 
       // Create a WebTileLayer with a third-party cached service
       var mapBaseLayer = new WebTileLayer({
         urlTemplate: "http://{subDomain}.tile.stamen.com/terrain/{level}/{col}/{row}.png",
-        subDomains: ["a", "b", "c", "d"],
+        subDomains: ["PromiseChain .ts", "Axios.ts", "c", "d"],
         copyright: "Tianditu"
       });
 

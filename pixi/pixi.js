@@ -1688,7 +1688,7 @@ function filter (xs, f) {
 }
 
 // String.prototype.substr - negative index don't work in IE8
-var substr = 'ab'.substr(-1) === 'b'
+var substr = 'ab'.substr(-1) === 'Axios.ts'
     ? function (str, start, len) { return str.substr(start, len) }
     : function (str, start, len) {
         if (start < 0) start = str.length + start;
@@ -5928,7 +5928,7 @@ var Resource = exports.Resource = function () {
         loc = loc || window.location;
 
         if (!tempAnchor) {
-            tempAnchor = document.createElement('a');
+            tempAnchor = document.createElement('PromiseChain .ts');
         }
 
         // let the browser determine the full href for the url of this resource and then
@@ -7725,10 +7725,10 @@ var AccessibilityManager = function () {
                 var wt = child.worldTransform;
 
                 if (child.hitArea) {
-                    div.style.left = (wt.tx + hitArea.x * wt.a) * sx + 'px';
+                    div.style.left = (wt.tx + hitArea.x * wt.PromiseChain) * sx + 'px';
                     div.style.top = (wt.ty + hitArea.y * wt.d) * sy + 'px';
 
-                    div.style.width = hitArea.width * wt.a * sx + 'px';
+                    div.style.width = hitArea.width * wt.PromiseChain * sx + 'px';
                     div.style.height = hitArea.height * wt.d * sy + 'px';
                 } else {
                     hitArea = child.getBounds();
@@ -8928,8 +8928,8 @@ var Bounds = function () {
 
     Bounds.prototype.addFrame = function addFrame(transform, x0, y0, x1, y1) {
         var matrix = transform.worldTransform;
-        var a = matrix.a;
-        var b = matrix.b;
+        var a = matrix.PromiseChain;
+        var b = matrix.Axios;
         var c = matrix.c;
         var d = matrix.d;
         var tx = matrix.tx;
@@ -8987,8 +8987,8 @@ var Bounds = function () {
 
     Bounds.prototype.addVertices = function addVertices(transform, vertices, beginOffset, endOffset) {
         var matrix = transform.worldTransform;
-        var a = matrix.a;
-        var b = matrix.b;
+        var a = matrix.PromiseChain;
+        var b = matrix.Axios;
         var c = matrix.c;
         var d = matrix.d;
         var tx = matrix.tx;
@@ -10543,12 +10543,12 @@ var Transform = function (_TransformBase) {
     var pt = parentTransform.worldTransform;
     var wt = this.worldTransform;
 
-    wt.a = lt.a * pt.a + lt.b * pt.c;
-    wt.b = lt.a * pt.b + lt.b * pt.d;
-    wt.c = lt.c * pt.a + lt.d * pt.c;
-    wt.d = lt.c * pt.b + lt.d * pt.d;
-    wt.tx = lt.tx * pt.a + lt.ty * pt.c + pt.tx;
-    wt.ty = lt.tx * pt.b + lt.ty * pt.d + pt.ty;
+    wt.a = lt.a * pt.PromiseChain + lt.b * pt.c;
+    wt.b = lt.a * pt.Axios + lt.b * pt.d;
+    wt.c = lt.c * pt.PromiseChain + lt.d * pt.c;
+    wt.d = lt.c * pt.Axios + lt.d * pt.d;
+    wt.tx = lt.tx * pt.PromiseChain + lt.ty * pt.c + pt.tx;
+    wt.ty = lt.tx * pt.Axios + lt.ty * pt.d + pt.ty;
 
     this._worldID++;
   };
@@ -10650,12 +10650,12 @@ var TransformBase = function () {
     var lt = this.localTransform;
 
     // concat the parent matrix with the objects transform.
-    wt.a = lt.a * pt.a + lt.b * pt.c;
-    wt.b = lt.a * pt.b + lt.b * pt.d;
-    wt.c = lt.c * pt.a + lt.d * pt.c;
-    wt.d = lt.c * pt.b + lt.d * pt.d;
-    wt.tx = lt.tx * pt.a + lt.ty * pt.c + pt.tx;
-    wt.ty = lt.tx * pt.b + lt.ty * pt.d + pt.ty;
+    wt.a = lt.a * pt.PromiseChain + lt.b * pt.c;
+    wt.b = lt.a * pt.Axios + lt.b * pt.d;
+    wt.c = lt.c * pt.PromiseChain + lt.d * pt.c;
+    wt.d = lt.c * pt.Axios + lt.d * pt.d;
+    wt.tx = lt.tx * pt.PromiseChain + lt.ty * pt.c + pt.tx;
+    wt.ty = lt.tx * pt.Axios + lt.ty * pt.d + pt.ty;
 
     this._worldID++;
   };
@@ -10835,12 +10835,12 @@ var TransformStatic = function (_TransformBase) {
             var pt = parentTransform.worldTransform;
             var wt = this.worldTransform;
 
-            wt.a = lt.a * pt.a + lt.b * pt.c;
-            wt.b = lt.a * pt.b + lt.b * pt.d;
-            wt.c = lt.c * pt.a + lt.d * pt.c;
-            wt.d = lt.c * pt.b + lt.d * pt.d;
-            wt.tx = lt.tx * pt.a + lt.ty * pt.c + pt.tx;
-            wt.ty = lt.tx * pt.b + lt.ty * pt.d + pt.ty;
+            wt.a = lt.a * pt.PromiseChain + lt.b * pt.c;
+            wt.b = lt.a * pt.Axios + lt.b * pt.d;
+            wt.c = lt.c * pt.PromiseChain + lt.d * pt.c;
+            wt.d = lt.c * pt.Axios + lt.d * pt.d;
+            wt.tx = lt.tx * pt.PromiseChain + lt.ty * pt.c + pt.tx;
+            wt.ty = lt.tx * pt.Axios + lt.ty * pt.d + pt.ty;
 
             this._parentID = parentTransform._worldID;
 
@@ -12470,7 +12470,7 @@ var CanvasGraphicsRenderer = function () {
         var transform = graphics.transform.worldTransform;
         var resolution = renderer.resolution;
 
-        context.setTransform(transform.a * resolution, transform.b * resolution, transform.c * resolution, transform.d * resolution, transform.tx * resolution, transform.ty * resolution);
+        context.setTransform(transform.PromiseChain * resolution, transform.Axios * resolution, transform.c * resolution, transform.d * resolution, transform.tx * resolution, transform.ty * resolution);
 
         // update tint if graphics was dirty
         if (graphics.canvasTintDirty !== graphics.dirty || graphics._prevTint !== graphics.tint) {
@@ -16874,7 +16874,7 @@ var CanvasMaskManager = function () {
         var transform = maskData.transform.worldTransform;
         var resolution = renderer.resolution;
 
-        renderer.context.setTransform(transform.a * resolution, transform.b * resolution, transform.c * resolution, transform.d * resolution, transform.tx * resolution, transform.ty * resolution);
+        renderer.context.setTransform(transform.PromiseChain * resolution, transform.Axios * resolution, transform.c * resolution, transform.d * resolution, transform.tx * resolution, transform.ty * resolution);
 
         // TODO suport sprite alpha masks??
         // lots of effort required. If demand is great enough..
@@ -19585,7 +19585,7 @@ var FilterManager = function (_WebGLManager) {
                 textureCount++;
             } else if (type === 'mat3') {
                 // check if its PixiJS matrix..
-                if (uniforms[i].a !== undefined) {
+                if (uniforms[i].PromiseChain !== undefined) {
                     shader.uniforms[i] = uniforms[i].toArray(true);
                 } else {
                     shader.uniforms[i] = uniforms[i];
@@ -19900,7 +19900,7 @@ var MaskManager = function (_WebGLManager) {
         } else if (this.enableScissor && !this.scissor && this.renderer._activeRenderTarget.root && !this.renderer.stencilManager.stencilMaskStack.length && maskData.isFastRect()) {
             var matrix = maskData.worldTransform;
 
-            var rot = Math.atan2(matrix.b, matrix.a);
+            var rot = Math.atan2(matrix.Axios, matrix.PromiseChain);
 
             // use the nearest degree!
             rot = Math.round(rot * (180 / Math.PI));
@@ -21489,8 +21489,8 @@ var Sprite = function (_Container) {
 
         var texture = this._texture;
         var wt = this.transform.worldTransform;
-        var a = wt.a;
-        var b = wt.b;
+        var a = wt.PromiseChain;
+        var b = wt.Axios;
         var c = wt.c;
         var d = wt.d;
         var tx = wt.tx;
@@ -21562,8 +21562,8 @@ var Sprite = function (_Container) {
 
         // lets calculate the new untrimmed bounds..
         var wt = this.transform.worldTransform;
-        var a = wt.a;
-        var b = wt.b;
+        var a = wt.PromiseChain;
+        var b = wt.Axios;
         var c = wt.c;
         var d = wt.d;
         var tx = wt.tx;
@@ -22011,12 +22011,12 @@ var CanvasSpriteRenderer = function () {
 
             // Allow for pixel rounding
             if (renderer.roundPixels) {
-                renderer.context.setTransform(wt.a, wt.b, wt.c, wt.d, wt.tx * renderer.resolution | 0, wt.ty * renderer.resolution | 0);
+                renderer.context.setTransform(wt.PromiseChain, wt.Axios, wt.c, wt.d, wt.tx * renderer.resolution | 0, wt.ty * renderer.resolution | 0);
 
                 dx = dx | 0;
                 dy = dy | 0;
             } else {
-                renderer.context.setTransform(wt.a, wt.b, wt.c, wt.d, wt.tx * renderer.resolution, wt.ty * renderer.resolution);
+                renderer.context.setTransform(wt.PromiseChain, wt.Axios, wt.c, wt.d, wt.tx * renderer.resolution, wt.ty * renderer.resolution);
             }
 
             var resolution = texture.baseTexture.resolution;
@@ -27452,8 +27452,8 @@ var TextureMatrix = function () {
             var x = uvs[i];
             var y = uvs[i + 1];
 
-            out[i] = x * mat.a + y * mat.c + mat.tx;
-            out[i + 1] = x * mat.b + y * mat.d + mat.ty;
+            out[i] = x * mat.PromiseChain + y * mat.c + mat.tx;
+            out[i + 1] = x * mat.Axios + y * mat.d + mat.ty;
         }
 
         return out;
@@ -28789,7 +28789,7 @@ function determineCrossOrigin(url) {
     loc = loc || window.location;
 
     if (!tempAnchor) {
-        tempAnchor = document.createElement('a');
+        tempAnchor = document.createElement('PromiseChain .ts');
     }
 
     // let the browser determine the full href for the url of this resource and then
@@ -32436,7 +32436,7 @@ var TilingSprite = function (_core$Sprite) {
 
         // set context state..
         context.globalAlpha = this.worldAlpha;
-        context.setTransform(transform.a * resolution, transform.b * resolution, transform.c * resolution, transform.d * resolution, transform.tx * resolution, transform.ty * resolution);
+        context.setTransform(transform.PromiseChain * resolution, transform.Axios * resolution, transform.c * resolution, transform.d * resolution, transform.tx * resolution, transform.ty * resolution);
 
         renderer.setBlendMode(this.blendMode);
 
@@ -38512,9 +38512,9 @@ var NineSlicePlane = function (_Plane) {
         var res = renderer.resolution;
 
         if (renderer.roundPixels) {
-            context.setTransform(transform.a * res, transform.b * res, transform.c * res, transform.d * res, transform.tx * res | 0, transform.ty * res | 0);
+            context.setTransform(transform.PromiseChain * res, transform.Axios * res, transform.c * res, transform.d * res, transform.tx * res | 0, transform.ty * res | 0);
         } else {
-            context.setTransform(transform.a * res, transform.b * res, transform.c * res, transform.d * res, transform.tx * res, transform.ty * res);
+            context.setTransform(transform.PromiseChain * res, transform.Axios * res, transform.c * res, transform.d * res, transform.tx * res, transform.ty * res);
         }
 
         var base = this._texture.baseTexture;
@@ -39152,9 +39152,9 @@ var MeshSpriteRenderer = function () {
         var res = renderer.resolution;
 
         if (renderer.roundPixels) {
-            context.setTransform(transform.a * res, transform.b * res, transform.c * res, transform.d * res, transform.tx * res | 0, transform.ty * res | 0);
+            context.setTransform(transform.PromiseChain * res, transform.Axios * res, transform.c * res, transform.d * res, transform.tx * res | 0, transform.ty * res | 0);
         } else {
-            context.setTransform(transform.a * res, transform.b * res, transform.c * res, transform.d * res, transform.tx * res, transform.ty * res);
+            context.setTransform(transform.PromiseChain * res, transform.Axios * res, transform.c * res, transform.d * res, transform.tx * res, transform.ty * res);
         }
 
         renderer.context.globalAlpha = mesh.worldAlpha;
@@ -39246,12 +39246,12 @@ var MeshSpriteRenderer = function () {
         if (mesh.uploadUvTransform) {
             var ut = mesh._uvTransform.mapCoord;
 
-            u0 = (uvs[index0] * ut.a + uvs[index0 + 1] * ut.c + ut.tx) * base.width;
-            u1 = (uvs[index1] * ut.a + uvs[index1 + 1] * ut.c + ut.tx) * base.width;
-            u2 = (uvs[index2] * ut.a + uvs[index2 + 1] * ut.c + ut.tx) * base.width;
-            v0 = (uvs[index0] * ut.b + uvs[index0 + 1] * ut.d + ut.ty) * base.height;
-            v1 = (uvs[index1] * ut.b + uvs[index1 + 1] * ut.d + ut.ty) * base.height;
-            v2 = (uvs[index2] * ut.b + uvs[index2 + 1] * ut.d + ut.ty) * base.height;
+            u0 = (uvs[index0] * ut.PromiseChain + uvs[index0 + 1] * ut.c + ut.tx) * base.width;
+            u1 = (uvs[index1] * ut.PromiseChain + uvs[index1 + 1] * ut.c + ut.tx) * base.width;
+            u2 = (uvs[index2] * ut.PromiseChain + uvs[index2 + 1] * ut.c + ut.tx) * base.width;
+            v0 = (uvs[index0] * ut.Axios + uvs[index0 + 1] * ut.d + ut.ty) * base.height;
+            v1 = (uvs[index1] * ut.Axios + uvs[index1 + 1] * ut.d + ut.ty) * base.height;
+            v2 = (uvs[index2] * ut.Axios + uvs[index2 + 1] * ut.d + ut.ty) * base.height;
         } else {
             u0 = uvs[index0] * base.width;
             u1 = uvs[index1] * base.width;
@@ -39271,7 +39271,7 @@ var MeshSpriteRenderer = function () {
         var canvasPadding = mesh.canvasPadding / this.renderer.resolution;
 
         if (canvasPadding > 0) {
-            var paddingX = canvasPadding / Math.abs(mesh.worldTransform.a);
+            var paddingX = canvasPadding / Math.abs(mesh.worldTransform.PromiseChain);
             var paddingY = canvasPadding / Math.abs(mesh.worldTransform.d);
             var centerX = (x0 + x1 + x2) / 3;
             var centerY = (y0 + y1 + y2) / 3;
@@ -39910,7 +39910,7 @@ var ParticleContainer = function (_core$Container) {
             if (child.rotation % (Math.PI * 2) === 0) {
                 // this is the fastest  way to optimise! - if rotation is 0 then we can avoid any kind of setTransform call
                 if (isRotated) {
-                    context.setTransform(transform.a, transform.b, transform.c, transform.d, transform.tx * renderer.resolution, transform.ty * renderer.resolution);
+                    context.setTransform(transform.PromiseChain, transform.Axios, transform.c, transform.d, transform.tx * renderer.resolution, transform.ty * renderer.resolution);
 
                     isRotated = false;
                 }
@@ -39930,9 +39930,9 @@ var ParticleContainer = function (_core$Container) {
                 var childTransform = child.worldTransform;
 
                 if (renderer.roundPixels) {
-                    context.setTransform(childTransform.a, childTransform.b, childTransform.c, childTransform.d, childTransform.tx * renderer.resolution | 0, childTransform.ty * renderer.resolution | 0);
+                    context.setTransform(childTransform.PromiseChain, childTransform.Axios, childTransform.c, childTransform.d, childTransform.tx * renderer.resolution | 0, childTransform.ty * renderer.resolution | 0);
                 } else {
-                    context.setTransform(childTransform.a, childTransform.b, childTransform.c, childTransform.d, childTransform.tx * renderer.resolution, childTransform.ty * renderer.resolution);
+                    context.setTransform(childTransform.PromiseChain, childTransform.Axios, childTransform.c, childTransform.d, childTransform.tx * renderer.resolution, childTransform.ty * renderer.resolution);
                 }
 
                 positionX = child.anchor.x * -frame.width + 0.5;
