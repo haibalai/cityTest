@@ -65,52 +65,44 @@
             map.layers.add(layer);
             // 结束触发恢复
             let scl = 0;
-            view.on("mouse-wheel",(e)=>{
+            // view.on("mouse-wheel",(e)=>{
+            //
+            //     let b = view.mapViewNavigation;
+            //     let d = e;
+            //     let _canZoom  = true;
+            //     console.log(d.deltaY,d.x, d.y);
+            //
+            //     let el = document.getElementById("viewDiv")
+            //     let fa = el.offsetWidth/el.getBoundingClientRect().width;
+            //     let fa1 = el.offsetHeight/el.getBoundingClientRect().height;
+            //     let x = d.x * fa;
+            //     let y = d.y * fa1;
+            //     if (d = b.zoom(1 / Math.pow(.6, 1 / 60 * d.deltaY), [x,y ])) _canZoom = !1, d.always(function () {
+            //         e._canZoom = !0;
+            //         b.end()
+            //     });
+            //     e.stopPropagation();
+            // })
 
-                let b = view.mapViewNavigation;
-                let d = e;
-                let _canZoom  = true;
-                console.log(d.deltaY,d.x, d.y);
-
-                let el = document.getElementById("viewDiv")
-                let fa = el.offsetWidth/el.getBoundingClientRect().width;
-                let fa1 = el.offsetHeight/el.getBoundingClientRect().height;
-                let x = d.x * fa;
-                let y = d.y * fa1;
-                if (d = b.zoom(1 / Math.pow(.6, 1 / 60 * d.deltaY), [x,y ])) _canZoom = !1, d.always(function () {
-                    e._canZoom = !0;
-                    b.end()
-                });
-                e.stopPropagation();
-            })
 
 
-
-            view.on("double-click",(e)=>{
-
-                let b = view.mapViewNavigation;
-                let d = e;
-                let _canZoom  = true;
-                console.log(d.deltaY,d.x, d.y);
-
-                let el = document.getElementById("viewDiv")
-                let fa = el.offsetWidth/el.getBoundingClientRect().width;
-                let fa1 = el.offsetHeight/el.getBoundingClientRect().height;
-                let x = d.x * fa;
-                let y = d.y * fa1;
-                b.zoomIn([x, y]);
-                e.stopPropagation();
-            })
+            // view.on("double-click",(e)=>{
+            //
+            //     let b = view.mapViewNavigation;
+            //     let d = e;
+            //     let _canZoom  = true;
+            //     console.log(d.deltaY,d.x, d.y);
+            //
+            //     let el = document.getElementById("viewDiv")
+            //     let fa = el.offsetWidth/el.getBoundingClientRect().width;
+            //     let fa1 = el.offsetHeight/el.getBoundingClientRect().height;
+            //     let x = d.x * fa;
+            //     let y = d.y * fa1;
+            //     b.zoomIn([x, y]);
+            //     e.stopPropagation();
+            // })
             view.on("click",(e)=>{
                 let el = document.getElementById("viewDiv")
-
-
-                const canvas = document.getElementsByClassName('esri-view-surface')[0].children[0];
-
-                canvas.setAttribute('width', el.getBoundingClientRect().width);
-                canvas.setAttribute('height', el.getBoundingClientRect().height);
-                canvas.style.width =el.getBoundingClientRect().width + 'px';
-                canvas.style.height =  el.getBoundingClientRect().height + 'px';
 
 
                 var markerSymbol = {
