@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+    function domtree(dom,index=0){
+        index++;//domtree深度
+        if (dom.nodeType === Node.ELEMENT_NODE) {
+            console.log(dom.tagName+":"+index)
+        }
+        let childNodes = dom.childNodes;
+        for (let i=0;i<childNodes.length;i++) {
+            if(childNodes[i].nodeType === Node.ELEMENT_NODE){
+                domtree(childNodes[i],index)
+            }
+        }
+    }
+</script>
+</body>
+</html>

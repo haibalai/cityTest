@@ -5,7 +5,175 @@
     <title>Title</title>
 </head>
 <body>
+<script>
 
+    Array.prototype.push2 = function(){
+        this.splice.apply(this, [this.length, 0].concat(Array.prototype.slice.apply(arguments)));
+        return this.length;
+    }
+
+
+
+    Array.prototype.pop2 = function(){
+        return this.splice(this.length - 1, 1)[0];
+    }
+
+    Array.prototype.myForEach = function (fn, callback) {
+        if (typeof fn === 'function') { // 第一个参数必须是函数才能执行，否则报错
+            // 遍历数组
+            for(var i = 0, len = this.length; i < len; i ++) {
+                fn.call(callback, this[i], i, this) // 将this绑定到回调函数之上，并传入参数
+            }
+        }
+    }
+
+
+    Array.prototype.myMap = function(fn, callback) {
+        var arr = [] // 与 forEach() 的区别所在，返回一个新数组
+        for(var i = 0, len = this.length; i < len; i ++) {
+            arr.push(fn.call(callback, this[i], i, this))
+        }
+        return arr
+    }
+
+
+
+    Array.prototype.myFilter = function (fn, callback) {
+        var arr = []
+        if (typeof fn === 'function') {
+            for(var k = 0, length3 = this.length; k < length3; k++){
+                // 回调函数的返回值必定是一个 boolean 类型的
+                // 所以可以直接利用 ‘&&’ 来判断当返回值为真的时候，将此元素加入到新数组之中
+                fn.call(callback, this[k], k, this) && arr.push(this[k])
+            }
+        }
+        return arr
+    }
+
+
+    Array.prototype.mySome = function (fn, callback) {
+        // 这个不知道该称为什么点的一个点是用来设定当数组中有符合条件的值就是返回真
+        // 并同时跳出循环，因为 some 只需要有至少一个满足就可以了
+        var flag = false
+        if (typeof fn === 'function') {
+            for (var j = 0, length2 = this.length; j < length2; j++) {
+                if (flag == true) {
+                    break
+                }
+                // 这句是为了严谨起见
+                // 虽然本身就已经是一个 boolean 值了，但是还是要加 !! 来强转一下
+                flag = !!fn.call(callback, this[j], j, this)
+            }
+        }
+        return flag
+    }
+
+
+    Array.prototype.myEvery = function (fn, callback) {
+        // every 的设定就和 some 的完全相反了，some 是要至少一个，
+        // every 是要全部满足，所以一旦有一个不满足就跳出循环并返回 false
+        var flag = true
+        if (typeof fn === 'function') {
+            for (var j = 0, length2 = this.length; j < length2; j++) {
+                if (flag === false) {
+                    break
+                }
+                flag = !!fn.call(callback, this[j], j, this)
+            }
+        }
+        return flag
+
+    }
+
+
+    Array.prototype.myFill = function() {
+        var arr = this
+        var val = arguments[0], start = arguments[1] || 0, end = arguments[2] || arr.length
+        for (var i = start; i < end; i++) {
+            arr[i] = val
+        }
+        return arr
+
+    }
+    Array.prototype.myConcat = function () {
+        var arr = this
+        // 得到形参列表的长度，判断需要几次循环来拼接
+        var len = arguments.length
+        for (let i = 0; i < len; i++) {
+            // 如果要拼接的是数组
+            if (Object.prototype.toString.call(arguments[i]) === '[object Array]') {
+                var len2 = arguments[i].length
+                for (let j = 0; j < len2; j++) {
+                    arr[arr.length] = arguments[i][j]
+                }
+            } else { // 如果是数值
+                arr[arr.length] = arguments[i]
+            }
+        }
+        return arr
+    }
+
+    Array.prototype.myEntries = function* () {
+        // function* () 是Generator函数的定义方式
+        for (var key of this) {
+            // 遍历数组，返回一个包含下标和对应值的数组
+            yield [key - 1, this[key - 1]];
+        }
+    }
+
+    Array.prototype.myFind = function(fn, callback) {
+        let len = this.length
+        if(typeof fn === 'function') {
+            // 参数必须类型为函数
+            for(let i = 0; i < len; i ++) {
+                if(fn.call(callback, this[i], i, this)) {
+                    return this[i]
+                }
+            }
+        } else {
+            throw new Error(`${fn} is not a funciton`)
+            // 抛出一个错误
+        }
+    }
+
+
+    Array.prototype.myFindIndex = function(fn, callback) {
+        let len = this.length
+        if(typeof fn === 'function') {
+            // 参数必须类型为函数
+            for(let i = 0; i < len; i ++) {
+                if(fn.call(callback, this[i], i, this)) {
+                    return i
+                }
+            }
+        } else {
+            throw new Error(`${fn} is not a funciton`)
+            // 抛出一个错误
+        }
+        return -1
+        // 没有查找到符合条件的，返回-1，find()的实现中没写，默认返回 undefined
+    }
+
+    Array.prototype.myIncludes = function (src, index = 0) {
+        let flag = false, // 返回值，默认返回 false
+            len = this.length
+        index = index >= 0 ? index : len + index // 判断索引
+        for(let i = index; i < len; i ++) {
+            if(this[i] === src) {
+                flag = true
+                break
+            }
+        }
+        return flag
+    }
+
+
+
+
+
+
+
+</script>
 
 
 

@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+    <title>ArcGIS API for JavaScript: BAZK_coolmap_1_20190428</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <!-- Favorite Bookmark Icon -->
+    <link href="http://localhost/arcgis api/arcgis_js_v49_api/arcgis_js_api/library/4.9/esri/css/main.css"
+          rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript"
+            src="http://localhost/arcgis api/arcgis_js_v49_api/arcgis_js_api/library/4.9/dojo/dojo.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        html,
+        body {
+            overflow: hidden;
+            /*transform-origin: 0 0;*/
+            transform: scale(1.2,1.2);
+        }
+
+        #viewDiv {
+            height: 500px;
+            width: 1000px;
+            border: 1px solid #ccc;
+            /*transform-origin: 0 0;*/
+        }
+
+        .esri-display-object {
+            /*transform-origin: 0 0;*/
+        }
+
+        .esri-component esri-attribution esri-widget{
+            display: none!important;
+        }
+        .esri-attribution__powered-by{
+            display: none!important;
+        }
+    </style>
+    <script type="text/javascript">
+        require([
+            "esri/Map",
+            "esri/Graphic",
+            "esri/views/SceneView",
+            "esri/widgets/Home",
+            "esri/layers/TileLayer",
+            "dojo/domReady!"
+        ], function (Map,Graphic, SceneView, Home, TileLayer) {
+            var map = new Map();
+            var view = new SceneView({
+                container: "viewDiv",
+                map: map
+            });
+            var homeBtn = new Home({
+                view: view
+            });
+            view.ui.add(homeBtn, "top-left");
+            var layer = null,
+                layerUrl = "https://arcgis.cityworks.cn:443/server/rest/services/BAZK_coolmap_3_20190428/MapServer",
+                layer = new TileLayer(layerUrl, null);
+            map.layers.add(layer);
+            // 结束触发恢复
+
+            // view.on("mouse-wheel",(e)=>{
+            //     const viewDiv = document.getElementsByClassName('esri-display-object')[0];
+            //     // viewDiv.style.transformOrigin = `${e.x}px ${e.y}px`;
+            //     const mapPoint = view.toMap({
+            //         x: e.x,
+            //         y: e.y
+            //     })
+            //     console.log(e.x);
+            //
+            //     let b = view.mapViewNavigation;
+            //     let d = e;
+            //     let _canZoom  = true;
+            //     console.log(d.deltaY,d.x, d.y);
+            //
+            //     let el = document.getElementById("viewDiv")
+            //     let fa = el.offsetWidth/el.getBoundingClientRect().width;
+            //     let fa1 = el.offsetHeight/el.getBoundingClientRect().height;
+            //     let x = d.x * fa;
+            //     let y = d.y * fa1;
+            //     if (d = b.zoom(1 / Math.pow(.6, 1 / 60 * d.deltaY), [x,y ])) _canZoom = !1, d.always(function () {
+            //         e._canZoom = !0;
+            //         b.end()
+            //     });
+            //     e.stopPropagation();
+            // })
+
+
+
+            // view.on("double-click",(e)=>{
+            //     const viewDiv = document.getElementsByClassName('esri-display-object')[0];
+            //     // viewDiv.style.transformOrigin = `${e.x}px ${e.y}px`;
+            //     const mapPoint = view.toMap({
+            //         x: e.x,
+            //         y: e.y
+            //     })
+            //     console.log(e.x);
+            //
+            //     let b = view.mapViewNavigation;
+            //     let d = e;
+            //     let _canZoom  = true;
+            //     console.log(d.deltaY,d.x, d.y);
+            //
+            //     let el = document.getElementById("viewDiv")
+            //     let fa = el.offsetWidth/el.getBoundingClientRect().width;
+            //     let fa1 = el.offsetHeight/el.getBoundingClientRect().height;
+            //     let x = d.x * fa;
+            //     let y = d.y * fa1;
+            //     b.zoomIn([x, y]);
+            //     e.stopPropagation();
+            // })
+            view.on("click",(e)=>{
+             const canvas = document.getElementsByClassName('esri-view-surface')[0].children[0];
+             let el = document.getElementById("viewDiv")
+             console.log(canvas)
+                canvas.width = el.getBoundingClientRect().width;
+                canvas.height = el.getBoundingClientRect().height;
+
+
+
+              // console.log(e.x,e.y,el.getBoundingClientRect(),el.offsetHeight,el.style.height,el.clientHeight,el.scrollHeight);
+              //   view.graphics.removeAll();
+                var markerSymbol = {
+                    type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+                    color: [226, 119, 40],
+                    outline: {
+                        // autocasts as new SimpleLineSymbol()
+                        color: [255, 255, 255],
+                        width: 2
+                    }
+                };
+
+                // Create a graphic and add the geometry and symbol to it
+
+
+                let fa = el.offsetWidth/el.getBoundingClientRect().width;
+                let fa1 = el.offsetHeight/el.getBoundingClientRect().height;
+                let p = view.toScreen(view.center)
+                console.log(e,e.x,e.y,p.x/fa,p.y/fa1);
+                if(view.graphics.length == 0){
+
+                }
+
+                let tt =  {
+                    x:e.x * fa,
+                    y:e.y * fa1
+                }
+                let m = view.toMap(
+                    tt
+                )
+                // e.mapPoint = m;
+
+                m.z = 1;
+                var pointGraphic = new Graphic({
+                    geometry:m,
+                    symbol: markerSymbol
+                });
+
+                e.mapPoint = m;
+                e.x = e.x * fa;
+                e.y = e.y * fa1
+                if(view.graphics.length == 0){
+                    view.graphics.add(pointGraphic);
+                }
+                view.hitTest(e).then(function (response) {
+                    console.log(response)
+
+                })
+            })
+
+
+
+            // 监听实时缩放
+
+
+
+
+        });
+    </script>
+</head>
+
+<body>
+<!--<div style="position: absolute;width: 50px;height: 50px;background-color: red;top: 200px;left: 200px;z-index: 100"></div>-->
+<div id="viewDiv"></div>
+
+<script>
+
+
+</script>
+</body>
+
+</html>
