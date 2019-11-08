@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Create a local scene - 4.3</title>
+    <style>
+        html,
+        body,
+        #sss {
+            /*padding: 0;*/
+            /*margin: 0;*/
+            height: 500px;
+            width: 1000px;
+        }
+
+        #homeDiv {
+            left: 15px;
+            top: 130px;
+            z-index: 35;
+            position: absolute;
+        }
+    </style>
+
+    <!--<link rel="stylesheet" href="http://arcgislg.ascs.tech/arcgis_js_v43_api/arcgis_js_api/library/4.3/4.3/esri/css/main.css">-->
+    <!--<script src="http://arcgislg.ascs.tech/arcgis_js_v43_api/arcgis_js_api/library/4.3/4.3/init.js"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.js"></script>-->
+    <!--<script src="../js/threejs/loaders/collada/ColladaLoader.js"></script>-->
+    <!--<script src="../js/threejs/loaders/collada/KeyFrameAnimation.js"></script>-->
+    <!--<script src="../js/threejs/loaders/collada/AnimationHandler.js"></script>-->
+    <!--<script src="../js/threejs/loaders/collada/Animation.js"></script>-->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.js"></script>
+    <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://js.arcgis.com/4.11/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.11/"></script>
+
+    <!--<link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/esri/css/main.css">-->
+    <!--<script src="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/dojo/dojo.js"></script>-->
+
+    <script>
+
+
+        var isShow = true;
+        require([
+            "esri/Map",
+
+            "esri/views/3d/externalRenderers",
+            "esri/config",
+            "esri/Basemap",
+            "esri/config",
+            "esri/geometry/Extent",
+            "esri/geometry/SpatialReference",
+            "esri/views/SceneView",
+            "esri/views/MapView",
+            "esri/layers/FeatureLayer",
+            "esri/layers/ImageryLayer",
+            "esri/layers/TileLayer",
+            "esri/layers/SceneLayer",
+            "esri/layers/ElevationLayer",
+            "esri/renderers/SimpleRenderer",
+            "esri/symbols/ObjectSymbol3DLayer",
+            "esri/symbols/IconSymbol3DLayer",
+            "esri/symbols/PointSymbol3D",
+            "esri/tasks/QueryTask",
+            "esri/tasks/support/Query",
+            "esri/widgets/Home",
+            "dojo/domReady!"
+        ], function(Map,externalRenderers,esriConfig,Basemap,esriConfig,Extent,SpatialReference, SceneView,MapView, FeatureLayer,ImageryLayer,TileLayer,SceneLayer,ElevationLayer,
+                    SimpleRenderer, ObjectSymbol3DLayer,
+                    IconSymbol3DLayer, PointSymbol3D, QueryTask, Query, Home
+        ) {
+
+
+            var layer = new TileLayer(
+                {
+                    url: "http://arcgis.cityworks.cn/server/rest/services/Hosted/BAZK_coolmap_3_nolabel/MapServer",
+
+
+                });
+            var map = new Map({
+                layers:[layer]
+            });
+            map.add(layer);
+
+            var view = new SceneView({
+                container:"sss",
+                viewingMode: "local",
+                map:map,
+            })
+
+            let classRender = {
+
+                setup:function(context) {
+                    this.createScene(context)
+                },
+                render:function(context) {
+
+
+                    const camera = context.camera;
+                    // this.renderer.setViewport(0, 0, view.width, view.height);
+                    this.camera.position.set(camera.eye[0], camera.eye[1], camera.eye[2]);
+                    this.camera.up.set(camera.up[0], camera.up[1], camera.up[2]);
+                    this.camera.lookAt(new THREE.Vector3(camera.center[0], camera.center[1], camera.center[2]));
+                    this.camera.projectionMatrix.fromArray(camera.projectionMatrix);
+
+                    this.updateLights(context);
+
+                    this.renderer.resetGLState();
+                    this.renderer.render(this.scene, this.camera);
+                    context.resetWebGLState();
+                    externalRenderers.requestRender(view);
+
+                },
+                createScene(context){
+
+                    //初始化renderer
+                    if(isShow){
+                        this.renderer = new THREE.WebGLRenderer({
+                            context: context.gl,
+                            ne: false
+                        });
+
+                        this.renderer.autoClearDepth = false;
+                        this.renderer.autoClearStencil = false;
+                        this.renderer.autoClearColor = false;
+                    }else{
+                        this.renderer = new THREE.WebGLRenderer({
+
+                            ne: false
+                        });
+                        this.renderer.setClearColor(0xFF7914, 1.0);
+                        this.renderer.setSize(1000, 500);
+                    }
+
+
+
+
+
+
+                    //初始化camera
+                    const camera = context.camera;
+                    this.camera = new THREE.PerspectiveCamera(camera.fovY, camera.aspect, camera.near, camera.far);
+
+                    this.scene = new THREE.Scene();
+
+                    this.ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+                    this.scene.add(this.ambientLight);
+                    this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+                    this.scene.add(this.directionalLight);
+
+                    const size = view.scale / 100;
+                    const geometry =
+                        new THREE.BoxBufferGeometry(100, 100, 100);
+
+                    const material =
+                        new THREE.MeshPhongMaterial({ color: "#ff4b83" });
+
+                    const m = new THREE.Mesh(geometry, material);
+
+                    this.scene.add(m);
+
+                    const transform = new THREE.Matrix4();
+                    // m.translateZ(size / 2);
+
+                    externalRenderers.renderCoordinateTransformAt(
+                        view,
+                        [12669823.680045042,2593812.4000144904,-2],
+                        view.spatialReference,
+                        transform.elements
+                    );
+                    transform.decompose(m.position, m.quaternion,
+                        m.scale);
+
+
+                    externalRenderers.requestRender(view);
+                    if(!isShow){
+                        document.body.appendChild(this.renderer.domElement);
+                    }
+
+                },
+                updateLights:function(context) {
+
+                    const { direction, diffuse, ambient } = context.sunLight;
+                    this.directionalLight.position.set(direction[0], direction[1], direction[2]);
+                    this.directionalLight.intensity = diffuse.intensity;
+                    this.directionalLight.color = new THREE.Color(diffuse.color[0], diffuse.color[1], diffuse.color[2]);
+                    this.ambientLight.intensity = ambient.intensity;
+                    this.ambientLight.color = new THREE.Color(ambient.color[0], ambient.color[1], ambient.color[2]);
+                }
+
+
+
+
+            }
+            view.whenLayerView(layer)
+                .then(function(layerView) {
+                    externalRenderers.add(view, classRender);
+                })
+
+            view.on("click",(e)=>{
+                console.log(e,view);
+            })
+
+        });
+
+
+        function test() {
+
+        }
+    </script>
+</head>
+
+<body>
+<div id="sss"></div>
+<!--<canvas id="renderCanvas" touch-action="none"></canvas>-->
+<!--<button onclick="test()">222222</button>-->
+</body>
+</html>

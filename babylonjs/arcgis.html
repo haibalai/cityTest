@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Create a local scene - 4.3</title>
+    <style>
+        html,
+        body,
+        #sss {
+            /*padding: 0;*/
+            /*margin: 0;*/
+            height: 500px;
+            width: 1000px;
+        }
+        #renderCanvas {
+            height: 500px;
+            width: 1000px;
+            touch-action: none;
+        }
+
+        #homeDiv {
+            left: 15px;
+            top: 130px;
+            z-index: 35;
+            position: absolute;
+        }
+    </style>
+
+    <!--<link rel="stylesheet" href="http://arcgislg.ascs.tech/arcgis_js_v43_api/arcgis_js_api/library/4.3/4.3/esri/css/main.css">-->
+    <!--<script src="http://arcgislg.ascs.tech/arcgis_js_v43_api/arcgis_js_api/library/4.3/4.3/init.js"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.js"></script>-->
+    <!--<script src="../js/threejs/loaders/collada/ColladaLoader.js"></script>-->
+    <!--<script src="../js/threejs/loaders/collada/KeyFrameAnimation.js"></script>-->
+    <!--<script src="../js/threejs/loaders/collada/AnimationHandler.js"></script>-->
+    <!--<script src="../js/threejs/loaders/collada/Animation.js"></script>-->
+
+    <script src="https://preview.babylonjs.com/babylon.js"></script>
+    <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://js.arcgis.com/4.11/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.11/"></script>
+
+    <!--<link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/esri/css/main.css">-->
+    <!--<script src="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/dojo/dojo.js"></script>-->
+
+
+</head>
+
+<body>
+<div id="sss"></div>
+<canvas id="renderCanvas" touch-action="none"></canvas>
+
+<script>
+
+
+    require([
+        "esri/Map",
+
+        "esri/views/3d/externalRenderers",
+        "esri/config",
+        "esri/Basemap",
+        "esri/config",
+        "esri/geometry/Extent",
+        "esri/geometry/SpatialReference",
+        "esri/views/SceneView",
+        "esri/views/MapView",
+        "esri/layers/FeatureLayer",
+        "esri/layers/ImageryLayer",
+        "esri/layers/TileLayer",
+        "esri/layers/SceneLayer",
+        "esri/layers/ElevationLayer",
+        "esri/renderers/SimpleRenderer",
+        "esri/symbols/ObjectSymbol3DLayer",
+        "esri/symbols/IconSymbol3DLayer",
+        "esri/symbols/PointSymbol3D",
+        "esri/tasks/QueryTask",
+        "esri/tasks/support/Query",
+        "esri/widgets/Home",
+        "dojo/domReady!"
+    ], function(Map,externalRenderers,esriConfig,Basemap,esriConfig,Extent,SpatialReference, SceneView,MapView, FeatureLayer,ImageryLayer,TileLayer,SceneLayer,ElevationLayer,
+                SimpleRenderer, ObjectSymbol3DLayer,
+                IconSymbol3DLayer, PointSymbol3D, QueryTask, Query, Home
+    ) {
+
+
+        var layer = new TileLayer(
+            {
+                url: "http://arcgis.cityworks.cn/server/rest/services/Hosted/BAZK_coolmap_3_nolabel/MapServer",
+
+
+            });
+        var map = new Map({
+            layers:[layer]
+        });
+        map.add(layer);
+
+        var view = new SceneView({
+            container:"sss",
+            viewingMode: "global",
+            map:map,
+        })
+
+        let classRender = {
+
+            setup:function(context) {
+                this.createScene(context)
+            },
+            render:function(context) {
+                var cam = context.camera;
+                if( this.camera){
+                    this.camera.position.set(cam.eye[0], cam.eye[1], cam.eye[2]);
+                    this.camera.upVector.set(cam.up[0], cam.up[1], cam.up[2]);
+                    let targat=  new BABYLON.Vector3(cam.center[0], cam.center[1], cam.center[2])
+                    this.camera.setTarget(targat);
+                }
+
+
+                let proMat =   BABYLON.Matrix.FromArray(cam.projectionMatrix);
+                // this.camera.freezeProjectionMatrix(proMat);
+
+                if( this.scene){
+                    this.scene.render();
+                }
+
+                externalRenderers.requestRender(view);
+                context.resetWebGLState();
+
+            },
+            createScene(context){
+
+
+
+
+
+                let obj = init(context.gl,true,view);
+                this.camera = obj.camera;
+                this.scene = obj.scene;
+
+
+
+            }
+
+
+
+        }
+        view.whenLayerView(layer)
+            .then(function(layerView) {
+                externalRenderers.add(view, classRender);
+            })
+
+        view.on("click",(e)=>{
+            console.log(e,view);
+        })
+
+    });
+
+    function init(canvas,bool,view){
+
+
+        let engine = new BABYLON.Engine(canvas, true);
+        let scene = new BABYLON.Scene(engine);
+
+        if(bool){
+            scene.autoClearDepthAndStencil = false;
+            scene.clearColor = new BABYLON.Color4(0, 0, 0,0);
+            scene.autoClear = false;
+        }
+
+
+
+
+        let position=  new BABYLON.Vector3(0,0,-10)
+
+        let camera = new BABYLON.TargetCamera("TargetCamera",position, scene);
+        // this.camera.setTarget(targat);
+        // this.camera = new BABYLON.FreeCamera("Camera",  new BABYLON.Vector3(0, 0, 0), this.scene);
+
+
+        // this.camera = new BABYLON.ArcRotateCamera("Camera", - 3 * Math.PI /4, Math.PI / 4, 15, BABYLON.Vector3.Zero(), this.scene);
+        camera.attachControl(canvas, true);
+        // // Add lights to the scene
+        // var light1 = new BABYLON.HemisphericLight("light1", targat, this.scene);
+        // var light2 = new BABYLON.PointLight("light2", targat, this.scene);
+
+
+
+
+        camera.maxZ = 50000000;
+        let sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter:1000000}, scene);
+        sphere.z = 50000000;
+        sphere.x = 1;
+        // if(bool){
+        //
+        //
+        //     const transform = new BABYLON.Matrix();
+        //     externalRenderers.renderCoordinateTransformAt(view, [ 12669823.680045042,2593812.4000144904,10], view.spatialReference,    transform.m);
+        //     transform.decompose(sphere.absoluteScaling,sphere.absoluteRotationQuaternion,sphere.absolutePosition);
+        //
+        // }
+
+
+
+        return {
+            engine:engine,
+            scene:scene,
+            camera:camera
+
+        }
+    }
+
+    let canvas1 = document.getElementById("renderCanvas");
+    let newobj = init(canvas1,false);
+    newobj.engine.runRenderLoop(function () {
+        newobj.scene.render();
+    });
+
+</script>
+</body>
+</html>

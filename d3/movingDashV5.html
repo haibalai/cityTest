@@ -18,8 +18,17 @@
 
         path {
             stroke: steelblue;
-            stroke-width: 10;
+            stroke-width: 2;
             fill: none;
+            stroke-dasharray: 10;
+            /*animation: dash 5s linear infinite;*/
+            /*animation-direction: reverse;*/
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 1000;
+            }
         }
 
         .selector{
@@ -38,7 +47,7 @@
     //初始化svg对象
     var svg = d3.select("body")
         .append("svg")
-        .attr("width", 500).attr("height", 400);
+        .attr("width", 1920).attr("height", 800);
 
 
     const defs1 = svg.append("defs");
@@ -49,11 +58,11 @@
         .attr("width","200%")
         .attr("height","200%")
 
-    linearGradient.append("feDropShadow")
+  let feDropShadow =   linearGradient.append("feDropShadow")
         .attr("dx", "0")
         .attr("dy","0")
         .attr("stdDeviation","0")
-        .attr("flood-color","hsla(180,90%,40%,0.9)")
+        .attr("flood-color","hsla(220,90%,40%,0.9)")
 
 
 
@@ -62,38 +71,46 @@
     var x = d3.scaleLinear().domain([0, 10]).range([0, 700]); //线性比例是连续定量数据的良好默认选择,因为它们保留了比例差异
     var y = d3.scaleLinear().domain([0, 10]).range([10, 290]);
 
-    var data = d3.range(50).map(function () {
-        return Math.random() * 10
-    });
+    // var data = d3.range(50).map(function () {
+    //     return Math.random() * 10
+    // });
+
+    var data = [
+       [100,200],
+       [300,500],
+       [1000,800]
+
+    ]
 
     console.log(data);
     var line = d3.line()
-        // .curve(d3.curveCardinal)
-        .x(function (d, i) {
-            return x(i);
+        .curve(d3.curveLinearClosed)
+        .x(function (d) {
+            return d[0];
         })
         .y(function (d) {
-            return y(d);
+            return d[1];
         });
 
-    var path = svg.append("svg:path")
+    var path = svg.append("path")
     path.attr("d", line(data))
-    path.attr("class","selector")
+    // path.attr("")
+    path.attr("filter","url(#blur)")
 
 
 
+console.log(defs1,"222222222222");
+    // var defs = document.querySelector("defs"); // the  element inside the SVG
+    // var blur = defs1._groups[0]["0"].querySelector("#blur"); // the blur filter
+    // var blurFilter = blur.firstElementChild; // the feGaussianBlur primitive
 
-    var defs = document.querySelector("defs"); // the  element inside the SVG
-    var blur = defs.querySelector("#blur"); // the blur filter
-    var blurFilter = blur.firstElementChild; // the feGaussianBlur primitive
 
-
-    var multiplier=0.2;
+    var multiplier=0.5;
 
     var xDiff= 0.01;
     var yDiff= 0.01;
     function setBlur(x,y){
-        blurFilter.setAttribute("stdDeviation",x);
+        feDropShadow.attr("stdDeviation",x);
     }
     let flag = true;
     (function updateMotionBlur(){

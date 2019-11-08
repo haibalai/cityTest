@@ -79,7 +79,7 @@
 
             var layer = new TileLayer(
                 {
-                    url: "http://10.10.3.10:6080/arcgis/rest/services/pingshan/Mapserver",
+                    url: "http://arcgis.cityworks.cn/server/rest/services/Hosted/BAZK_coolmap_3_nolabel/MapServer",
 
 
                 });
@@ -90,7 +90,7 @@
 
             var view = new SceneView({
                 container:"sss",
-                viewingMode: "global",
+                viewingMode: "local",
                 map:map,
             })
 
@@ -104,7 +104,7 @@
                 },
                 render:function(context) {
                     this.updateCamera(context);
-                    this.updateLights(context);
+                    // this.updateLights(context);
                     this.renderer.resetGLState();
                     this.renderer.render(this.scene, this.camera);
                     context.resetWebGLState();
@@ -122,9 +122,9 @@
                     loader.load("../data/sweeper.dae", (collada) => {
                         this.object = collada.scene;
                         this.applyTransformAt(this.object, location);
-                        this.object.scale.multiplyScalar(2);
-                        this.object.rotateOnAxis(new THREE.Vector3(1, 0, 0), Math.PI / 2);
-                        this.object.updateMatrix();
+                        // this.object.scale.multiplyScalar(2);
+                        // this.object.rotateOnAxis(new THREE.Vector3(1, 0, 0), Math.PI / 2);
+                        // this.object.updateMatrix();
                         this.scene.add(this.object);
                         externalRenderers.requestRender(view);
                     });
@@ -139,6 +139,7 @@
                 update:function(renderAt) {
                     if (this.object != null) {
                         this.point = view.toMap(renderAt);
+                        console.log(  this.point);
                         if (this.point != null) {
                             this.rotation = Math.PI * 2 / 3;
                             this.applyTransformAt(this.object, this.point);
@@ -175,13 +176,13 @@
                     // The ArcGIS JS API renders to custom offscreen buffers, and not to the default framebuffers.
                     // We have to inject this bit of code into the three.js runtime in order for it to bind those
                     // buffers instead of the default ones.
-                    const originalSetRenderTarget = this.renderer.setRenderTarget.bind(this.renderer);
-                    this.renderer.setRenderTarget = (target) => {
-                        originalSetRenderTarget(target);
-                        if (target == null) {
-                            context.bindRenderTarget();
-                        }
-                    };
+                    // const originalSetRenderTarget = this.renderer.setRenderTarget.bind(this.renderer);
+                    // this.renderer.setRenderTarget = (target) => {
+                    //     originalSetRenderTarget(target);
+                    //     if (target == null) {
+                    //         context.bindRenderTarget();
+                    //     }
+                    // };
                 },
                 initializeCamera:function(context) {
                     const camera = context.camera;
@@ -195,6 +196,7 @@
                     this.scene.add(this.directionalLight);
                 },
                 applyTransformAt:function(object, location) {
+
                     const transform = new THREE.Matrix4();
                     externalRenderers.renderCoordinateTransformAt(view, [location.x, location.y, location.z + 5], location.spatialReference, transform.elements);
                     transform.decompose(object.position, object.quaternion, object.scale);

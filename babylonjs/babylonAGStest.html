@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Create a local scene - 4.3</title>
+    <style>
+        html,
+        body {
+            /*padding: 0;*/
+            /*margin: 0;*/
+            height: 100%;
+            width: 100%;
+        }
+
+        #sss {
+            /*padding: 0;*/
+            /*margin: 0;*/
+            height: 50%;
+            width: 50%;
+        }
+        #renderCanvas {
+            width: 50%;
+            height: 50%;
+            touch-action: none;
+        }
+
+        #homeDiv {
+            left: 15px;
+            top: 130px;
+            z-index: 35;
+            position: absolute;
+        }
+    </style>
+
+    <!--<link rel="stylesheet" href="http://arcgislg.ascs.tech/arcgis_js_v43_api/arcgis_js_api/library/4.3/4.3/esri/css/main.css">-->
+    <!--<script src="http://arcgislg.ascs.tech/arcgis_js_v43_api/arcgis_js_api/library/4.3/4.3/init.js"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.js"></script>-->
+    <!--<script src="../js/threejs/loaders/collada/ColladaLoader.js"></script>-->
+    <!--<script src="../js/threejs/loaders/collada/KeyFrameAnimation.js"></script>-->
+    <!--<script src="../js/threejs/loaders/collada/AnimationHandler.js"></script>-->
+    <!--<script src="../js/threejs/loaders/collada/Animation.js"></script>-->
+
+    <!--<script src="http://172.16.1.99/API/babylon.js"></script>-->
+    <!--<script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>-->
+    <!--<script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>-->
+
+    <script src="https://preview.babylonjs.com/babylon.js"></script>
+    <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://js.arcgis.com/4.11/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.11/"></script>
+
+    <!--<link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/esri/css/main.css">-->
+    <!--<script src="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/dojo/dojo.js"></script>-->
+
+    <script>
+
+        require([
+            "esri/Map",
+
+            "esri/views/3d/externalRenderers",
+            "esri/config",
+            "esri/Basemap",
+            "esri/config",
+            "esri/geometry/Extent",
+            "esri/geometry/SpatialReference",
+            "esri/views/SceneView",
+            "esri/views/MapView",
+            "esri/layers/FeatureLayer",
+            "esri/layers/ImageryLayer",
+            "esri/layers/TileLayer",
+            "esri/layers/SceneLayer",
+            "esri/layers/ElevationLayer",
+            "esri/renderers/SimpleRenderer",
+            "esri/symbols/ObjectSymbol3DLayer",
+            "esri/symbols/IconSymbol3DLayer",
+            "esri/symbols/PointSymbol3D",
+            "esri/tasks/QueryTask",
+            "esri/tasks/support/Query",
+            "esri/layers/WebTileLayer",
+            "esri/widgets/Home",
+            "dojo/domReady!"
+        ], function(Map,externalRenderers,esriConfig,Basemap,esriConfig,Extent,SpatialReference, SceneView,MapView, FeatureLayer,ImageryLayer,TileLayer,SceneLayer,ElevationLayer,
+                    SimpleRenderer, ObjectSymbol3DLayer,
+                    IconSymbol3DLayer, PointSymbol3D, QueryTask, Query, WebTileLayer,Home
+        ) {
+
+            var basemapLayer = new WebTileLayer({
+                //捷泰 底图
+                urlTemplate: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{level}/{row}/{col}"
+            });
+
+
+            var map = new Map({
+                layers:[basemapLayer]
+            });
+            var view = new SceneView({
+                container:"sss",
+                viewingMode: "global",
+                map:map,
+            })
+
+            let myFirstExternalRenderer = {
+
+                setup:function(context) {
+
+
+                    var canvas = document.getElementById("renderCanvas");
+                     // canvas= context.gl
+                    var engine = new BABYLON.Engine(canvas, true, { premultipliedAlpha:false, preserveDrawingBuffer: true, stencil: true });
+
+                    var scene = new BABYLON.Scene(engine);
+                    this.scene=scene;
+                    scene.autoClearDepthAndStencil=false;
+                    scene.clearColor = new BABYLON.Color4(0, 0, 0,0);
+                     scene.autoClear=false
+
+
+                    let camera = new BABYLON.TargetCamera("camera1", new BABYLON.Vector3(0, 0, 0), scene);
+                    this.camera=camera;
+                    camera.maxZ=50000000
+                    camera.setTarget(BABYLON.Vector3.Zero());
+
+
+                    // camera.attachControl(canvas, true);
+                    var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 0.5, 0), scene);
+                    light.intensity = 0.8;
+
+
+                    let that  = this;
+                    // show axis
+                    var showAxis = function(size) {
+                        var makeTextPlane = function(text, color, size) {
+                            // var dynamicTexture = new BABYLON.DynamicTexture("DynamicTexture", 50, scene, true);
+                            // dynamicTexture.hasAlpha = true;
+                            // dynamicTexture.drawText(text, 5, 40, "bold 36px Arial", color , "transparent", true);
+                            var plane = new BABYLON.Mesh.CreatePlane("TextPlane", size, scene, true);
+                            // plane.material = new BABYLON.StandardMaterial("TextPlaneMaterial", scene);
+                            // plane.material.backFaceCulling = false;
+                            // plane.material.specularColor = new BABYLON.Color3(0, 0, 0);
+                            // plane.material.diffuseTexture = dynamicTexture;
+                            return plane;
+                        };
+
+                        // var axisX = BABYLON.Mesh.CreateLines("axisX", [
+                        //     new BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, 0.05 * size, 0),
+                        //     new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, -0.05 * size, 0)
+                        // ], scene);
+                        // axisX.color = new BABYLON.Color3(1, 0, 0);
+                        var xChar = makeTextPlane("X", "red", size / 10);
+                        xChar.position = new BABYLON.Vector3(0.9 * size, -0.05 * size, 0);
+                        that.xChar = xChar;
+                        // var axisY = BABYLON.Mesh.CreateLines("axisY", [
+                        //     new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3( -0.05 * size, size * 0.95, 0),
+                        //     new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3( 0.05 * size, size * 0.95, 0)
+                        // ], scene);
+                        // axisY.color = new BABYLON.Color3(0, 1, 0);
+                        // var yChar = makeTextPlane("Y", "green", size / 10);
+                        //
+                        // yChar.position = new BABYLON.Vector3(0, 0.9 * size, -0.05 * size);
+                        //
+                        // var axisZ = BABYLON.Mesh.CreateLines("axisZ", [
+                        //     new BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3( 0 , -0.05 * size, size * 0.95),
+                        //     new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3( 0, 0.05 * size, size * 0.95)
+                        // ], scene);
+                        // axisZ.color = new BABYLON.Color3(0, 0, 1);
+                        // var zChar = makeTextPlane("Z", "blue", size / 10);
+                        // zChar.position = new BABYLON.Vector3(0, 0.05 * size, 0.9 * size);
+                        // this.plane = zChar;
+                    };
+                    showAxis(10000000);
+
+
+
+                    //     TODO
+                    // var originalSetRenderTarget = this.renderer.setRenderTarget.bind(
+                    //     this.renderer
+                    // );
+                    // this.renderer.setRenderTarget = function(target) {
+                    //     originalSetRenderTarget(target);
+                    //     if (target == null) {
+                    //         context.bindRenderTarget();
+                    //     }
+                    // };
+
+
+
+
+
+                },
+                render:function(context) {
+                    var cam = context.camera;
+                    this.camera.position.set(cam.eye[0],cam.eye[1] ,cam.eye[2]);
+                    this.scene.render();
+                    this.camera.upVector.set(cam.up[0], cam.up[1], cam.up[2]);
+                    var targat=  new BABYLON.Vector3(cam.center[0], cam.center[1], cam.center[2])
+                    this.camera.setTarget(targat);
+
+                    let proMat=BABYLON.Matrix.FromArray(cam.projectionMatrix)
+                    // this.camera.freezeProjectionMatrix(proMat)
+
+
+                    context.resetWebGLState();
+                    externalRenderers.requestRender(view);
+                },
+
+            }
+
+
+
+            view.when(function() {
+                externalRenderers.add(view, myFirstExternalRenderer);
+            })
+
+        });
+
+    </script>
+</head>
+
+<body>
+<div id="sss"></div>
+<canvas id="renderCanvas"></canvas>
+<button onclick="test()">222222</button>
+</body>
+</html>

@@ -1,0 +1,59 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>ArcGIS API for JavaScript: Hosted/BAZK_coolmap_3_nolabel</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <!-- Favorite Bookmark Icon -->
+    <link rel="shortcut icon" type="image/ico" href="//www.esri.com/favicon.ico" />
+    <link rel="icon" type="image/ico" href="//www.esri.com/favicon.ico" />
+    <!-- End Favorite Bookmark Icon --> <link href="/server/rest/static/main.css" rel="stylesheet" type="text/css"/>
+
+    <link
+            rel="stylesheet"
+            href="https://js.arcgis.com/4.9/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.9/"></script>
+    <style>
+        html,
+        body,
+        #viewDiv {padding: 0;margin: 0;height: 98%;width: 100%;}
+    </style>
+    <script type="text/javascript">
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/widgets/Home",
+            "esri/layers/TileLayer",
+            "dojo/domReady!"
+        ], function(Map, MapView, Home, TileLayer) {
+            var map = new Map();
+            var view = new MapView({
+                container: "viewDiv",
+                map: map
+            });
+            var homeBtn = new Home({
+                view: view
+            });
+            view.ui.add(homeBtn, "top-left");
+            var layer = null,
+                layerUrl = "http://arcgis.cityworks.cn/server/rest/services/Hosted/BAZK_coolmap_3_nolabel/MapServer",
+                layer = new TileLayer(layerUrl, null);
+            map.layers.add(layer);
+        });
+    </script>
+</head>
+<body>
+<table class="navTable" style="width:100%">
+    <tbody>
+    <tr valign="top">
+        <td class="breadcrumbs">ArcGIS JavaScript API: Hosted/BAZK_coolmap_3_nolabel (MapServer)</td>
+        <td align="right" id="help">Built using the <a target="sdkView" href="//developers.arcgis.com/javascript">ArcGIS API for JavaScript</a></td>
+    </tr>
+    </tbody>
+</table>
+<div id="viewDiv">
+</div>
+</body>
+</html>

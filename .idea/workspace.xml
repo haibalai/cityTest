@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6de709f9-31f3-48e2-bff7-3a0f2e1887a4" name="Default" comment="">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <change beforePath="" afterPath="$PROJECT_DIR$/d3/movingDash.html" />
       <change beforePath="" afterPath="$PROJECT_DIR$/d3/movingDashV5.html" />
       <change beforePath="" afterPath="$PROJECT_DIR$/d3/test3.html" />
@@ -18,6 +19,10 @@
       <change beforePath="$PROJECT_DIR$/arcgis4/three-cameralight.html" beforeDir="false" afterPath="$PROJECT_DIR$/arcgis4/three-cameralight.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/d3/d3arcgis.html" beforeDir="false" afterPath="$PROJECT_DIR$/d3/d3arcgis.html" afterDir="false" />
 >>>>>>> Stashed changes
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/d3/movingDashV5.html" afterPath="$PROJECT_DIR$/d3/movingDashV5.html" />
+>>>>>>> Stashed changes
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -32,34 +37,19 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
-  <component name="DockManager">
-    <window id="1">
-      <content type="file-editors">
-        <state>
-          <leaf>
-            <file leaf-file-name="test4.html" pinned="false" current-in-tab="true">
-              <entry file="file://$PROJECT_DIR$/d3/test4.html">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="728">
-                    <caret line="29" column="33" lean-forward="false" selection-start-line="29" selection-start-column="25" selection-end-line="29" selection-end-column="33" />
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-          </leaf>
-        </state>
-      </content>
-    </window>
-  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="three2.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/arcgis4/three2.html">
+      <file leaf-file-name="three-addModel.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/arcgis4/three-addModel.html">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
             <state relative-caret-position="-3416">
               <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+=======
+            <state relative-caret-position="924">
+              <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+>>>>>>> Stashed changes
               <folding />
 =======
             <state relative-caret-position="1276">
@@ -70,11 +60,16 @@
         </entry>
       </file>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <file leaf-file-name="three-addModel.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/arcgis4/three-addModel.html">
+=======
+      <file leaf-file-name="test1.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/d3/test1.html">
+>>>>>>> Stashed changes
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="924">
-              <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+            <state relative-caret-position="896">
+              <caret line="32" column="14" lean-forward="false" selection-start-line="32" selection-start-column="14" selection-end-line="32" selection-end-column="14" />
               <folding />
 =======
       <file leaf-file-name="test.html" pinned="false" current-in-tab="false">
@@ -97,11 +92,16 @@
         </entry>
       </file>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <file leaf-file-name="test2.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/d3/test2.html">
+=======
+      <file leaf-file-name="test3.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/d3/test3.html">
+>>>>>>> Stashed changes
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="24" column="33" lean-forward="false" selection-start-line="24" selection-start-column="33" selection-end-line="24" selection-end-column="33" />
+            <state relative-caret-position="392">
+              <caret line="14" column="9" lean-forward="false" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="9" />
               <folding />
 =======
       <file leaf-file-name="three-animation.html" pinned="false" current-in-tab="false">
@@ -115,11 +115,16 @@
         </entry>
       </file>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <file leaf-file-name="test1.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/d3/test1.html">
+=======
+      <file leaf-file-name="s.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/d3/s.js">
+>>>>>>> Stashed changes
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="896">
-              <caret line="32" column="14" lean-forward="false" selection-start-line="32" selection-start-column="14" selection-end-line="32" selection-end-column="14" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
 =======
       <file leaf-file-name="drawLine.html" pinned="false" current-in-tab="false">
@@ -133,11 +138,26 @@
         </entry>
       </file>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <file leaf-file-name="test3.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/d3/test3.html">
+=======
+      <file leaf-file-name="test4.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/d3/test4.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
-              <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+            <state relative-caret-position="812">
+              <caret line="29" column="33" lean-forward="false" selection-start-line="29" selection-start-column="25" selection-end-line="29" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dfd.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/d3/dfd.html">
+>>>>>>> Stashed changes
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="168">
+              <caret line="6" column="6" lean-forward="false" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
               <folding />
 =======
       <file leaf-file-name="t1.html" pinned="false" current-in-tab="true">
@@ -154,18 +174,28 @@
       <file leaf-file-name="movingDash.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/d3/movingDash.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="28">
+            <state relative-caret-position="616">
               <caret line="22" column="25" lean-forward="false" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="movingDashV5.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="movingDashV5.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/d3/movingDashV5.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="62" column="62" lean-forward="false" selection-start-line="62" selection-start-column="62" selection-end-line="62" selection-end-column="62" />
+            <state relative-caret-position="700">
+              <caret line="97" column="36" lean-forward="false" selection-start-line="97" selection-start-column="13" selection-end-line="97" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="three2.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/arcgis4/three2.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="196">
+              <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
               <folding />
 =======
       <file leaf-file-name="mapbox.html" pinned="false" current-in-tab="false">
@@ -264,10 +294,13 @@
     <option name="CHANGED_PATHS">
       <list>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
         <option value="$PROJECT_DIR$/js/gismap3.min.js" />
 >>>>>>> Stashed changes
         <option value="$PROJECT_DIR$/arcgis4/tiledlayer.html" />
+=======
+>>>>>>> Stashed changes
         <option value="$PROJECT_DIR$/arcgis4/draw.html" />
         <option value="$PROJECT_DIR$/arcgis4/draw2.html" />
         <option value="$PROJECT_DIR$/arcgis4/fullscreen.html" />
@@ -320,6 +353,7 @@
         <option value="$PROJECT_DIR$/d3/Test3.js" />
         <option value="$PROJECT_DIR$/d3/test3.html" />
         <option value="$PROJECT_DIR$/d3/test4.html" />
+        <option value="$PROJECT_DIR$/d3/dfd.html" />
         <option value="$PROJECT_DIR$/d3/movingDashV5.html" />
 =======
         <option value="$PROJECT_DIR$/testjs/arcgisMapImagelayer.html" />
@@ -375,8 +409,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -388,15 +420,21 @@
               <item name="cityTest" type="b2602c69:ProjectViewProjectNode" />
               <item name="cityTest" type="462c0819:PsiDirectoryNode" />
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
               <item name="d3" type="462c0819:PsiDirectoryNode" />
 =======
               <item name="threejs" type="462c0819:PsiDirectoryNode" />
+>>>>>>> Stashed changes
+=======
+              <item name="arcgis4" type="462c0819:PsiDirectoryNode" />
 >>>>>>> Stashed changes
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -768,6 +806,7 @@
       <workItem from="1561514363509" duration="3386000" />
       <workItem from="1562577070681" duration="8206000" />
       <workItem from="1562635202811" duration="9519000" />
+<<<<<<< Updated upstream
 =======
       <workItem from="1548747939294" duration="2839000" />
       <workItem from="1549940468925" duration="6305000" />
@@ -782,24 +821,36 @@
       <workItem from="1557026060395" duration="8874000" />
       <workItem from="1557371183889" duration="1194000" />
 >>>>>>> Stashed changes
+=======
+      <workItem from="1562722836881" duration="601000" />
+      <workItem from="1562825249727" duration="599000" />
+      <workItem from="1562896494835" duration="5543000" />
+      <workItem from="1563153914861" duration="8174000" />
+      <workItem from="1564044634590" duration="23000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <option name="totallyTimeSpent" value="558557000" />
+=======
+    <option name="totallyTimeSpent" value="573497000" />
+>>>>>>> Stashed changes
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-1359" width="2418" height="1318" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15851602" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12521079" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12254025" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.088550985" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -887,6 +938,7 @@
   </component>
   <component name="editorHistoryManager">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <entry file="file://$PROJECT_DIR$/wms/route.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-814">
@@ -894,6 +946,8 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     <entry file="file://$PROJECT_DIR$/wms/test1.html">
@@ -1147,15 +1201,21 @@
       </provider>
     </entry>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <entry file="file://$PROJECT_DIR$/d3/s.js">
+=======
+    <entry file="file://$PROJECT_DIR$/arcgis4/three-flow.html">
+>>>>>>> Stashed changes
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="-1196">
+          <caret line="82" column="85" lean-forward="false" selection-start-line="82" selection-start-column="85" selection-end-line="82" selection-end-column="85" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/three-flow.html">
+    <entry file="file://$PROJECT_DIR$/d3/Test3.js" />
+    <entry file="file://$PROJECT_DIR$/d3/test2.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state relative-caret-position="-1196">
           <caret line="82" column="85" lean-forward="false" selection-start-line="82" selection-start-column="85" selection-end-line="82" selection-end-column="85" />
 =======
@@ -1171,19 +1231,28 @@
         <state relative-caret-position="22">
           <caret line="30" column="21" selection-start-line="30" selection-start-column="21" selection-end-line="30" selection-end-column="21" />
 >>>>>>> Stashed changes
+=======
+        <state relative-caret-position="672">
+          <caret line="24" column="33" lean-forward="false" selection-start-line="24" selection-start-column="33" selection-end-line="24" selection-end-column="33" />
+          <folding />
+>>>>>>> Stashed changes
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/three-addModel.html">
+    <entry file="file://$PROJECT_DIR$/d3/test1.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         <state relative-caret-position="924">
           <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+=======
+        <state relative-caret-position="896">
+          <caret line="32" column="14" lean-forward="false" selection-start-line="32" selection-start-column="14" selection-end-line="32" selection-end-column="14" />
+>>>>>>> Stashed changes
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/d3/Test3.js" />
     <entry file="file://$PROJECT_DIR$/d3/d3arcgis.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1260">
@@ -1203,11 +1272,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/d3/test1.html">
+    <entry file="file://$PROJECT_DIR$/d3/movingDash.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         <state relative-caret-position="896">
           <caret line="32" column="14" lean-forward="false" selection-start-line="32" selection-start-column="14" selection-end-line="32" selection-end-column="14" />
+=======
+        <state relative-caret-position="616">
+          <caret line="22" column="25" lean-forward="false" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
+>>>>>>> Stashed changes
           <folding />
 =======
         <state relative-caret-position="1804">
@@ -1216,19 +1290,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/arcgis4/three2.html">
+    <entry file="file://$PROJECT_DIR$/d3/dfd.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         <state relative-caret-position="-3416">
           <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+=======
+        <state relative-caret-position="168">
+          <caret line="6" column="6" lean-forward="false" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+>>>>>>> Stashed changes
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/d3/movingDash.html">
+    <entry file="file://$PROJECT_DIR$/d3/test4.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="28">
-          <caret line="22" column="25" lean-forward="false" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
+        <state relative-caret-position="812">
+          <caret line="29" column="33" lean-forward="false" selection-start-line="29" selection-start-column="25" selection-end-line="29" selection-end-column="33" />
           <folding />
 =======
         <state relative-caret-position="1914">
@@ -1247,32 +1326,45 @@
     <entry file="file://$PROJECT_DIR$/d3/test3.html">
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <state relative-caret-position="560">
           <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+=======
+        <state relative-caret-position="392">
+          <caret line="14" column="9" lean-forward="false" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="9" />
+>>>>>>> Stashed changes
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/d3/test2.html">
+    <entry file="file://$PROJECT_DIR$/d3/s.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="24" column="33" lean-forward="false" selection-start-line="24" selection-start-column="33" selection-end-line="24" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/d3/test4.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="728">
-          <caret line="29" column="33" lean-forward="false" selection-start-line="29" selection-start-column="25" selection-end-line="29" selection-end-column="33" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/d3/movingDashV5.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="62" column="62" lean-forward="false" selection-start-line="62" selection-start-column="62" selection-end-line="62" selection-end-column="62" />
+        <state relative-caret-position="700">
+          <caret line="97" column="36" lean-forward="false" selection-start-line="97" selection-start-column="13" selection-end-line="97" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4/three2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/arcgis4/three-addModel.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="924">
+          <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
           <folding />
 =======
         <state relative-caret-position="1672">

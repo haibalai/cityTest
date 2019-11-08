@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Create a local scene - 4.3</title>
+    <style>
+        html,
+        body,
+        #sss {
+            /*padding: 0;*/
+            /*margin: 0;*/
+            height: 100%;
+            width: 100%;
+        }
+
+        #homeDiv {
+            left: 15px;
+            top: 130px;
+            z-index: 35;
+            position: absolute;
+        }
+    </style>
+
+    <!--<link rel="stylesheet" href="http://arcgislg.ascs.tech/arcgis_js_v43_api/arcgis_js_api/library/4.3/4.3/esri/css/main.css">-->
+    <!--<script src="http://arcgislg.ascs.tech/arcgis_js_v43_api/arcgis_js_api/library/4.3/4.3/init.js"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.js"></script>-->
+    <!--<script src="../js/threejs/loaders/collada/ColladaLoader.js"></script>-->
+    <!--<script src="../js/threejs/loaders/collada/KeyFrameAnimation.js"></script>-->
+    <!--<script src="../js/threejs/loaders/collada/AnimationHandler.js"></script>-->
+    <!--<script src="../js/threejs/loaders/collada/Animation.js"></script>-->
+
+    <script src="https://preview.babylonjs.com/babylon.js"></script>
+    <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+    <link
+            rel="stylesheet"
+            href="http://esrichina3d.arcgisonline.cn/jsapi/4.11/esri/css/main.css"
+    />
+    <script src="http://esrichina3d.arcgisonline.cn/jsapi/4.11/init.js"></script>
+
+    <!--<link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/esri/css/main.css">-->
+    <!--<script src="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/dojo/dojo.js"></script>-->
+
+    <script>
+
+
+        require([
+            "esri/Map",
+
+            "esri/views/3d/externalRenderers",
+            "esri/config",
+            "esri/Basemap",
+            "esri/config",
+            "esri/geometry/Extent",
+            "esri/geometry/SpatialReference",
+            "esri/views/SceneView",
+            "esri/views/MapView",
+            "esri/layers/FeatureLayer",
+            "esri/layers/ImageryLayer",
+            "esri/layers/TileLayer",
+            "esri/layers/SceneLayer",
+            "esri/layers/ElevationLayer",
+            "esri/renderers/SimpleRenderer",
+            "esri/symbols/ObjectSymbol3DLayer",
+            "esri/symbols/IconSymbol3DLayer",
+            "esri/symbols/PointSymbol3D",
+            "esri/tasks/QueryTask",
+            "esri/tasks/support/Query",
+            "esri/widgets/Home",
+            "dojo/domReady!"
+        ], function(Map,externalRenderers,esriConfig,Basemap,esriConfig,Extent,SpatialReference, SceneView,MapView, FeatureLayer,ImageryLayer,TileLayer,SceneLayer,ElevationLayer,
+                    SimpleRenderer, ObjectSymbol3DLayer,
+                    IconSymbol3DLayer, PointSymbol3D, QueryTask, Query, Home
+        ) {
+
+
+            // esriConfig.request.corsEnabledServers.push("http://10.10.120.2:6080/arcgis/rest/services/pingshan/ImageServer")
+//             let view = new MapView({
+//                   container:"sss",
+//
+//                   map: map,
+//               });
+//            esriConfig.request.corsEnabledServers = true;
+
+
+
+
+
+            var layer = new TileLayer(
+                {
+                    url: "http://arcgis.cityworks.cn/server/rest/services/Hosted/BAZK_coolmap_3_nolabel/MapServer",
+
+
+                });
+            var map = new Map({
+                layers:[layer]
+            });
+            map.add(layer);
+
+            var view = new SceneView({
+                container:"sss",
+                viewingMode: "local",
+                map:map,
+            })
+
+            let classRender = {
+
+                setup:function(context) {
+                    this.createScene(context)
+                },
+                render:function(context) {
+                    // this.updateCamera(context);
+                    // this.updateLights(context);
+                    // this.renderer.resetGLState();
+                    // this.renderer.render(this.scene, this.camera);
+                    // if(this.engine){
+                    //     this.engine.runRenderLoop(()=> {
+                    //
+                    //         console.log("111")
+                    //     });
+                    // }
+
+                    var cam = context.camera;
+
+
+                    // this.camera.viewport.x =  0;
+                    // this.camera.viewport.y =  0;
+                    // this.camera.viewport.width =  view.width;
+                    // this.camera.viewport.height =  view.height;
+
+                    this.camera.position.set(cam.eye[0], cam.eye[1], cam.eye[2]);
+                    this.camera.upVector.set(cam.up[0], cam.up[1], cam.up[2]);
+                    let targat=  new BABYLON.Vector3(cam.center[0], cam.center[1], cam.center[2])
+                    this.camera.setTarget(targat);
+                    let proMat =   BABYLON.Matrix.FromArray(cam.projectionMatrix);
+                    this.camera.freezeProjectionMatrix(proMat);
+                    this.scene.render();
+
+                    context.resetWebGLState();
+                    externalRenderers.requestRender(view);
+                },
+                createScene(context){
+
+                    console.log(context)
+                    var cam = context.camera;
+                    //
+                    let surfaceElement = document.getElementsByClassName("esri-view-surface")[0];
+                    let canvas = surfaceElement.children[0];
+                    this.engine = new BABYLON.Engine(context.gl, true);
+                    this.scene = new BABYLON.Scene(this.engine);
+                    // this.scene.autoClearDepthAndStencil = false;
+                    // this.scene.clearColor = new BABYLON.Color4(0, 0, 0,0);
+                    // this.scene.autoClear = false;
+                    //
+                    // // Add a camera to the scene and attach it to the canvas
+                    this.camera = new BABYLON.ArcRotateCamera("Camera",  1, 0.8, 10, new BABYLON.Vector3(0,0,0), this.scene);
+                    //
+                    //
+                    // this.camera = new BABYLON.UniversalCamera("UniversalCamera", new BABYLON.Vector3(cam.center[0], cam.center[1], cam.center[2]), this.scene);
+
+                    // this.camera.setTarget(BABYLON.Vector3(cam.up[0], cam.up[1], cam.up[2]));
+                    this.camera.attachControl(canvas, true);
+                    // // Add lights to the scene
+                    var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), this.scene);
+                    // var light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(0, 1, -1), this.scene);
+                    //
+                    // // Add and manipulate meshes in the scene
+                    this.sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter:2}, this.scene);
+
+
+                    const transform = new BABYLON.Matrix();
+                    externalRenderers.renderCoordinateTransformAt(view, [ 12669823.680045042,2593812.4000144904,10], view.spatialReference,    transform.m);
+
+                    transform.decompose(this.sphere.absoluteScaling,this.sphere.absoluteRotationQuaternion,this.sphere.absolutePosition);
+
+
+
+                    // context.resetWebGLState();
+                    window.addEventListener("resize", ()=>{
+                        this.engine.resize();
+                    });
+                }
+
+
+
+            }
+
+
+
+
+            // view.environment.lighting.cameraTrackingEnabled = false;
+
+            // externalRenderers.add(view, classRender);
+
+
+            view.whenLayerView(layer)
+                .then(function(layerView) {
+                    externalRenderers.add(view, classRender);
+                })
+
+        });
+
+
+        function test() {
+
+        }
+    </script>
+</head>
+
+<body>
+<div id="sss"></div>
+<button onclick="test()">222222</button>
+</body>
+</html>
