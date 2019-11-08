@@ -1,31 +1,55 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
+
 <head>
-    <title>ArcGIS API for JavaScript: YJ_map_wgs84</title>
+    <title>ArcGIS API for JavaScript: BAZK_coolmap_1_20190428</title>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
     <!-- Favorite Bookmark Icon -->
-    <link rel="shortcut icon" type="image/ico" href="//www.esri.com/favicon.ico" />
-    <link rel="icon" type="image/ico" href="//www.esri.com/favicon.ico" />
-    <!-- End Favorite Bookmark Icon --> <link href="/arcgis/rest/static/main.css" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v48_api/arcgis_js_api/library/4.8/esri/css/main.css">
-    <script src="http://cityworks.cn/arcgis_js_v48_api/arcgis_js_api/library/4.8/dojo/dojo.js"></script>
+    <link href="http://localhost/arcgis api/arcgis_js_v49_api/arcgis_js_api/library/4.9/esri/css/main.css"
+          rel="stylesheet" type="text/css" />
 
+    <script type="text/javascript"
+            src="http://localhost/arcgis api/arcgis_js_v49_api/arcgis_js_api/library/4.9/dojo/dojo.js"></script>
     <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
         html,
-        body,
-        #viewDiv {padding: 0;margin: 0;height: 98%;width: 100%;}
+        body {
+            overflow: hidden;
+            /*transform-origin: 0 0;*/
+            transform: scale(1.2,1.5);
+        }
+
+        #viewDiv {
+            height: 500px;
+            width: 1200px;
+            border: 1px solid #ccc;
+            /*transform-origin: 0 0;*/
+        }
+
+        .esri-display-object {
+            /*transform-origin: 0 0;*/
+        }
+
+        .esri-component esri-attribution esri-widget{
+            display: none!important;
+        }
+        .esri-attribution__powered-by{
+            display: none!important;
+        }
     </style>
     <script type="text/javascript">
         require([
             "esri/Map",
+            "esri/Graphic",
             "esri/views/MapView",
-            "esri/views/SceneView",
             "esri/widgets/Home",
             "esri/layers/TileLayer",
             "dojo/domReady!"
-        ], function(Map, MapView, SceneView,Home, TileLayer) {
+        ], function (Map,Graphic, MapView, Home, TileLayer) {
             var map = new Map();
             var view = new MapView({
                 container: "viewDiv",
@@ -36,22 +60,119 @@
             });
             view.ui.add(homeBtn, "top-left");
             var layer = null,
-                layerUrl = "https://arcgis.cityworks.cn/arcgis/rest/services/YJ_map_wgs84/MapServer",
+                layerUrl = "https://arcgis.cityworks.cn:443/server/rest/services/BAZK_coolmap_3_20190428/MapServer",
                 layer = new TileLayer(layerUrl, null);
             map.layers.add(layer);
+            // 结束触发恢复
+            let scl = 0;
+            // view.on("mouse-wheel",(e)=>{
+            //
+            //     let b = view.mapViewNavigation;
+            //     let d = e;
+            //     let _canZoom  = true;
+            //     console.log(d.deltaY,d.x, d.y);
+            //
+            //     let el = document.getElementById("viewDiv")
+            //     let fa = el.offsetWidth/el.getBoundingClientRect().width;
+            //     let fa1 = el.offsetHeight/el.getBoundingClientRect().height;
+            //     let x = d.x * fa;
+            //     let y = d.y * fa1;
+            //     if (d = b.zoom(1 / Math.pow(.6, 1 / 60 * d.deltaY), [x,y ])) _canZoom = !1, d.always(function () {
+            //         e._canZoom = !0;
+            //         b.end()
+            //     });
+            //     e.stopPropagation();
+            // })
+
+
+
+            // view.on("double-click",(e)=>{
+            //
+            //     let b = view.mapViewNavigation;
+            //     let d = e;
+            //     let _canZoom  = true;
+            //     console.log(d.deltaY,d.x, d.y);
+            //
+            //     let el = document.getElementById("viewDiv")
+            //     let fa = el.offsetWidth/el.getBoundingClientRect().width;
+            //     let fa1 = el.offsetHeight/el.getBoundingClientRect().height;
+            //     let x = d.x * fa;
+            //     let y = d.y * fa1;
+            //     b.zoomIn([x, y]);
+            //     e.stopPropagation();
+            // })
+            view.on("click",(e)=>{
+                let el = document.getElementById("viewDiv")
+
+
+                var markerSymbol = {
+                    type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+                    color: [226, 119, 40],
+                    outline: {
+                        // autocasts as new SimpleLineSymbol()
+                        color: [255, 255, 255],
+                        width: 2
+                    }
+                };
+
+
+
+                let fa = el.offsetWidth/el.getBoundingClientRect().width;
+                let fa1 = el.offsetHeight/el.getBoundingClientRect().height;
+                let p  = view.toMap(
+                    {
+                        x:e.x * fa,
+                        y:e.y * fa1
+
+                    }
+                )
+
+
+                // Create a graphic and add the geometry and symbol to it
+                var pointGraphic = new Graphic({
+                    geometry: p,
+                    symbol: markerSymbol
+                });
+
+
+                // let p = view.toScreen(e.mapPoint)
+                // console.log(e.x,e.y,p.x/fa,p.y/fa1);
+                if(view.graphics.length == 0){
+                    view.graphics.add(pointGraphic);
+                }
+
+
+
+
+                view.hitTest(e).then(function (response) {
+                    console.log(response)
+
+                })
+            })
+
+            // 监听实时缩放
+
+
+            view.watch('zoom', (e) => {
+                //console.log(23232, e, view);
+
+                //var pixelRatio = 2;
+                //view.takeScreenshot({ width: view.width * pixelRatio, height: view.height * pixelRatio });
+                // viewDiv.style.transform = `scale(${1 + e * 2}) translate(${250 * (1+e)}px, ${200 * (1+e)})`
+                // view.style.width = 
+            })
         });
     </script>
 </head>
+
 <body>
-<table class="navTable" style="width:100%">
-    <tbody>
-    <tr valign="top">
-        <td class="breadcrumbs">ArcGIS JavaScript API: YJ_map_wgs84 (MapServer)</td>
-        <td align="right" id="help">Built using the <a target="sdkView" href="//developers.arcgis.com/javascript">ArcGIS API for JavaScript</a></td>
-    </tr>
-    </tbody>
-</table>
-<div id="viewDiv">
-</div>
+<!--<div style="position: absolute;width: 50px;height: 50px;background-color: red;top: 200px;left: 200px;z-index: 100"></div>-->
+<div id="viewDiv"></div>
+
+<script>
+
+
+</script>
 </body>
+
 </html>

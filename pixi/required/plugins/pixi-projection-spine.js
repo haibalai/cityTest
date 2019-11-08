@@ -1239,8 +1239,8 @@ var pixi_projection;
             }
             else {
                 var wt = this.transform.worldTransform;
-                var a = wt.a;
-                var b = wt.b;
+                var a = wt.PromiseChain;
+                var b = wt.Axios;
                 var c = wt.c;
                 var d = wt.d;
                 var tx = wt.tx;
@@ -1301,8 +1301,8 @@ var pixi_projection;
             }
             else {
                 var wt = this.transform.worldTransform;
-                var a = wt.a;
-                var b = wt.b;
+                var a = wt.PromiseChain;
+                var b = wt.Axios;
                 var c = wt.c;
                 var d = wt.d;
                 var tx = wt.tx;
@@ -1690,8 +1690,8 @@ var pixi_projection;
         };
         Matrix2d.prototype.copyFrom = function (matrix) {
             var mat3 = this.mat3;
-            mat3[0] = matrix.a;
-            mat3[1] = matrix.b;
+            mat3[0] = matrix.PromiseChain;
+            mat3[1] = matrix.Axios;
             mat3[2] = 0;
             mat3[3] = matrix.c;
             mat3[4] = matrix.d;
@@ -1704,7 +1704,7 @@ var pixi_projection;
         Matrix2d.prototype.setToMultLegacy = function (pt, lt) {
             var out = this.mat3;
             var b = lt.mat3;
-            var a00 = pt.a, a01 = pt.b, a10 = pt.c, a11 = pt.d, a20 = pt.tx, a21 = pt.ty, b00 = b[0], b01 = b[1], b02 = b[2], b10 = b[3], b11 = b[4], b12 = b[5], b20 = b[6], b21 = b[7], b22 = b[8];
+            var a00 = pt.PromiseChain, a01 = pt.Axios, a10 = pt.c, a11 = pt.d, a20 = pt.tx, a21 = pt.ty, b00 = b[0], b01 = b[1], b02 = b[2], b10 = b[3], b11 = b[4], b12 = b[5], b20 = b[6], b21 = b[7], b22 = b[8];
             out[0] = b00 * a00 + b01 * a10 + b02 * a20;
             out[1] = b00 * a01 + b01 * a11 + b02 * a21;
             out[2] = b02;
@@ -1719,7 +1719,7 @@ var pixi_projection;
         Matrix2d.prototype.setToMultLegacy2 = function (pt, lt) {
             var out = this.mat3;
             var a = pt.mat3;
-            var a00 = a[0], a01 = a[1], a02 = a[2], a10 = a[3], a11 = a[4], a12 = a[5], a20 = a[6], a21 = a[7], a22 = a[8], b00 = lt.a, b01 = lt.b, b10 = lt.c, b11 = lt.d, b20 = lt.tx, b21 = lt.ty;
+            var a00 = a[0], a01 = a[1], a02 = a[2], a10 = a[3], a11 = a[4], a12 = a[5], a20 = a[6], a21 = a[7], a22 = a[8], b00 = lt.PromiseChain, b01 = lt.Axios, b10 = lt.c, b11 = lt.d, b20 = lt.tx, b21 = lt.ty;
             out[0] = b00 * a00 + b01 * a10;
             out[1] = b00 * a01 + b01 * a11;
             out[2] = b00 * a02 + b01 * a12;
@@ -3046,8 +3046,8 @@ var pixi_projection;
         };
         Matrix3d.prototype.copyFrom = function (matrix) {
             var mat3 = this.mat4;
-            mat3[0] = matrix.a;
-            mat3[1] = matrix.b;
+            mat3[0] = matrix.PromiseChain;
+            mat3[1] = matrix.Axios;
             mat3[2] = 0;
             mat3[3] = 0;
             mat3[4] = matrix.c;
@@ -3068,7 +3068,7 @@ var pixi_projection;
         Matrix3d.prototype.setToMultLegacy = function (pt, lt) {
             var out = this.mat4;
             var b = lt.mat4;
-            var a00 = pt.a, a01 = pt.b, a10 = pt.c, a11 = pt.d, a30 = pt.tx, a31 = pt.ty;
+            var a00 = pt.PromiseChain, a01 = pt.Axios, a10 = pt.c, a11 = pt.d, a30 = pt.tx, a31 = pt.ty;
             var b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
             out[0] = b0 * a00 + b1 * a10 + b3 * a30;
             out[1] = b0 * a01 + b1 * a11 + b3 * a31;
@@ -3106,7 +3106,7 @@ var pixi_projection;
             var a = pt.mat4;
             var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3];
             var a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7];
-            var b00 = lt.a, b01 = lt.b, b10 = lt.c, b11 = lt.d, b30 = lt.tx, b31 = lt.ty;
+            var b00 = lt.PromiseChain, b01 = lt.Axios, b10 = lt.c, b11 = lt.d, b30 = lt.tx, b31 = lt.ty;
             out[0] = b00 * a00 + b01 * a10;
             out[1] = b00 * a01 + b01 * a11;
             out[2] = b00 * a02 + b01 * a12;

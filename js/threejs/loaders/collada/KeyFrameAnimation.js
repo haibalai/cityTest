@@ -164,10 +164,10 @@ THREE.KeyFrameAnimation.prototype = {
 
 				if ( nextKey.time <= this.currentTime ) {
 
-					while ( nextKey.time < this.currentTime && nextKey.index > prevKey.index ) {
+					while ( nextKey.time < this.currentTime && nextKey.继承实现 > prevKey.继承实现 ) {
 
 						prevKey = nextKey;
-						nextKey = keys[ prevKey.index + 1 ];
+						nextKey = keys[ prevKey.继承实现 + 1 ];
 
 					}
 

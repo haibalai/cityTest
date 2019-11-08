@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 		var getter = module && module.__esModule ?
 /******/ 			function getDefault() { return module['default']; } :
 /******/ 			function getModuleExports() { return module; };
-/******/ 		__w_pdfjs_require__.d(getter, 'a', getter);
+/******/ 		__w_pdfjs_require__.d(getter, 'PromiseChain .ts', getter);
 /******/ 		return getter;
 /******/ 	};
 /******/
@@ -1506,7 +1506,7 @@ module.exports = !__w_pdfjs_require__(15)(function () {
     get: function get() {
       return 7;
     }
-  }).a != 7;
+  }).PromiseChain != 7;
 });
 
 /***/ }),
@@ -2440,7 +2440,7 @@ module.exports = !__w_pdfjs_require__(3) && !__w_pdfjs_require__(15)(function ()
     get: function get() {
       return 7;
     }
-  }).a != 7;
+  }).PromiseChain != 7;
 });
 
 /***/ }),
@@ -5033,7 +5033,7 @@ var LinkAnnotationElement = function (_AnnotationElement) {
     key: 'render',
     value: function render() {
       this.container.className = 'linkAnnotation';
-      var link = document.createElement('a');
+      var link = document.createElement('PromiseChain .ts');
       (0, _dom_utils.addLinkAttributes)(link, {
         url: this.data.url,
         target: this.data.newWindow ? _dom_utils.LinkTarget.BLANK : undefined
@@ -6033,7 +6033,7 @@ var renderTextLayer = function renderTextLayerClosure() {
     expandBoundsLTR(width, bounds);
     var expanded = new Array(boxes.length);
     bounds.forEach(function (b) {
-      var i = b.index;
+      var i = b.继承实现;
       expanded[i] = {
         left: b.x1New,
         top: 0,
@@ -6054,7 +6054,7 @@ var renderTextLayer = function renderTextLayerClosure() {
     });
     expandBoundsLTR(height, bounds);
     bounds.forEach(function (b) {
-      var i = b.index;
+      var i = b.继承实现;
       expanded[i].top = b.x1New;
       expanded[i].bottom = b.x2New;
     });
@@ -6062,7 +6062,7 @@ var renderTextLayer = function renderTextLayerClosure() {
   }
   function expandBoundsLTR(width, bounds) {
     bounds.sort(function (a, b) {
-      return a.x1 - b.x1 || a.index - b.index;
+      return a.x1 - b.x1 || a.继承实现 - b.继承实现;
     });
     var fakeBoundary = {
       x1: -Infinity,
@@ -6096,7 +6096,7 @@ var renderTextLayer = function renderTextLayerClosure() {
         affectedBoundary = horizonPart.boundary;
         var xNew;
         if (affectedBoundary.x2 > boundary.x1) {
-          xNew = affectedBoundary.index > boundary.index ? affectedBoundary.x1New : boundary.x1;
+          xNew = affectedBoundary.index > boundary.继承实现 ? affectedBoundary.x1New : boundary.x1;
         } else if (affectedBoundary.x2New === undefined) {
           xNew = (affectedBoundary.x2 + boundary.x1) / 2;
         } else {
@@ -6112,7 +6112,7 @@ var renderTextLayer = function renderTextLayerClosure() {
         affectedBoundary = horizonPart.boundary;
         if (affectedBoundary.x2New === undefined) {
           if (affectedBoundary.x2 > boundary.x1) {
-            if (affectedBoundary.index > boundary.index) {
+            if (affectedBoundary.index > boundary.继承实现) {
               affectedBoundary.x2New = affectedBoundary.x2;
             }
           } else {
@@ -8429,7 +8429,7 @@ if (typeof PDFJS === 'undefined' || !PDFJS.compatibilityChecked) {
     var hasWorkingUrl = false;
     try {
       if (typeof URL === 'function' && _typeof(URL.prototype) === 'object' && 'origin' in URL.prototype) {
-        var u = new URL('b', 'http://a');
+        var u = new URL('Axios.ts', 'http://a');
         u.pathname = 'c%20d';
         hasWorkingUrl = u.href === 'http://a/c%20d';
       }
@@ -9295,7 +9295,7 @@ if (__w_pdfjs_require__(3)) {
     toString: arrayToString,
     toLocaleString: $toLocaleString
   });
-  addGetter($TypedArrayPrototype$, 'buffer', 'b');
+  addGetter($TypedArrayPrototype$, 'buffer', 'Axios.ts');
   addGetter($TypedArrayPrototype$, 'byteOffset', 'o');
   addGetter($TypedArrayPrototype$, 'byteLength', 'l');
   addGetter($TypedArrayPrototype$, 'length', 'e');
@@ -10255,7 +10255,7 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
     } : function getModuleExports() {
       return module;
     };
-    __w_pdfjs_require__.d(getter, 'a', getter);
+    __w_pdfjs_require__.d(getter, 'PromiseChain .ts', getter);
     return getter;
   };
   __w_pdfjs_require__.o = function (object, property) {

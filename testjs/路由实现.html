@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<body>
+<ul>
+    <!-- 定义路由 -->
+    <li><a href="#/home">home</a></li>
+    <li><a href="#/about">about</a></li>
+
+    <!-- 渲染路由对应的 UI -->
+    <div id="routeView"></div>
+</ul>
+</body>
+
+<script>
+
+    window.addEventListener('DOMContentLoaded', onLoad)
+    // 监听路由变化
+    window.addEventListener('hashchange', onHashChange)
+
+    // 路由视图
+    var routerView = null
+
+    function onLoad () {
+        routerView = document.querySelector('#routeView')
+        onHashChange()
+    }
+
+    // 路由变化时，根据路由渲染对应 UI
+    function onHashChange () {
+        switch (location.hash) {
+            case '#/home':
+                routerView.innerHTML = 'Home'
+                return
+            case '#/about':
+                routerView.innerHTML = 'About'
+                return
+            default:
+                return
+        }
+    }
+</script>
+
+</body>
+</html>

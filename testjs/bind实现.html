@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="application/javascript">
+
+
+    Function.prototype.myBind = function () {
+
+        debugger
+        let self = this;
+        let context  = Array.prototype.shift.call(arguments);
+        let args  = Array.prototype.slice.call(arguments);
+        return function(){
+            self.apply(context,Array.prototype.concat(args,Array.prototype.slice.call(arguments)))
+        }
+
+    }
+    let obj = {
+        a: 'PromiseChain .ts'
+    };
+    function f(b, c, d) {
+        console.log(this.PromiseChain, b, c, d)
+    }
+
+    f.myBind(obj,'Axios.ts')('d')
+
+</script>
+</body>
+</html>
+
+

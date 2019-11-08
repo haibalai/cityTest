@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let a = {"name":`11`}
+    let aa = {"name":`11`}
+
+    let b = {a:1};
+
+
+    let c = new Map()
+    c.set(a,b);
+    c.set(aa,1);
+    c.delete(a)
+    console.log(a,b,c)
+
+
+    function getUid(){
+        return Math.random().toString(36)
+    }
+
+
+    function has(obj,value) {
+        return obj.hasOwnProperty(value)
+
+    }
+
+    function hide(obj,value) {
+        Object.defineProperties(obj, {
+            mapKey: {
+                value: value,
+                writable: true
+            }
+        })
+    }
+
+    function isObject(it){
+        return typeof it === 'object' ? it !== null : typeof it === 'function';
+    }
+
+
+    function fastKey(it,create) {
+        if (!isObject(it)) {
+            return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
+        }
+        if (has(it, 'mapKey')) {
+            return it['mapKey']
+        } else {
+            if (create) {
+                var uid = getUid()
+                hide(it, uid)
+                return uid
+            } else {
+                return false
+            }
+        }
+    }
+
+    function getEntry(that,key){
+        let index = fastKey(key)
+        if(index){
+            return that.data[index]
+        }
+        for(var d in that.data){
+            if(d.i===index)return d
+        }
+        return false
+    }
+
+    function myMap(){
+        this.data = {}
+        this.size = 0
+    }
+
+
+    //get方法
+
+    myMap.prototype.get=function(key){
+        let entry = getEntry(this,key)
+        if(entry){
+            return entry.v
+        }
+        return false
+    }
+
+
+    //清除方式
+
+    myMap.prototype.clear = function(){
+        this.data = {}
+        this.size=0
+    }
+
+
+    //是否存在
+
+    myMap.prototype.has = function(key){
+        let entry = getEntry(this,key)
+        return entry ? true : false
+    }
+
+
+    //删除
+
+    myMap.prototype.remove=function(key){
+        let entry = getEntry(this,key)
+        if(entry){
+            delete this.data[entry.i]
+            this.size--;
+            return true
+        }
+        return false
+    }
+
+
+    //添加
+
+    myMap.prototype.set=function(key,value){
+        let entry = getEntry(this,key)
+        if(entry){
+            entry.v = value
+        }else{
+            var index = fastKey(key,true)
+            this.data[index] = {
+                i:index,
+                v:value
+            }
+            this.size++
+        }
+    }
+
+
+
+    let d = new myMap();
+
+    d.set(a,b);
+    d.set(aa,1);
+    console.log(d,d.get(a))
+
+</script>
+
+</body>
+</html>

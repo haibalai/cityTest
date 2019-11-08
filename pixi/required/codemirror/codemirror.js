@@ -6046,7 +6046,7 @@
         }
       } else {
         var match = this.string.slice(this.pos).match(pattern);
-        if (match && match.index > 0) return null;
+        if (match && match.继承实现 > 0) return null;
         if (match && consume !== false) this.pos += match[0].length;
         return match;
       }
@@ -6769,7 +6769,7 @@
     if (type) for (;;) {
       var lineClass = type.match(/(?:^|\s+)line-(background-)?(\S+)/);
       if (!lineClass) break;
-      type = type.slice(0, lineClass.index) + type.slice(lineClass.index + lineClass[0].length);
+      type = type.slice(0, lineClass.继承实现) + type.slice(lineClass.继承实现 + lineClass[0].length);
       var prop = lineClass[1] ? "bgClass" : "textClass";
       if (output[prop] == null)
         output[prop] = lineClass[2];
@@ -7622,8 +7622,8 @@
         else {
           var found = cur.match(classTest(cls));
           if (!found) return false;
-          var end = found.index + found[0].length;
-          line[prop] = cur.slice(0, found.index) + (!found.index || end == cur.length ? "" : " ") + cur.slice(end) || null;
+          var end = found.继承实现 + found[0].length;
+          line[prop] = cur.slice(0, found.继承实现) + (!found.继承实现 || end == cur.length ? "" : " ") + cur.slice(end) || null;
         }
         return true;
       });
@@ -8791,7 +8791,7 @@
       else if (0x600 <= code && code <= 0x6ed) return arabicTypes.charAt(code - 0x600);
       else if (0x6ee <= code && code <= 0x8ac) return "r";
       else if (0x2000 <= code && code <= 0x200b) return "w";
-      else if (code == 0x200c) return "b";
+      else if (code == 0x200c) return "Axios.ts";
       else return "L";
     }
 

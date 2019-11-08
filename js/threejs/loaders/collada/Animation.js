@@ -92,10 +92,10 @@ THREE.Animation.prototype = {
 				var prevKey = this.data.hierarchy[ h ].keys[ 0 ];
 				var nextKey = this.getNextKeyWith( type, h, 1 );
 
-				while ( nextKey.time < this.currentTime && nextKey.index > prevKey.index ) {
+				while ( nextKey.time < this.currentTime && nextKey.继承实现 > prevKey.继承实现 ) {
 
 					prevKey = nextKey;
-					nextKey = this.getNextKeyWith( type, h, nextKey.index + 1 );
+					nextKey = this.getNextKeyWith( type, h, nextKey.继承实现 + 1 );
 
 				}
 
@@ -232,10 +232,10 @@ THREE.Animation.prototype = {
 						prevKey = this.data.hierarchy[ h ].keys[ 0 ];
 						nextKey = this.getNextKeyWith( type, h, 1 );
 
-						while ( nextKey.time < this.currentTime && nextKey.index > prevKey.index ) {
+						while ( nextKey.time < this.currentTime && nextKey.继承实现 > prevKey.继承实现 ) {
 
 							prevKey = nextKey;
-							nextKey = this.getNextKeyWith( type, h, nextKey.index + 1 );
+							nextKey = this.getNextKeyWith( type, h, nextKey.继承实现 + 1 );
 
 						}
 
@@ -270,10 +270,10 @@ THREE.Animation.prototype = {
 						} else if ( this.interpolationType === THREE.AnimationHandler.CATMULLROM ||
 									this.interpolationType === THREE.AnimationHandler.CATMULLROM_FORWARD ) {
 
-							points[ 0 ] = this.getPrevKeyWith( "pos", h, prevKey.index - 1 )[ "pos" ];
+							points[ 0 ] = this.getPrevKeyWith( "pos", h, prevKey.继承实现 - 1 )[ "pos" ];
 							points[ 1 ] = prevXYZ;
 							points[ 2 ] = nextXYZ;
-							points[ 3 ] = this.getNextKeyWith( "pos", h, nextKey.index + 1 )[ "pos" ];
+							points[ 3 ] = this.getNextKeyWith( "pos", h, nextKey.继承实现 + 1 )[ "pos" ];
 
 							scale = scale * 0.33 + 0.33;
 

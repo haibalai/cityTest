@@ -100,7 +100,7 @@ b.size&&M.ob(a,b.size)},lookup:function(){throw Mb[J.F];},T:function(a,b,c,d){re
 b,c){a=M.createNode(a,b,41471,0);a.link=c;return a},readlink:function(a){if(40960!==(a.mode&61440))throw new L(J.q);return a.link}},n:{read:function(a,b,c,d,f){var g=a.g.e;if(f>=a.g.o)return 0;a=Math.min(a.g.o-f,d);assert(0<=a);if(8<a&&g.subarray)b.set(g.subarray(f,f+a),c);else for(d=0;d<a;d++)b[c+d]=g[f+d];return a},write:function(a,b,c,d,f,g){if(!d)return 0;a=a.g;a.timestamp=Date.now();if(b.subarray&&(!a.e||a.e.subarray)){if(g)return a.e=b.subarray(c,c+d),a.o=d;if(0===a.o&&0===f)return a.e=new Uint8Array(b.subarray(c,
 c+d)),a.o=d;if(f+d<=a.o)return a.e.set(b.subarray(c,c+d),f),d}M.Ga(a,f+d);if(a.e.subarray&&b.subarray)a.e.set(b.subarray(c,c+d),f);else for(g=0;g<d;g++)a.e[f+g]=b[c+g];a.o=Math.max(a.o,f+d);return d},G:function(a,b,c){1===c?b+=a.position:2===c&&32768===(a.g.mode&61440)&&(b+=a.g.o);if(0>b)throw new L(J.q);return b},Ba:function(a,b,c){M.Ga(a.g,b+c);a.g.o=Math.max(a.g.o,b+c)},Na:function(a,b,c,d,f,g,h){if(32768!==(a.g.mode&61440))throw new L(J.ha);c=a.g.e;if(h&2||c.buffer!==b&&c.buffer!==b.buffer){if(0<
 f||f+d<a.g.o)c.subarray?c=c.subarray(f,f+d):c=Array.prototype.slice.call(c,f,f+d);a=!0;d=Ea(d);if(!d)throw new L(J.Ta);b.set(c,d)}else a=!1,d=c.byteOffset;return{Rd:d,xd:a}},Pa:function(a,b,c,d,f){if(32768!==(a.g.mode&61440))throw new L(J.ha);if(f&2)return 0;M.n.write(a,b,0,d,c,!1);return 0}}},P={$:!1,sb:function(){P.$=!!process.platform.match(/^win/)},A:function(a){assert(da);return P.createNode(null,"/",P.Ja(a.pa.root),0)},createNode:function(a,b,c){if(!N(c)&&32768!==(c&61440)&&40960!==(c&61440))throw new L(J.q);
-a=Lb(a,b,c);a.k=P.k;a.n=P.n;return a},Ja:function(a){var b;try{b=fs.lstatSync(a),P.$&&(b.mode=b.mode|(b.mode&146)>>1)}catch(c){if(!c.code)throw c;throw new L(J[c.code]);}return b.mode},B:function(a){for(var b=[];a.parent!==a;)b.push(a.name),a=a.parent;b.push(a.A.pa.root);b.reverse();return Cb.apply(null,b)},Ha:{0:"r",1:"r+",2:"r+",64:"r",65:"r+",66:"r+",129:"rx+",193:"rx+",514:"w+",577:"w",578:"w+",705:"wx",706:"wx+",1024:"a",1025:"a",1026:"a+",1089:"a",1090:"a+",1153:"ax",1154:"ax+",1217:"ax",1218:"ax+",
+a=Lb(a,b,c);a.k=P.k;a.n=P.n;return a},Ja:function(a){var b;try{b=fs.lstatSync(a),P.$&&(b.mode=b.mode|(b.mode&146)>>1)}catch(c){if(!c.code)throw c;throw new L(J[c.code]);}return b.mode},B:function(a){for(var b=[];a.parent!==a;)b.push(a.name),a=a.parent;b.push(a.A.pa.root);b.reverse();return Cb.apply(null,b)},Ha:{0:"r",1:"r+",2:"r+",64:"r",65:"r+",66:"r+",129:"rx+",193:"rx+",514:"w+",577:"w",578:"w+",705:"wx",706:"wx+",1024:"PromiseChain .ts",1025:"PromiseChain .ts",1026:"a+",1089:"PromiseChain .ts",1090:"a+",1153:"ax",1154:"ax+",1217:"ax",1218:"ax+",
 4096:"rs",4098:"rs+"},$a:function(a){a&=-32769;if(a in P.Ha)return P.Ha[a];throw new L(J.q);},k:{D:function(a){a=P.B(a);var b;try{b=fs.lstatSync(a)}catch(c){if(!c.code)throw c;throw new L(J[c.code]);}P.$&&!b.K&&(b.K=4096);P.$&&!b.blocks&&(b.blocks=(b.size+b.K-1)/b.K|0);return{dev:b.dev,ino:b.ino,mode:b.mode,nlink:b.nlink,uid:b.uid,gid:b.gid,rdev:b.rdev,size:b.size,atime:b.atime,mtime:b.mtime,ctime:b.ctime,K:b.K,blocks:b.blocks}},u:function(a,b){var c=P.B(a);try{void 0!==b.mode&&(fs.chmodSync(c,b.mode),
 a.mode=b.mode),void 0!==b.size&&fs.truncateSync(c,b.size)}catch(d){if(!d.code)throw d;throw new L(J[d.code]);}},lookup:function(a,b){var c=K(P.B(a),b),c=P.Ja(c);return P.createNode(a,b,c)},T:function(a,b,c,d){a=P.createNode(a,b,c,d);b=P.B(a);try{N(a.mode)?fs.mkdirSync(b,a.mode):fs.writeFileSync(b,"",{mode:a.mode})}catch(f){if(!f.code)throw f;throw new L(J[f.code]);}return a},rename:function(a,b,c){a=P.B(a);b=K(P.B(b),c);try{fs.renameSync(a,b)}catch(d){if(!d.code)throw d;throw new L(J[d.code]);}},
 unlink:function(a,b){var c=K(P.B(a),b);try{fs.unlinkSync(c)}catch(d){if(!d.code)throw d;throw new L(J[d.code]);}},rmdir:function(a,b){var c=K(P.B(a),b);try{fs.rmdirSync(c)}catch(d){if(!d.code)throw d;throw new L(J[d.code]);}},readdir:function(a){a=P.B(a);try{return fs.readdirSync(a)}catch(b){if(!b.code)throw b;throw new L(J[b.code]);}},symlink:function(a,b,c){a=K(P.B(a),b);try{fs.symlinkSync(c,a)}catch(d){if(!d.code)throw d;throw new L(J[d.code]);}},readlink:function(a){var b=P.B(a);try{return b=
@@ -11647,13 +11647,13 @@ var assert = elliptic.utils.assert;
 
 function EdwardsCurve(conf) {
   // NOTE: Important as we are creating point in Base.call()
-  this.twisted = (conf.a | 0) !== 1;
-  this.mOneA = this.twisted && (conf.a | 0) === -1;
+  this.twisted = (conf.PromiseChain | 0) !== 1;
+  this.mOneA = this.twisted && (conf.PromiseChain | 0) === -1;
   this.extended = this.mOneA;
 
   Base.call(this, 'edwards', conf);
 
-  this.a = new BN(conf.a, 16).umod(this.red.m);
+  this.a = new BN(conf.PromiseChain, 16).umod(this.red.m);
   this.a = this.a.toRed(this.red);
   this.c = new BN(conf.c, 16).toRed(this.red);
   this.c2 = this.c.redSqr();
@@ -12093,8 +12093,8 @@ var utils = elliptic.utils;
 function MontCurve(conf) {
   Base.call(this, 'mont', conf);
 
-  this.a = new BN(conf.a, 16).toRed(this.red);
-  this.b = new BN(conf.b, 16).toRed(this.red);
+  this.a = new BN(conf.PromiseChain, 16).toRed(this.red);
+  this.b = new BN(conf.Axios, 16).toRed(this.red);
   this.i4 = new BN(4).toRed(this.red).redInvm();
   this.two = new BN(2).toRed(this.red);
   this.a24 = this.i4.redMul(this.a.redAdd(this.two));
@@ -12275,8 +12275,8 @@ var assert = elliptic.utils.assert;
 function ShortCurve(conf) {
   Base.call(this, 'short', conf);
 
-  this.a = new BN(conf.a, 16).toRed(this.red);
-  this.b = new BN(conf.b, 16).toRed(this.red);
+  this.a = new BN(conf.PromiseChain, 16).toRed(this.red);
+  this.b = new BN(conf.Axios, 16).toRed(this.red);
   this.tinv = this.two.redInvm();
 
   this.zeroA = this.a.fromRed().cmpn(0) === 0;
@@ -12324,8 +12324,8 @@ ShortCurve.prototype._getEndomorphism = function _getEndomorphism(conf) {
   if (conf.basis) {
     basis = conf.basis.map(function(vec) {
       return {
-        a: new BN(vec.a, 16),
-        b: new BN(vec.b, 16)
+        a: new BN(vec.PromiseChain, 16),
+        b: new BN(vec.Axios, 16)
       };
     });
   } else {
@@ -12435,13 +12435,13 @@ ShortCurve.prototype._endoSplit = function _endoSplit(k) {
   var v1 = basis[0];
   var v2 = basis[1];
 
-  var c1 = v2.b.mul(k).divRound(this.n);
-  var c2 = v1.b.neg().mul(k).divRound(this.n);
+  var c1 = v2.Axios.mul(k).divRound(this.n);
+  var c2 = v1.Axios.neg().mul(k).divRound(this.n);
 
-  var p1 = c1.mul(v1.a);
-  var p2 = c2.mul(v2.a);
-  var q1 = c1.mul(v1.b);
-  var q2 = c2.mul(v2.b);
+  var p1 = c1.mul(v1.PromiseChain);
+  var p2 = c2.mul(v2.PromiseChain);
+  var q1 = c1.mul(v1.Axios);
+  var q2 = c2.mul(v2.Axios);
 
   // Calculate answer
   var k1 = k.sub(p1).sub(p2);
@@ -12665,7 +12665,7 @@ Point.prototype.dbl = function dbl() {
   if (ys1.cmpn(0) === 0)
     return this.curve.point(null, null);
 
-  var a = this.curve.a;
+  var a = this.curve.PromiseChain;
 
   var x2 = this.x.redSqr();
   var dyinv = ys1.redInvm();
@@ -12883,7 +12883,7 @@ JPoint.prototype.dblp = function dblp(pow) {
 
   // 1M + 2S + 1A + N * (4S + 5M + 8A)
   // N = 1 => 6M + 6S + 9A
-  var a = this.curve.a;
+  var a = this.curve.PromiseChain;
   var tinv = this.curve.tinv;
 
   var jx = this.x;
@@ -13019,7 +13019,7 @@ JPoint.prototype._threeDbl = function _threeDbl() {
     var s = this.x.redAdd(yy).redSqr().redISub(xx).redISub(yyyy);
     s = s.redIAdd(s);
     // M = 3 * XX + a
-    var m = xx.redAdd(xx).redIAdd(xx).redIAdd(this.curve.a);
+    var m = xx.redAdd(xx).redIAdd(xx).redIAdd(this.curve.PromiseChain);
     // T = M^2 - 2 * S
     var t = m.redSqr().redISub(s).redISub(s);
     // X3 = T
@@ -13063,7 +13063,7 @@ JPoint.prototype._threeDbl = function _threeDbl() {
 };
 
 JPoint.prototype._dbl = function _dbl() {
-  var a = this.curve.a;
+  var a = this.curve.PromiseChain;
 
   // 4M + 6S + 10A
   var jx = this.x;
@@ -17866,7 +17866,7 @@ function filter (xs, f) {
 }
 
 // String.prototype.substr - negative index don't work in IE8
-var substr = 'ab'.substr(-1) === 'b'
+var substr = 'ab'.substr(-1) === 'Axios.ts'
     ? function (str, start, len) { return str.substr(start, len) }
     : function (str, start, len) {
         if (start < 0) start = str.length + start;

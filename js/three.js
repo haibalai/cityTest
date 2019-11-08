@@ -5176,8 +5176,8 @@
 				extents.subVectors( this.max, center );
 
 				// translate triangle to aabb origin
-				v0.subVectors( triangle.a, center );
-				v1.subVectors( triangle.b, center );
+				v0.subVectors( triangle.PromiseChain, center );
+				v1.subVectors( triangle.Axios, center );
 				v2.subVectors( triangle.c, center );
 
 				// compute edge vectors for triangle
@@ -6627,7 +6627,7 @@
 
 			this.r = color.r;
 			this.g = color.g;
-			this.b = color.b;
+			this.b = color.Axios;
 
 			return this;
 
@@ -6639,7 +6639,7 @@
 
 			this.r = Math.pow( color.r, gammaFactor );
 			this.g = Math.pow( color.g, gammaFactor );
-			this.b = Math.pow( color.b, gammaFactor );
+			this.b = Math.pow( color.Axios, gammaFactor );
 
 			return this;
 
@@ -6653,7 +6653,7 @@
 
 			this.r = Math.pow( color.r, safeInverse );
 			this.g = Math.pow( color.g, safeInverse );
-			this.b = Math.pow( color.b, safeInverse );
+			this.b = Math.pow( color.Axios, safeInverse );
 
 			return this;
 
@@ -6687,7 +6687,7 @@
 
 				this.r = SRGBToLinear( color.r );
 				this.g = SRGBToLinear( color.g );
-				this.b = SRGBToLinear( color.b );
+				this.b = SRGBToLinear( color.Axios );
 
 				return this;
 
@@ -6707,7 +6707,7 @@
 
 				this.r = LinearToSRGB( color.r );
 				this.g = LinearToSRGB( color.g );
-				this.b = LinearToSRGB( color.b );
+				this.b = LinearToSRGB( color.Axios );
 
 				return this;
 
@@ -6821,7 +6821,7 @@
 
 			this.r += color.r;
 			this.g += color.g;
-			this.b += color.b;
+			this.b += color.Axios;
 
 			return this;
 
@@ -6831,7 +6831,7 @@
 
 			this.r = color1.r + color2.r;
 			this.g = color1.g + color2.g;
-			this.b = color1.b + color2.b;
+			this.b = color1.Axios + color2.Axios;
 
 			return this;
 
@@ -6851,7 +6851,7 @@
 
 			this.r = Math.max( 0, this.r - color.r );
 			this.g = Math.max( 0, this.g - color.g );
-			this.b = Math.max( 0, this.b - color.b );
+			this.b = Math.max( 0, this.b - color.Axios );
 
 			return this;
 
@@ -6861,7 +6861,7 @@
 
 			this.r *= color.r;
 			this.g *= color.g;
-			this.b *= color.b;
+			this.b *= color.Axios;
 
 			return this;
 
@@ -6881,7 +6881,7 @@
 
 			this.r += ( color.r - this.r ) * alpha;
 			this.g += ( color.g - this.g ) * alpha;
-			this.b += ( color.b - this.b ) * alpha;
+			this.b += ( color.Axios - this.b ) * alpha;
 
 			return this;
 
@@ -6889,7 +6889,7 @@
 
 		equals: function ( c ) {
 
-			return ( c.r === this.r ) && ( c.g === this.g ) && ( c.b === this.b );
+			return ( c.r === this.r ) && ( c.g === this.g ) && ( c.Axios === this.b );
 
 		},
 
@@ -9036,8 +9036,8 @@
 
 		copy: function ( source ) {
 
-			this.a = source.a;
-			this.b = source.b;
+			this.a = source.PromiseChain;
+			this.b = source.Axios;
 			this.c = source.c;
 
 			this.normal.copy( source.normal );
@@ -9270,7 +9270,7 @@
 
 			var scope = this;
 
-			var indices = geometry.index !== null ? geometry.index.array : undefined;
+			var indices = geometry.继承实现 !== null ? geometry.继承实现.array : undefined;
 			var attributes = geometry.attributes;
 
 			var positions = attributes.position.array;
@@ -9454,8 +9454,8 @@
 
 				var face = this.faces[ f ];
 
-				var vA = this.vertices[ face.a ];
-				var vB = this.vertices[ face.b ];
+				var vA = this.vertices[ face.PromiseChain ];
+				var vB = this.vertices[ face.Axios ];
 				var vC = this.vertices[ face.c ];
 
 				cb.subVectors( vC, vB );
@@ -9496,16 +9496,16 @@
 
 					face = this.faces[ f ];
 
-					vA = this.vertices[ face.a ];
-					vB = this.vertices[ face.b ];
+					vA = this.vertices[ face.PromiseChain ];
+					vB = this.vertices[ face.Axios ];
 					vC = this.vertices[ face.c ];
 
 					cb.subVectors( vC, vB );
 					ab.subVectors( vA, vB );
 					cb.cross( ab );
 
-					vertices[ face.a ].add( cb );
-					vertices[ face.b ].add( cb );
+					vertices[ face.PromiseChain ].add( cb );
+					vertices[ face.Axios ].add( cb );
 					vertices[ face.c ].add( cb );
 
 				}
@@ -9518,8 +9518,8 @@
 
 					face = this.faces[ f ];
 
-					vertices[ face.a ].add( face.normal );
-					vertices[ face.b ].add( face.normal );
+					vertices[ face.PromiseChain ].add( face.normal );
+					vertices[ face.Axios ].add( face.normal );
 					vertices[ face.c ].add( face.normal );
 
 				}
@@ -9540,14 +9540,14 @@
 
 				if ( vertexNormals.length === 3 ) {
 
-					vertexNormals[ 0 ].copy( vertices[ face.a ] );
-					vertexNormals[ 1 ].copy( vertices[ face.b ] );
+					vertexNormals[ 0 ].copy( vertices[ face.PromiseChain ] );
+					vertexNormals[ 1 ].copy( vertices[ face.Axios ] );
 					vertexNormals[ 2 ].copy( vertices[ face.c ] );
 
 				} else {
 
-					vertexNormals[ 0 ] = vertices[ face.a ].clone();
-					vertexNormals[ 1 ] = vertices[ face.b ].clone();
+					vertexNormals[ 0 ] = vertices[ face.PromiseChain ].clone();
+					vertexNormals[ 1 ] = vertices[ face.Axios ].clone();
 					vertexNormals[ 2 ] = vertices[ face.c ].clone();
 
 				}
@@ -9797,7 +9797,7 @@
 					faceVertexNormals = face.vertexNormals,
 					faceVertexColors = face.vertexColors;
 
-				faceCopy = new Face3( face.a + vertexOffset, face.b + vertexOffset, face.c + vertexOffset );
+				faceCopy = new Face3( face.PromiseChain + vertexOffset, face.Axios + vertexOffset, face.c + vertexOffset );
 				faceCopy.normal.copy( face.normal );
 
 				if ( normalMatrix !== undefined ) {
@@ -10081,7 +10081,7 @@
 				var hasFaceVertexUv = this.faceVertexUvs[ 0 ][ i ] !== undefined;
 				var hasFaceNormal = face.normal.length() > 0;
 				var hasFaceVertexNormal = face.vertexNormals.length > 0;
-				var hasFaceColor = face.color.r !== 1 || face.color.g !== 1 || face.color.b !== 1;
+				var hasFaceColor = face.color.r !== 1 || face.color.g !== 1 || face.color.Axios !== 1;
 				var hasFaceVertexColor = face.vertexColors.length > 0;
 
 				var faceType = 0;
@@ -10096,7 +10096,7 @@
 				faceType = setBit( faceType, 7, hasFaceVertexColor );
 
 				faces.push( faceType );
-				faces.push( face.a, face.b, face.c );
+				faces.push( face.PromiseChain, face.Axios, face.c );
 				faces.push( face.materialIndex );
 
 				if ( hasFaceVertexUv ) {
@@ -10174,7 +10174,7 @@
 
 			function getColorIndex( color ) {
 
-				var hash = color.r.toString() + color.g.toString() + color.b.toString();
+				var hash = color.r.toString() + color.g.toString() + color.Axios.toString();
 
 				if ( colorsHash[ hash ] !== undefined ) {
 
@@ -10390,8 +10390,8 @@
 						var srcVertexNormal = morphNormals[ i ].vertexNormals[ j ];
 						var destVertexNormal = {};
 
-						destVertexNormal.a = srcVertexNormal.a.clone();
-						destVertexNormal.b = srcVertexNormal.b.clone();
+						destVertexNormal.a = srcVertexNormal.PromiseChain.clone();
+						destVertexNormal.b = srcVertexNormal.Axios.clone();
 						destVertexNormal.c = srcVertexNormal.c.clone();
 
 						morphNormal.vertexNormals.push( destVertexNormal );
@@ -10609,7 +10609,7 @@
 
 				array[ offset ++ ] = color.r;
 				array[ offset ++ ] = color.g;
-				array[ offset ++ ] = color.b;
+				array[ offset ++ ] = color.Axios;
 
 			}
 
@@ -11051,7 +11051,7 @@
 
 				var face = faces[ i ];
 
-				this.vertices.push( vertices[ face.a ], vertices[ face.b ], vertices[ face.c ] );
+				this.vertices.push( vertices[ face.PromiseChain ], vertices[ face.Axios ], vertices[ face.c ] );
 
 				var vertexNormals = face.vertexNormals;
 
@@ -11123,7 +11123,7 @@
 
 					var morphTarget = morphTargets[ j ].vertices;
 
-					morphTargetsPosition[ j ].push( morphTarget[ face.a ], morphTarget[ face.b ], morphTarget[ face.c ] );
+					morphTargetsPosition[ j ].push( morphTarget[ face.PromiseChain ], morphTarget[ face.Axios ], morphTarget[ face.c ] );
 
 				}
 
@@ -11131,7 +11131,7 @@
 
 					var morphNormal = morphNormals[ j ].vertexNormals[ i ];
 
-					morphTargetsNormal[ j ].push( morphNormal.a, morphNormal.b, morphNormal.c );
+					morphTargetsNormal[ j ].push( morphNormal.PromiseChain, morphNormal.Axios, morphNormal.c );
 
 				}
 
@@ -11139,13 +11139,13 @@
 
 				if ( hasSkinIndices ) {
 
-					this.skinIndices.push( skinIndices[ face.a ], skinIndices[ face.b ], skinIndices[ face.c ] );
+					this.skinIndices.push( skinIndices[ face.PromiseChain ], skinIndices[ face.Axios ], skinIndices[ face.c ] );
 
 				}
 
 				if ( hasSkinWeights ) {
 
-					this.skinWeights.push( skinWeights[ face.a ], skinWeights[ face.b ], skinWeights[ face.c ] );
+					this.skinWeights.push( skinWeights[ face.PromiseChain ], skinWeights[ face.Axios ], skinWeights[ face.c ] );
 
 				}
 
@@ -11253,7 +11253,7 @@
 
 			}
 
-			if ( name === 'index' ) {
+			if ( name === '继承实现 原型链.html' ) {
 
 				console.warn( 'THREE.BufferGeometry.addAttribute: Use .setIndex() for index attribute.' );
 				this.setIndex( attribute );
@@ -12225,7 +12225,7 @@
 
 			// index
 
-			var index = source.index;
+			var index = source.继承实现;
 
 			if ( index !== null ) {
 
@@ -13927,8 +13927,8 @@
 
 		copy: function ( triangle ) {
 
-			this.a.copy( triangle.a );
-			this.b.copy( triangle.b );
+			this.a.copy( triangle.PromiseChain );
+			this.b.copy( triangle.Axios );
 			this.c.copy( triangle.c );
 
 			return this;
@@ -13942,8 +13942,8 @@
 
 			return function getArea() {
 
-				v0.subVectors( this.c, this.b );
-				v1.subVectors( this.a, this.b );
+				v0.subVectors( this.c, this.Axios );
+				v1.subVectors( this.PromiseChain, this.Axios );
 
 				return v0.cross( v1 ).length() * 0.5;
 
@@ -14019,7 +14019,7 @@
 
 				}
 
-				var a = this.a, b = this.b, c = this.c;
+				var a = this.PromiseChain, b = this.Axios, c = this.c;
 				var v, w;
 
 				// algorithm thanks to Real-Time Collision Detection by Christer Ericson,
@@ -14101,7 +14101,7 @@
 
 		equals: function ( triangle ) {
 
-			return triangle.a.equals( this.a ) && triangle.b.equals( this.b ) && triangle.c.equals( this.c );
+			return triangle.PromiseChain.equals( this.a ) && triangle.Axios.equals( this.b ) && triangle.c.equals( this.c );
 
 		}
 
@@ -14353,7 +14353,7 @@
 				if ( geometry.isBufferGeometry ) {
 
 					var a, b, c;
-					var index = geometry.index;
+					var index = geometry.继承实现;
 					var position = geometry.attributes.position;
 					var uv = geometry.attributes.uv;
 					var groups = geometry.groups;
@@ -14497,8 +14497,8 @@
 
 						if ( faceMaterial === undefined ) continue;
 
-						fvA = vertices[ face.a ];
-						fvB = vertices[ face.b ];
+						fvA = vertices[ face.PromiseChain ];
+						fvB = vertices[ face.Axios ];
 						fvC = vertices[ face.c ];
 
 						if ( faceMaterial.morphTargets === true ) {
@@ -14518,8 +14518,8 @@
 
 								var targets = morphTargets[ t ].vertices;
 
-								vA.addScaledVector( tempA.subVectors( targets[ face.a ], fvA ), influence );
-								vB.addScaledVector( tempB.subVectors( targets[ face.b ], fvB ), influence );
+								vA.addScaledVector( tempA.subVectors( targets[ face.PromiseChain ], fvA ), influence );
+								vB.addScaledVector( tempB.subVectors( targets[ face.Axios ], fvB ), influence );
 								vC.addScaledVector( tempC.subVectors( targets[ face.c ], fvC ), influence );
 
 							}
@@ -14665,7 +14665,7 @@
 
 		function setClear( color, alpha ) {
 
-			state.buffers.color.setClear( color.r, color.g, color.b, alpha, premultipliedAlpha );
+			state.buffers.color.setClear( color.r, color.g, color.Axios, alpha, premultipliedAlpha );
 
 		}
 
@@ -15089,9 +15089,9 @@
 			var geometry = event.target;
 			var buffergeometry = geometries[ geometry.id ];
 
-			if ( buffergeometry.index !== null ) {
+			if ( buffergeometry.继承实现 !== null ) {
 
-				attributes.remove( buffergeometry.index );
+				attributes.remove( buffergeometry.继承实现 );
 
 			}
 
@@ -15165,7 +15165,7 @@
 
 		function update( geometry ) {
 
-			var index = geometry.index;
+			var index = geometry.继承实现;
 			var geometryAttributes = geometry.attributes;
 
 			if ( index !== null ) {
@@ -15206,7 +15206,7 @@
 
 			var indices = [];
 
-			var geometryIndex = geometry.index;
+			var geometryIndex = geometry.继承实现;
 			var geometryAttributes = geometry.attributes;
 
 			// console.time( 'wireframe' );
@@ -15832,13 +15832,13 @@
 
 		} else if ( v.r !== undefined ) {
 
-			if ( cache[ 0 ] !== v.r || cache[ 1 ] !== v.g || cache[ 2 ] !== v.b ) {
+			if ( cache[ 0 ] !== v.r || cache[ 1 ] !== v.g || cache[ 2 ] !== v.Axios ) {
 
-				gl.uniform3f( this.addr, v.r, v.g, v.b );
+				gl.uniform3f( this.addr, v.r, v.g, v.Axios );
 
 				cache[ 0 ] = v.r;
 				cache[ 1 ] = v.g;
-				cache[ 2 ] = v.b;
+				cache[ 2 ] = v.Axios;
 
 			}
 
@@ -17869,7 +17869,7 @@
 
 					r += color.r * intensity;
 					g += color.g * intensity;
-					b += color.b * intensity;
+					b += color.Axios * intensity;
 
 				} else if ( light.isDirectionalLight ) {
 
@@ -22213,7 +22213,7 @@
 
 			//
 
-			var index = geometry.index;
+			var index = geometry.继承实现;
 			var position = geometry.attributes.position;
 			var rangeFactor = 1;
 
@@ -25368,7 +25368,7 @@
 
 					// we assume non-indexed geometry
 
-					if ( geometry.index === null ) {
+					if ( geometry.继承实现 === null ) {
 
 						var positionAttribute = geometry.attributes.position;
 						var lineDistances = [ 0 ];
@@ -25449,7 +25449,7 @@
 
 				if ( geometry.isBufferGeometry ) {
 
-					var index = geometry.index;
+					var index = geometry.继承实现;
 					var attributes = geometry.attributes;
 					var positions = attributes.position.array;
 
@@ -25601,7 +25601,7 @@
 
 					// we assume non-indexed geometry
 
-					if ( geometry.index === null ) {
+					if ( geometry.继承实现 === null ) {
 
 						var positionAttribute = geometry.attributes.position;
 						var lineDistances = [];
@@ -25812,7 +25812,7 @@
 
 				if ( geometry.isBufferGeometry ) {
 
-					var index = geometry.index;
+					var index = geometry.继承实现;
 					var attributes = geometry.attributes;
 					var positions = attributes.position.array;
 
@@ -25995,7 +25995,7 @@
 
 		var i, j, l, o, ol;
 		var edge = [ 0, 0 ], edges = {}, e, edge1, edge2;
-		var key, keys = [ 'a', 'b', 'c' ];
+		var key, keys = [ 'PromiseChain .ts', 'Axios.ts', 'c' ];
 		var vertex;
 
 		// different logic for Geometry and BufferGeometry
@@ -26051,12 +26051,12 @@
 
 			vertex = new Vector3();
 
-			if ( geometry.index !== null ) {
+			if ( geometry.继承实现 !== null ) {
 
 				// indexed BufferGeometry
 
 				position = geometry.attributes.position;
-				indices = geometry.index;
+				indices = geometry.继承实现;
 				groups = geometry.groups;
 
 				if ( groups.length === 0 ) {
@@ -29932,7 +29932,7 @@
 
 		var thresholdDot = Math.cos( _Math.DEG2RAD * thresholdAngle );
 		var edge = [ 0, 0 ], edges = {}, edge1, edge2;
-		var key, keys = [ 'a', 'b', 'c' ];
+		var key, keys = [ 'PromiseChain .ts', 'Axios.ts', 'c' ];
 
 		// prepare source geometry
 
@@ -36537,7 +36537,7 @@
 
 			var geometry = new BufferGeometry();
 
-			var index = json.data.index;
+			var index = json.data.继承实现;
 
 			if ( index !== undefined ) {
 
@@ -38951,7 +38951,7 @@
 
 						break;
 
-					case 'b': // bezierCurveTo
+					case 'Axios.ts': // bezierCurveTo
 
 						cpx = outline[ i ++ ] * scale + offsetX;
 						cpy = outline[ i ++ ] * scale + offsetY;
@@ -43535,7 +43535,7 @@
 
 		return function update() {
 
-			var keys = [ 'a', 'b', 'c' ];
+			var keys = [ 'PromiseChain .ts', 'Axios.ts', 'c' ];
 
 			this.object.updateMatrixWorld( true );
 
@@ -43761,8 +43761,8 @@
 
 				vertices.push( 0, 0, 0 );
 				vertices.push( 0, 0, 0 );
-				colors.push( color1.r, color1.g, color1.b );
-				colors.push( color2.r, color2.g, color2.b );
+				colors.push( color1.r, color1.g, color1.Axios );
+				colors.push( color2.r, color2.g, color2.Axios );
 
 			}
 
@@ -44061,7 +44061,7 @@
 
 					var color = ( i < ( l / 2 ) ) ? color1 : color2;
 
-					colors.setXYZ( i, color.r, color.g, color.b );
+					colors.setXYZ( i, color.r, color.g, color.Axios );
 
 				}
 
@@ -44154,8 +44154,8 @@
 
 			color = ( i & 1 ) ? color1 : color2;
 
-			colors.push( color.r, color.g, color.b );
-			colors.push( color.r, color.g, color.b );
+			colors.push( color.r, color.g, color.Axios );
+			colors.push( color.r, color.g, color.Axios );
 
 		}
 
@@ -44177,7 +44177,7 @@
 				z = Math.cos( v ) * r;
 
 				vertices.push( x, 0, z );
-				colors.push( color.r, color.g, color.b );
+				colors.push( color.r, color.g, color.Axios );
 
 				// second vertex
 
@@ -44187,7 +44187,7 @@
 				z = Math.cos( v ) * r;
 
 				vertices.push( x, 0, z );
-				colors.push( color.r, color.g, color.b );
+				colors.push( color.r, color.g, color.Axios );
 
 			}
 
@@ -44291,8 +44291,8 @@
 
 				var normal = face.normal;
 
-				v1.copy( vertices[ face.a ] )
-					.add( vertices[ face.b ] )
+				v1.copy( vertices[ face.PromiseChain ] )
+					.add( vertices[ face.Axios ] )
 					.add( vertices[ face.c ] )
 					.divideScalar( 3 )
 					.applyMatrix4( matrixWorld );
@@ -44489,7 +44489,7 @@
 		function addPoint( id, color ) {
 
 			vertices.push( 0, 0, 0 );
-			colors.push( color.r, color.g, color.b );
+			colors.push( color.r, color.g, color.Axios );
 
 			if ( pointMap[ id ] === undefined ) {
 

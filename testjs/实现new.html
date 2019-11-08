@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+    function New(func) {
+        var res = {};
+        if (func.prototype !== null) {
+            res.__proto__ = func.prototype
+        }
+        var ret = func.apply(res, Array.prototype.slice.call(arguments, 1));
+        if ((typeof ret === "object" || typeof ret === "function") && ret !== null) {
+            return ret
+        }
+        return res
+    }
+
+  var obj = New(A,1,2);
+
+</script>
+
+</body>
+</html>
