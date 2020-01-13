@@ -119,6 +119,8 @@
 
                 let fa = el.offsetWidth/el.getBoundingClientRect().width;
                 let fa1 = el.offsetHeight/el.getBoundingClientRect().height;
+
+                let a = view.toScreen(view.center);
                 let p  = view.toMap(
                     {
                         x:e.x * fa,
