@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Intro to FeatureLayer - 4.13</title>
+
+    <link
+      rel="stylesheet"
+      href="https://arcgis.cityworks.cn/arcgis_js_api/library/4.13/esri/css/main.css"
+    />
+    <script src="https://arcgis.cityworks.cn/arcgis_js_api/library/4.13/dojo/dojo.js"></script>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <script>
+      require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/views/SceneView",
+        "esri/layers/FeatureLayer",
+        "esri/layers/support/LabelClass"
+      ], function(Map, MapView, SceneView, FeatureLayer,LabelClass) {
+        var map = new Map({
+          basemap: "hybrid"
+        });
+
+        var view = new SceneView({
+          container: "viewDiv",
+          map: map
+
+          // extent: {
+          //   // autocasts as new Extent()
+          //   xmin: -9177811,
+          //   ymin: 4247000,
+          //   xmax: -9176791,
+          //   ymax: 4247784,
+          //   spatialReference: 102100
+          // }
+        });
+
+        /********************
+         * Add feature layer
+         ********************/
+
+        // Carbon storage of trees in Warren Wilson College.
+        var labelClass = new LabelClass({
+                  symbol: {
+                    type: "text",  // autocasts as new TextSymbol()
+                    color: "#3076ff",
+                    haloColor: "rgba(48,118,255,0)",
+                    haloSize: "10px",
+                    xoffset: 3,
+                    yoffset: 100,
+                    font: {  // autocast as new Font()
+                      size: 30,
+                      family: "sans-serif",
+                      weight: "bold"
+                    }
+                },
+                  labelExpressionInfo: {
+                    expression: '$feature.name'
+                  },
+
+                });
+        var featureLayer = new FeatureLayer({
+          url:
+            "https://arcgis.cityworks.cn/server/rest/services/BAZK_Vector_20190507/MapServer/5",
+                  labelingInfo: [labelClass]
+        });
+
+
+        // featureLayer.renderer = {
+        //   type: "label-3d", // autocasts as new LabelSymbol3D()
+        //   symbolLayers: [
+        //     {
+        //       type: "text", // autocasts as new TextSymbol3DLayer()
+        //       material: {
+        //         color: "black"
+        //       },
+        //       halo: {
+        //         color: [255, 255, 255, 0.7],
+        //         size: 2
+        //       },
+        //       size: 10
+        //     }
+        //   ],
+        //   // Labels need a small vertical offset that will be used by the callout
+        //   verticalOffset: {
+        //     screenLength: 150,
+        //     maxWorldLength: 2000,
+        //     minWorldLength: 30
+        //   },
+        //   // The callout has to have a defined type (currently only line is possible)
+        //   // The size, the color and the border color can be customized
+        //   callout: {
+        //     type: "line", // autocasts as new LineCallout3D()
+        //     size: 0.5,
+        //     color: [0, 0, 0],
+        //     border: {
+        //       color: [255, 255, 255, 0.7]
+        //     }
+        //   }
+        // };
+        map.add(featureLayer);
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>

@@ -9,28 +9,15 @@
 <script>
 
 
+    let b = {
+        a:"4444"
+    } ;
+    let str = "$feature.a + '555'";
+    str = `str`
 
 
-    $.ajax({
-          type:"post",
-                        url: "http://121.201.65.133:8021/GisServices/GisService.asmx/transform",
-                        dataType:"json",
-        data: {
-            "x": "428118",
-            "y": "426318",
-            "type": "local",
-            "coordinate": "fuzhou2baidu"
-        },
-                       success:OnSuccess,
-                       error:OnError
-                });
 
-    function OnSuccess(json) {
-        alert(json.result);
-                 }
-            function OnError(XMLHttpRequest, textStatus, errorThrown) {
 
-              }
 
 </script>
 

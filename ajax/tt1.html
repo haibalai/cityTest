@@ -1,10 +1,158 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <meta charset="utf-8" />
+    <meta
+            name="viewport"
+            content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Import glTF 3D Models - 4.14</title>
 
+    <link
+            rel="stylesheet"
+            href="https://js.arcgis.com/4.14/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.14/"></script>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        #paneDiv {
+            padding: 10px;
+            max-width: 200px;
+            background-color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1em;
+        }
+
+        #credits {
+            font-size: 0.7em;
+            line-height: 1.1em;
+        }
+    </style>
+    <script>
+        require([
+            "esri/views/SceneView",
+            "esri/WebScene",
+            "esri/Map",
+            "esri/layers/GraphicsLayer",
+            "esri/widgets/Sketch/SketchViewModel"
+        ], function(SceneView, WebScene, Map, GraphicsLayer, SketchViewModel) {
+            // load web scene from ArcGIS Online
+            const webScene = new WebScene({
+                portalItem: {
+                    // autocasts as new PortalItem()
+                    id: "414a28cfca7a471180e8e952cf14c60f"
+                }
+            });
+
+            const view = new SceneView({
+                container: "viewDiv",
+                map: webScene
+            });
+
+            const graphicsLayer = new GraphicsLayer();
+            view.map.add(graphicsLayer);
+
+            const tentBtn = document.getElementById("tent");
+            const canoeBtn = document.getElementById("canoe");
+
+            view
+                .when(function() {
+                    // This sample uses the SketchViewModel to add points to a
+                    // GraphicsLayer. The points have 3D glTF models as symbols.
+                    const sketchVM = new SketchViewModel({
+                        layer: graphicsLayer,
+                        view: view
+                    });
+
+                    tentBtn.addEventListener("click", function() {
+                        // reference the relative path to the glTF model
+                        // in the resource of an ObjectSymbol3DLayer
+                        sketchVM.pointSymbol = {
+                            type: "point-3d",
+                            symbolLayers: [
+                                {
+                                    type: "object",
+                                    resource: {
+                                        href:
+                                            "./jing_0.glb"
+                                    }
+                                }
+                            ]
+                        };
+                        sketchVM.create("point");
+                        deactivateButtons();
+                        this.classList.add("esri-button--secondary");
+                    });
+
+                    canoeBtn.addEventListener("click", function() {
+                        // reference the relative path to the glTF model
+                        // in the resource of an ObjectSymbol3DLayer
+                        sketchVM.pointSymbol = {
+                            type: "point-3d",
+                            symbolLayers: [
+                                {
+                                    type: "object",
+                                    resource: {
+                                        href:
+                                            "https://developers.arcgis.com/javascript/latest/sample-code/import-gltf/live/canoe.glb"
+                                    }
+                                }
+                            ]
+                        };
+                        deactivateButtons();
+                        sketchVM.create("point");
+                        this.classList.add("esri-button--secondary");
+                    });
+
+                    sketchVM.on("create", function(event) {
+                        if (event.state === "complete") {
+                            sketchVM.update(event.graphic);
+                            deactivateButtons();
+                        }
+                    });
+                })
+                .catch(console.error);
+
+            function deactivateButtons() {
+                const elements = Array.prototype.slice.call(
+                    document.getElementsByClassName("esri-button")
+                );
+                elements.forEach(function(element) {
+                    element.classList.remove("esri-button--secondary");
+                });
+            }
+
+            view.ui.add("paneDiv", "top-right");
+        });
+    </script>
+</head>
+
+<body>
+<div id="viewDiv"></div>
+<div id="paneDiv" class="esri-widget">
+    <p>Select a symbol and place it in the scene:</p>
+    <button id="tent" class="esri-button">Tent</button><br />
+    <button id="canoe" class="esri-button">Canoe</button>
+    <p id="credits">
+        Tent and canoe glTF models from
+        <a href="https://www.kenney.nl/assets/" target="_blank"
+        >Kenney game assets</a
+        >
+        under
+        <a
+                href="https://creativecommons.org/publicdomain/zero/1.0/"
+                target="_blank"
+        >CC0 1.0 Universal</a
+        >.
+    </p>
+</div>
 </body>
 </html>

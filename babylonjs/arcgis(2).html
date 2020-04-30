@@ -35,12 +35,9 @@
     <!--<script src="../js/threejs/loaders/collada/AnimationHandler.js"></script>-->
     <!--<script src="../js/threejs/loaders/collada/Animation.js"></script>-->
 
-    <script src="https://cdn.bootcss.com/babylonjs/4.1.0-alpha.20/babylon.js"></script>
-    <link
-            rel="stylesheet"
-            href="https://js.arcgis.com/4.11/esri/themes/light/main.css"
-    />
-    <script src="https://js.arcgis.com/4.11/"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babylonjs/4.2.0-alpha.12/babylon.js"></script>
+    <link rel="stylesheet" href="http://arcgis.cityworks.cn/arcgis_js_api/library/4.13/esri/css/main.css"/>
+    <script src="http://arcgis.cityworks.cn/arcgis_js_api/library/4.13/dojo/dojo.js"></script>
 
     <!--<link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/esri/css/main.css">-->
     <!--<script src="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/dojo/dojo.js"></script>-->
@@ -96,7 +93,7 @@
 
             var view = new SceneView({
                 container:"sss",
-                viewingMode: "global",
+                viewingMode: "local",
                 map:map,
             })
 
@@ -113,11 +110,7 @@
                     var targat=  new BABYLON.Vector3(cam.center[0], cam.center[1], cam.center[2])
                     this.camera.setTarget(targat);
 
-                    let proMat = BABYLON.Matrix.
-
-
-
-                    (cam.projectionMatrix);
+                    let proMat = BABYLON.Matrix.FromArray(cam.projectionMatrix);
                     // debugger
                     // let projMat = this.camera.getProjectionMatrix(true);
                     // projMat.m = projMat.m;
@@ -146,7 +139,7 @@
                     this.scene = new BABYLON.Scene(this.engine);
 
                     this.scene.autoClearDepthAndStencil = false;
-                    // this.scene.clearColor = new BABYLON.Color4(0, 0, 0,0);
+                    this.scene.clearColor = new BABYLON.Color4(0, 0, 0,0);
                     this.scene.autoClear = true;
 
 
@@ -196,7 +189,7 @@
 
                     // console.log(this.plane,this.plane.position,"----------")
                     // this.plane.position = new BABYLON.Vector3(size * 0.95, -0.05 * size, 0);
-                    this.sphere = BABYLON.Mesh.CreateSphere("sphere1", 100,2, this.scene);
+                    this.sphere = BABYLON.Mesh.CreateSphere("sphere1", 1000, 4, this.scene);
                     // this.sphere.position = new BABYLON.Vector3(0.9 * 10000000, -0.05 * 10000000, 0);
 
 

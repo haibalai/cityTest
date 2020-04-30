@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="claygl.js"></script>
+</head>
+<body>
+<canvas id="main"></canvas>
+<script>
+
+
+
+//    const renderer = new clay.Renderer({
+//        canvas: document.getElementById('main')
+//    });
+//
+//
+//    const camcera = new clay.Camera([0, 0.5, 7], [0, 0, 0]);
+//
+//    var light = new clay.
+
+
+   var app =  clay.application.create('#main', {
+
+        width: window.innerWidth,
+        height: window.innerHeight,
+
+        init(app) {
+
+            // Create camera
+            this._camera = app.createCamera([0, 2, 5], [0, 0, 0]);
+
+            // Create a RED cube
+            this._cube = app.createCube({
+                color: '#f00',
+
+            });
+            this._cube.scale.set(2,2,2);
+            // Create light
+            this._mainLight = app.createDirectionalLight([-1, -1, -1]);
+        },
+        loop(app) {
+            // this._cube.rotation.rotateY(app.frameTime / 1000);
+        }
+    });
+
+    console.log(app._appNS._cube);
+</script>
+</body>
+</html>

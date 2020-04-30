@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>创建一个长方体,然后设置贴图Use three.js from an external renderer - 4.11</title>
+    <link rel="stylesheet" href="http://arcgis.cityworks.cn/arcgis_js_api/library/4.13/esri/css/main.css">
+    <!-- 引入three.js库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/three.js/109/three.min.js"></script>
+    <!-- 引入arcgis api库 -->
+    <script src="http://arcgis.cityworks.cn/arcgis_js_api/library/4.13/dojo/dojo.js" type="text/javascript"></script>
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* 去掉地图点击蓝色边框 */
+        .esri-view .esri-view-surface--inset-outline:focus::after {
+            outline: auto 0px Highlight !important;
+            outline: auto 0px -webkit-focus-ring-color !important;
+        }
+    </style>
+
+    <script>
+        require([
+            "esri/WebScene",
+            "esri/views/SceneView",
+            "esri/layers/WebTileLayer",
+            "esri/views/3d/externalRenderers",
+            "esri/geometry/SpatialReference",
+        ], function (
+            WebScene,
+            SceneView,
+            WebTileLayer,
+            externalRenderers,
+            SpatialReference,
+        ) {
+            // 创建一副空的三维场景
+            var map = new WebScene({});
+            // 添加底图start
+            var basemapLayer = new WebTileLayer({
+                //捷泰 底图
+                urlTemplate: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{level}/{row}/{col}"
+            });
+            map.add(basemapLayer);
+            // 添加底图end
+            // 创建一个三维视图
+            var view = new SceneView({
+                container: "viewDiv",
+                map: map,
+                viewingMode: "local",
+                camera: {
+                    position: {
+                        x: 12304794.78704807,
+                        y: 3321811.623938639,
+                        z: 25512547.999999993,
+                        spatialReference: { wkid: 102100 }
+                    },
+                    heading: 359.82521701741024,
+                    tilt: 0.09999162151585612
+                }
+            });
+            // 开始定义一个自定义的外部渲染器Create our custom external renderer
+            var myFirstExternalRenderer = {
+                renderer: null, // three.js renderer
+                camera: null, // three.js camera
+                scene: null, // three.js scene
+                ambient: null, // three.js ambient light source
+                sun: null, // three.js sun light source
+
+                /**
+                 * Setup function, called once by the ArcGIS JS API.
+                 注册对象时被调用,只调用一次,用于初始化three.js创建的对象
+                 */
+                setup: function (context) {
+                    // initialize the three.js renderer
+                    //////////////////////////////////////////////////////////////////////////////////////
+                    // 基础设置 start
+                    this.renderer = new THREE.WebGLRenderer({
+                        context: context.gl,
+                        premultipliedAlpha: false
+                    });
+                    this.renderer.setPixelRatio(window.devicePixelRatio);
+                    this.renderer.setViewport(0, 0, view.width, view.height);
+
+                    // prevent three.js from clearing the buffers provided by the ArcGIS JS API.
+                    this.renderer.autoClearDepth = false;
+                    this.renderer.autoClearStencil = false;
+                    this.renderer.autoClearColor = false;
+
+                    // this.renderer.autoClearDepth = true;
+                    // this.renderer.autoClearStencil = false;
+                    // this.renderer.autoClearColor = true;
+
+                    // var originalSetRenderTarget = this.renderer.setRenderTarget.bind(
+                    //   this.renderer
+                    // );
+                    // this.renderer.setRenderTarget = function (target) {
+                    //   originalSetRenderTarget(target);
+                    //   if (target == null) {
+                    //     context.bindRenderTarget();
+                    //   }
+                    // };
+                    // 基础设置 end
+
+                    // three.js程序 start
+
+                    // setup the three.js scene
+                    ///////////////////////////////////////////////////////////////////////////////////////
+
+                    this.scene = new THREE.Scene();
+                    this.scene.add(new THREE.AxesHelper(9000000));//添加辅助坐标轴
+
+                    // setup the camera
+                    this.camera = new THREE.PerspectiveCamera();
+
+                    // setup scene lighting
+                    this.ambient = new THREE.AmbientLight(0xffffff, 0.5);
+                    this.scene.add(this.ambient);
+                    this.sun = new THREE.DirectionalLight(0xffffff, 0.5);
+                    this.scene.add(this.sun);
+
+                    //创建一个三维几何体——长方体(即：几何骨架)
+                    var geometry = new THREE.BoxGeometry(500, 300, 500);
+                    //创建一个网格材质（即：皮肤、衣服）
+                    var material = new THREE.MeshBasicMaterial({ color: 0xff0000, side: THREE.DoubleSide });
+                    //创建网格对象
+                    var meshObj = new THREE.Mesh(geometry, material);
+                    var geoData = [116.5968704223633, 40.15447407601198, 0];// 北京首都机场的经纬度坐标
+                    // 经纬度坐标转换为three.js坐标 start
+                    var transform = new THREE.Matrix4();
+                    console.log(view)
+                    transform.fromArray(externalRenderers.renderCoordinateTransformAt(view, geoData, SpatialReference.WGS84, new Array(16)));
+                    console.log( transform.elements );
+                    meshObj.position.x = transform.elements[12];
+                    meshObj.position.y = transform.elements[13];
+                    meshObj.position.z = transform.elements[14];
+                    // 旋转网格对象
+                    meshObj.rotation.z = -Math.asin(Math.cos((geoData[1] / 180) * Math.PI) * Math.cos((geoData[0] / 180) * Math.PI));
+                    meshObj.rotation.x = Math.atan(Math.tan((geoData[1] / 180) * Math.PI) / Math.sin((geoData[0] / 180) * Math.PI));
+                    // 经纬度坐标转换为three.js坐标 end
+                    //把三维对象添加到场景中
+                    this.scene.add(meshObj);
+                    //添加轮廓线 start
+                    var edges = new THREE.EdgesGeometry(geometry);
+                    var line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xffffff }));
+                    line.position.x = transform.elements[12];
+                    line.position.y = transform.elements[13];
+                    line.position.z = transform.elements[14];
+                    line.rotation.z = -Math.asin(Math.cos((geoData[1] / 180) * Math.PI) * Math.cos((geoData[0] / 180) * Math.PI));
+                    line.rotation.x = Math.atan(Math.tan((geoData[1] / 180) * Math.PI) / Math.sin((geoData[0] / 180) * Math.PI));
+                    this.scene.add(line);
+                    //添加轮廓线 end
+                    //为长方体设置贴图 start
+                    //加载六个面的纹理贴图
+                    var texture1 = new THREE.TextureLoader().load("../assets/textures/cube/bricks.jpg");
+                    var texture2 = new THREE.TextureLoader().load("../assets/textures/cube/clouds.jpg");
+                    var texture3 = new THREE.TextureLoader().load("../assets/textures/cube/crate.jpg");
+                    var texture4 = new THREE.TextureLoader().load("../assets/textures/cube/hongzhuan.jpg");
+                    var texture5 = new THREE.TextureLoader().load("../assets/textures/cube/shiban.jpg");
+                    var texture6 = new THREE.TextureLoader().load("../assets/textures/cube/stone-wall.jpg");
+                    var materialArray = [
+                        //纹理对象赋值给6个材质对象
+                        new THREE.MeshBasicMaterial({ map: texture1 }),
+                        new THREE.MeshBasicMaterial({ map: texture2 }),
+                        new THREE.MeshBasicMaterial({ map: texture3 }),
+                        new THREE.MeshBasicMaterial({ map: texture4 }),
+                        new THREE.MeshBasicMaterial({ map: texture5 }),
+                        new THREE.MeshBasicMaterial({ map: texture6 })
+                    ];
+                    //6个材质对象组成的数组赋值给MeshFaceMaterial构造函数
+                    var facematerial = new THREE.MeshFaceMaterial(materialArray);
+                    // 重新为网格对象设置材质
+                    // meshObj.material = facematerial;
+
+                    //为长方体设置贴图 end
+
+                    // three.js程序 end
+
+                    // cleanup after ourselfs
+                    context.resetWebGLState();
+                    view.on("click",(e)=>{})
+                },
+
+                render: function (context) {
+                    // update camera parameters
+                    ///////////////////////////////////////////////////////////////////////////////////
+                    var cam = context.camera;
+                    this.camera.position.set(cam.eye[0], cam.eye[1], cam.eye[2]);
+                    this.camera.up.set(cam.up[0], cam.up[1], cam.up[2]);
+                    this.camera.lookAt(
+                        new THREE.Vector3(cam.center[0], cam.center[1], cam.center[2])
+                    );
+                    // Projection matrix can be copied directly
+                    this.camera.projectionMatrix.fromArray(cam.projectionMatrix);
+
+                    // update lighting
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////
+                    // view.environment.lighting.date = Date.now();
+
+                    var l = context.sunLight;
+                    this.sun.position.set(
+                        l.direction[0],
+                        l.direction[1],
+                        l.direction[2]
+                    );
+                    this.sun.intensity = l.diffuse.intensity;
+                    this.sun.color = new THREE.Color(
+                        l.diffuse.color[0],
+                        l.diffuse.color[1],
+                        l.diffuse.color[2]
+                    );
+
+                    this.ambient.intensity = l.ambient.intensity;
+                    this.ambient.color = new THREE.Color(
+                        l.ambient.color[0],
+                        l.ambient.color[1],
+                        l.ambient.color[2]
+                    );
+
+                    // draw the scene
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////
+                    this.renderer.state.reset();
+                    this.renderer.render(this.scene, this.camera);
+                    // as we want to smoothly animate the ISS movement, immediately request a re-render
+                    externalRenderers.requestRender(view);
+
+                    // cleanup
+                    context.resetWebGLState();
+                },
+            };
+
+            // 将自定义的externalRenderer对象注册到view中
+            externalRenderers.add(view, myFirstExternalRenderer);
+        });
+    </script>
+</head>
+
+<body>
+<div id="viewDiv"></div>
+</body>
+
+</html>

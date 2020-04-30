@@ -30,8 +30,8 @@
     <!--<script src="../js/threejs/loaders/collada/AnimationHandler.js"></script>-->
     <!--<script src="../js/threejs/loaders/collada/Animation.js"></script>-->
 
-    <script src="./three.js"></script>
-    <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+<!--    <script src="./three.js"></script>-->
+    <script src="claygl.js"></script>
     <link
             rel="stylesheet"
             href="http://arcgis.cityworks.cn/arcgis_js_api/library/4.13/esri/css/main.css"
@@ -102,18 +102,27 @@
 
                     const camera = context.camera;
                     // this.renderer.setViewport(0, 0, view.width, view.height);
-                    this.camera.position.set(camera.eye[0], camera.eye[1], camera.eye[2]);
-                    this.camera.up.set(camera.up[0], camera.up[1], camera.up[2]);
-                    this.camera.lookAt(new THREE.Vector3(camera.center[0], camera.center[1], camera.center[2]));
-                    this.camera.projectionMatrix.fromArray(camera.projectionMatrix);
+                    // this.camera.position.set(camera.eye[0], camera.eye[1], camera.eye[2]);
+                    // this.camera.up.set(camera.up[0], camera.up[1], camera.up[2]);
+                    // this.camera.lookAt(new THREE.Vector3(camera.center[0], camera.center[1], camera.center[2]));
+                    // this.camera.projectionMatrix.fromArray(camera.projectionMatrix);
 
-                    this.updateLights(context);
+                    // console.log(this.myapp._camera)
+                    this.myapp._appNS._camera.position.set(camera.eye[0], camera.eye[1], camera.eye[2]);
+                    this.myapp._appNS._camera.lookAt(new clay.Vector3(camera.center[0], camera.center[1], camera.center[2]),
+                        new clay.Vector3(camera.up[0], camera.up[1], camera.up[2]),
+                    );
+
+                    let proMat= new clay.Matrix4().setArray(camera.projectionMatrix);
+                    this.myapp._appNS._camera.setProjectionMatrix(proMat);
+
+                    // this.updateLights(context);
 
                     // this.renderer.resetGLState();
-                    this.renderer.state.reset();
+                    // this.renderer.state.reset();
 
 
-                    this.renderer.render(this.scene, this.camera);
+                    // this.renderer.render(this.scene, this.camera);
                     context.resetWebGLState();
                     externalRenderers.requestRender(view);
 
@@ -123,61 +132,94 @@
                 createScene(context){
 
                     //初始化renderer
-                    if(isShow){
-                        this.renderer = new THREE.WebGLRenderer({
-                            context: context.gl,
-                            ne: false
-                        });
+                    // if(isShow){
+                    //     this.renderer = new THREE.WebGLRenderer({
+                    //         context: context.gl,
+                    //         ne: false
+                    //     });
+                    //
+                    //     this.renderer.autoClearDepth = false;
+                    //     this.renderer.autoClearStencil = false;
+                    //     this.renderer.autoClearColor = false;
+                    // }else{
+                    //
+                    //     this.renderer = new THREE.WebGLRenderer({
+                    //         alpha:true,
+                    //         ne: false
+                    //     });
+                    //     this.renderer.autoClearDepth = false;
+                    //     this.renderer.autoClearStencil = false;
+                    //     this.renderer.autoClearColor = false;
+                    //     // this.renderer.setClearColor(0xFF7914, 1.0);
+                    //     this.renderer.setSize(1000, 500);
+                    // }
+                    let app =  clay.application.create('#main', {
 
-                        this.renderer.autoClearDepth = false;
-                        this.renderer.autoClearStencil = false;
-                        this.renderer.autoClearColor = false;
-                    }else{
-                        this.renderer = new THREE.WebGLRenderer({
-                            alpha:true,
-                            ne: false
-                        });
-                        this.renderer.autoClearDepth = false;
-                        this.renderer.autoClearStencil = false;
-                        this.renderer.autoClearColor = false;
-                        // this.renderer.setClearColor(0xFF7914, 1.0);
-                        this.renderer.setSize(1000, 500);
-                    }
+                        width: 1000,
+                        height: 500,
+
+                        init(app) {
+
+                            // Create camera
+                            this._camera = app.createCamera([0, 2, 5], [0, 0, 0]);
+
+                            // Create a RED cube
+
+
+                            // Create light
+                            this._mainLight = app.createDirectionalLight([-1, -1, -1]);
+
+
+                            this._cube = app.createCube({
+                                color: '#f00'
+                            });
+                            console.log( this._cube)
+                            // this._cube.scale.set(100,100,100);
+
+
+                        },
+                        loop(app) {
+                            // this._cube.rotation.rotateY(app.frameTime / 1000);
+                        }
+                    });
+                    console.log(app,"'111111")
+                    this.myapp = app;
 
 
 
 
-                    this.renderer.setPixelRatio(window.devicePixelRatio);
-                    this.renderer.setViewport(0, 0, view.width, view.height);
+
+                    // this.renderer.setPixelRatio(window.devicePixelRatio);
+                    // this.renderer.setViewport(0, 0, view.width, view.height);
 
                     //初始化camera
-                    const camera = context.camera;
-                    this.camera = new THREE.PerspectiveCamera();
+                    // const camera = context.camera;
+                    // this.camera = new THREE.PerspectiveCamera();
+                    //
+                    // this.scene = new THREE.Scene();
+                    //
+                    // this.ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+                    // this.scene.add(this.ambientLight);
+                    // this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+                    // this.scene.add(this.directionalLight);
+                    //
+                    // const size = view.scale / 100;
+                    // const geometry =
+                    //     new THREE.BoxBufferGeometry(1000, 1000, 500);
+                    //
+                    // const material =
+                    //     new THREE.MeshPhongMaterial({ color: "#ff4b83" });
+                    //
+                    //
+                    //
+                    // const m = new THREE.Mesh(geometry, material);
+                    //
+                    // this.scene.add(m);
 
-                    this.scene = new THREE.Scene();
-
-                    this.ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-                    this.scene.add(this.ambientLight);
-                    this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-                    this.scene.add(this.directionalLight);
-
-                    const size = view.scale / 100;
-                    const geometry =
-                        new THREE.BoxBufferGeometry(1000, 1000, 500);
-
-                    const material =
-                        new THREE.MeshPhongMaterial({ color: "#ff4b83" });
-
-
-
-                    const m = new THREE.Mesh(geometry, material);
-
-                    this.scene.add(m);
-
-                    let transform = new THREE.Matrix4();
+                    let transform = new clay.Matrix4();
                     // m.translateZ(size / 2);
                     // let geoData = [113.863978,22.566041, 0];
-                    let geoData = [ 12669823.680045042,2593812.4000144904,0];
+                    let geoData = [ 12669823.680045042,2593812.4000144904,500];
                     // SpatialReference.WGS84,     SpatialReference.WebMercator,
 
 
@@ -185,11 +227,12 @@
                         view,
                         geoData,
                         SpatialReference.WebMercator,
-                        transform.elements
+                        transform.array
                     );
-console.log(transform.elements,"1111")
-                    transform.decompose(m.position, m.quaternion,
-                        m.scale);
+                    console.log(transform.array,"333333");
+                    transform.decomposeMatrix( this.myapp._appNS._cube.scale, this.myapp._appNS._cube.rotation,
+                        this.myapp._appNS._cube.position);
+                    this.myapp._appNS._cube.scale.set(200,200,200);
                     //
                     // let geoData = [116.5968704223633, 40.15447407601198, 0];
                     // let geoData = [ 12669823.680045042,2593812.4000144904,0];
@@ -207,9 +250,9 @@ console.log(transform.elements,"1111")
                     // m.rotation.x = Math.atan(Math.tan((geoData[1] / 180) * Math.PI) / Math.sin((geoData[0] / 180) * Math.PI));
 
                     // externalRenderers.requestRender(view);
-                    if(!isShow){
-                        document.body.appendChild(this.renderer.domElement);
-                    }
+                    // if(!isShow){
+                    //     document.body.appendChild(this.renderer.domElement);
+                    // }
                     // view.goTo({
                     //     center: [116.5968704223633, 40.15447407601198],
                     //     zoom: 13,
@@ -219,12 +262,13 @@ console.log(transform.elements,"1111")
                 },
                 updateLights:function(context) {
 
-                    const { direction, diffuse, ambient } = context.sunLight;
-                    this.directionalLight.position.set(direction[0], direction[1], direction[2]);
-                    this.directionalLight.intensity = diffuse.intensity;
-                    this.directionalLight.color = new THREE.Color(diffuse.color[0], diffuse.color[1], diffuse.color[2]);
-                    this.ambientLight.intensity = ambient.intensity;
-                    this.ambientLight.color = new THREE.Color(ambient.color[0], ambient.color[1], ambient.color[2]);
+                    // const { direction, diffuse, ambient } = context.sunLight;
+                    // this._mainLight
+                    // this.directionalLight.position.set(direction[0], direction[1], direction[2]);
+                    // this.directionalLight.intensity = diffuse.intensity;
+                    // this.directionalLight.color = new THREE.Color(diffuse.color[0], diffuse.color[1], diffuse.color[2]);
+                    // this.ambientLight.intensity = ambient.intensity;
+                    // this.ambientLight.color = new THREE.Color(ambient.color[0], ambient.color[1], ambient.color[2]);
                 }
 
 
@@ -251,7 +295,7 @@ console.log(transform.elements,"1111")
 
 <body>
 <div id="sss"></div>
-<!--<canvas id="renderCanvas" touch-action="none"></canvas>-->
+<canvas id="main"></canvas>
 <!--<button onclick="test()">222222</button>-->
 </body>
 </html>
