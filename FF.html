@@ -24,8 +24,8 @@
 
     <!--<link rel="stylesheet" href="http://arcgislg.ascs.tech/arcgis_js_v43_api/arcgis_js_api/library/4.3/4.3/esri/css/main.css">-->
     <!--<script src="http://arcgislg.ascs.tech/arcgis_js_v43_api/arcgis_js_api/library/4.3/4.3/init.js"></script>-->
-    <link rel="stylesheet" href="http://localhost/arcgis_js_v48_api/arcgis_js_api/library/4.8/esri/css/main.css">
-    <script src="http://localhost/arcgis_js_v48_api/arcgis_js_api/library/4.8/dojo/dojo.js"></script>
+    <link rel="stylesheet" href="https://gis.cloud.cityworks.cn/arcgisapi/4.16/esri/css/main.css">
+    <script src="https://gis.cloud.cityworks.cn/arcgisapi/4.16/dojo/dojo.js"></script>
     <script>
 
 
@@ -52,102 +52,72 @@
                     IconSymbol3DLayer, PointSymbol3D, QueryTask, Query, Home
         ) {
 
-            var solidEdges = {
-                type: "solid",
-                color: [0, 0, 0, 0.6],
-                size: 1
-            };
 
-            var sketchEdges = {
-                type: "sketch",
-                color: [0, 0, 0, 0.0],
-                size: 1.2,
-                extensionLength: 6
-            };
 
-            // Create the renderer and configure visual variables
-            var renderer = {
-                type: "simple", // autocasts as new SimpleRenderer()
-                symbol: {
-                    type: "mesh-3d",
-                    symbolLayers: [{
-                        type: "fill",
-                        material: {
-                            color: "#59d5ff",
-                            colorMixMode: "replace"
-                        },
-                        edges: sketchEdges
-                    }]
-                },
-                visualVariables: [{
-                    // specifies a visual variable of continuous color
-                    type: "color",
-                    // based on a field indicating the walking time to public transport
-                    field: "walkTimeToStopsInService",
-                    legendOptions: {
-                        title: "Walking time to public transport"
-                    },
-                    // color ramp from white to blue
-                    // based on the walking time to public transport.
-                    // Buildings will be assigned a color proportional
-                    // to the min and max colors specified below
-                    stops: [{
-                        value: 1,
-                        color: "#2887a1",
-                        label: "less than 1 minute"
-                    },
-                        {
-                            value: 15,
-                            color: "#ffffff",
-                            label: "more than 15 minutes"
-                        }]
-                }]
-            };
+
 
             var layer = new TileLayer({
-                url: "http://10.10.120.2:6080/arcgis/rest/services/pingshan/ImageServer"
+                url: "https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer"
             });
 //            var layer = new ImageryLayer({
 //                url:'http://arcgis.ascs.tech/arcgis/rest/services/pingshan/ImageServer',
 //                format: "jpeg"
 //            });
 
-            var elevationLayer = new ElevationLayer({
-                url: "http://10.10.120.2:6080/arcgis/rest/services/dem1/ImageServer",
-                visible: true
-            });
-
-            var customBasemap = new Basemap({
-                baseLayers: [layer],
-                title: "Custom Basemap",
-                id: "myBasemap"
+            // var elevationLayer = new ElevationLayer({
+            //     url: "http://10.10.120.2:6080/arcgis/rest/services/dem1/ImageServer",
+            //     visible: true
+            // });
+            //
+            // var customBasemap = new Basemap({
+            //     baseLayers: [layer],
+            //     title: "Custom Basemap",
+            //     id: "myBasemap"
+            // });
+            var sceneLayer = new SceneLayer({
+                url: "http://bigdata.ascs.com/arcgis/rest/services/Hosted/DGL_TEST_1015/SceneServer",
+                popupEnabled: true,
+                // elevationInfo: {
+                //     mode: 'on-the-ground'
+                // },
             });
             var map = new Map({
                 //basemap:customBasemap,
                 layers:[layer]
 
             });
-            map.ground.layers.add(elevationLayer);
+            // map.ground.layers.add(elevationLayer);
 
-            var view = new SceneView({
+            let view = new SceneView({
                 container:"viewDiv",
                 viewingMode: "global",
                 map:map,
+                // center: [-114.069729,22.568627],
+            });
+            // view.on('click',()=>{
+            //     console.log(view)
+            // })
 
-            })
 
-           var sceneLayer = new SceneLayer({
-               url: "https://server1051.ascs.com/arcgis/rest/services/Hosted/A0801/SceneServer",
-               popupEnabled: true
-           });
-           map.add(sceneLayer);
+            map.add(sceneLayer);
+            setTimeout(()=>{
+                view.whenLayerView(sceneLayer)
+                    .then(function (layerView) {
+                        layerView.queryExtent().then((response) => {
+                            view.goTo(response.extent);
+                        });
+                    })
+                    .catch(function (error) {
+                    });
+            },2000)
 
-           var sceneLayer2 = new SceneLayer({
-               url: "https://server1051.ascs.com/arcgis/rest/services/Hosted/element4/SceneServer",
-               popupEnabled: false,
 
-           });
-           map.add(sceneLayer2);
+           // var sceneLayer2 = new SceneLayer({
+           //     url: "https://server1051.ascs.com/arcgis/rest/services/Hosted/element4/SceneServer",
+           //     popupEnabled: false,
+           //
+           // });
+           // map.add(sceneLayer2);
 
 
 

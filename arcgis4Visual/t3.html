@@ -1,0 +1,448 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta
+            name="viewport"
+            content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Build a custom layer view using Three.js - 4.15</title>
+
+    <script src="https://threejs.org/build/three.js"></script>
+    <script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"></script>
+    <link rel="stylesheet" href="https://gis.cloud.cityworks.cn/arcgisapi/4.16/esri/css/main.css"/>
+    <script src="https://gis.cloud.cityworks.cn/arcgisapi/4.16/dojo/dojo.js"></script>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        #treesDiv {
+            padding: 5px 10px;
+        }
+
+        .place-tree {
+            width: 48px;
+            height: 48px;
+            border: 1px solid #777;
+            border-radius: 3px;
+            margin: 5px 0px;
+            color: #777;
+            text-align: center;
+            font-size: 28px;
+            padding-top: 14px;
+            cursor: pointer;
+        }
+
+        .place-tree.pressed {
+            transform: scale(0.9);
+            box-shadow: 0 0 2px 2px #71de6e;
+            text-shadow: 0 0 10px #71de6e;
+            color: #ff642e;
+            border: 1px solid #71de6e;
+        }
+    </style>
+
+    <script>
+        require([
+            "esri/Map",
+
+            "esri/core/watchUtils",
+            "esri/core/promiseUtils",
+
+            "esri/geometry/support/webMercatorUtils",
+
+            "esri/layers/GraphicsLayer",
+
+            "esri/views/MapView",
+
+            "esri/views/2d/layers/BaseLayerViewGL2D"
+        ], function(
+            ArcGISMap,
+            watchUtils,
+            promiseUtils,
+            webMercatorUtils,
+            GraphicsLayer,
+            MapView,
+            BaseLayerViewGL2D
+        ) {
+            var duckMat = new THREE.Matrix4().makeRotationX(Math.PI / 2);
+            duckMat.scale(new THREE.Vector3(20, 20, 20));
+
+            // This is used to populate the tree palette widget in the upper-right corner of the screen.
+            var trees = [
+                {
+                    name: "Deciduous",
+                    icon: "🌳",
+                    mesh: "https://dari8942.s3.us-west-1.amazonaws.com/ds-demos-2020/assets/gltf/deciduous.glb",
+                    transform: new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(1, 0, 0), Math.PI / 2)
+                },
+                {
+                    name: "Evergreen",
+                    icon: "🌲",
+                    mesh: "https://dari8942.s3.us-west-1.amazonaws.com/ds-demos-2020/assets/gltf/evergreen.glb",
+                    transform: new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(1, 0, 0), Math.PI / 2)
+                },
+                {
+                    name: "Palm",
+                    icon: "🌴",
+                    mesh: "https://dari8942.s3.us-west-1.amazonaws.com/ds-demos-2020/assets/gltf/palm.glb",
+                    transform: new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(1, 0, 0), Math.PI / 2)
+                },
+                {
+                    name: "Cactus",
+                    icon: "🌵",
+                    mesh: "https://dari8942.s3.us-west-1.amazonaws.com/ds-demos-2020/assets/gltf/cactus.glb",
+                    transform: new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(1, 0, 0), Math.PI / 2)
+                },
+                {
+                    name: "House",
+                    icon: "🏘️",
+                    mesh: "https://dari8942.s3.us-west-1.amazonaws.com/ds-demos-2020/assets/gltf/house.glb",
+                    transform: new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(1, 0, 0), Math.PI / 2)
+                },
+                {
+                    name: "Duck",
+                    icon: "🦆",
+                    mesh: "https://dari8942.s3.us-west-1.amazonaws.com/ds-demos-2020/assets/gltf/Duck.glb",
+                    transform: duckMat
+                }
+            ];
+
+            // Subclasses the custom layer view from BaseLayerViewGL2D.
+            var CustomLayerView2D = BaseLayerViewGL2D.createSubclass({
+                // Rebuilds the Three.js scene from scratch, based on the content of the
+                // layer.graphics collection.
+                rebuildScene: function () {
+                    // If this.objects is null then the view has not been attached yet and so we bail out.
+                    // The "objects" node is a group node in the scene graph where we create the objects
+                    // that represent the graphics in the layer.graphics collection.
+                    if (!this.objects) {
+                        return;
+                    }
+
+                    // Clears the map that provides bidirectional navigation from graphic to Three.js object
+                    // and vice versa.
+                    this.graphicToObject.clear();
+                    this.objectToGraphic.clear();
+
+                    // Removes all the objects.
+                    while (this.objects.children.length > 0) {
+                        this.objects.remove(this.objects.children[0]);
+                    }
+
+                    // Iterates on all the graphics in the layer and for each
+                    // creates an object.
+                    for (var graphic of this.layer.graphics.items) {
+                        if (!this.meshes[graphic.attributes.name]) {
+                            continue;
+                        }
+
+                        // The "name" attribute of the graphic is used to lookup
+                        // a mesh from the loaded meshes. The mesh is cloned and
+                        // the transform matrix associated with it through the
+                        // "trees" array (see beginning of the script) is applied
+                        // to it. This transform is not a world transform; it is
+                        // only intended to fix handedness and scale issues in the
+                        // original model.
+                        var o = this.meshes[graphic.attributes.name].clone();
+                        o.matrixAutoUpdate = false;
+                        o.matrix.copy(this.meshes[graphic.attributes.name].matrix);
+
+                        // Then the mesh itself is wrapped into another node whose
+                        // transform matrix is the world matrix and is used to
+                        // position the object in the scene.
+                        var wrapper = new THREE.Group();
+                        wrapper.add(o);
+                        this.objects.add(wrapper);
+
+                        // The bidirectional link between graphic and object is established.
+                        this.graphicToObject.set(graphic, wrapper);
+                        this.objectToGraphic.set(wrapper, graphic);
+                    }
+
+                    // The scene has changed, so we need to re-render.
+                    this.requestRender();
+                },
+
+                // Called by the map view or the popup view when hit testing is required.
+                hitTest: function(x, y) {
+                    // Hit testing is implementing using the THREE.Raycaster interface. We run
+                    // it in recursive mode because the loaded file is wrapped in the wrapper
+                    // node, and actually the loaded file itself may be hierarchical with the
+                    // hit-testable meshes being quite low into the hierarchy.
+                    var raycaster = new THREE.Raycaster();
+                    var width = this.view.state.pixelRatio * this.view.state.size[0];
+                    var height = this.view.state.pixelRatio * this.view.state.size[1];
+                    raycaster.setFromCamera(new THREE.Vector3((x / width) * 2 - 1, -(y / height) * 2 + 1, -1), this.camera);
+                    var hit = raycaster.intersectObjects(this.scene.children, true)[0].object;
+
+                    // Since we ran the hit testing in recursive mode, we may have hit a low-level
+                    // mesh in the scene hierarchy; we traverse the hierarchy up until we get to
+                    // an object whose parent is the scene itself. Such an object is the "wrapper"
+                    // object created for the hit graphic.
+                    while (hit.parent.type === "Group" && hit.parent.parent.type !== "Scene") {
+                        hit = hit.parent;
+                    }
+
+                    if (!hit) {
+                        return promiseUtils.reject();
+                    }
+
+                    // The "wrapper" object is the one that can be used to retrieve the corresponding
+                    // graphic. We set the "sourceLayer" on the graphic to take advantage of the
+                    // default popup behavior and we resolve.
+                    var g = this.objectToGraphic.get(hit);
+                    g.sourceLayer = this.layer;
+                    return promiseUtils.resolve(g);
+                },
+
+                // Called once a custom layer is added to the map.layers collection and this layer view is instantiated.
+                attach: function() {
+                    // On attach we create a scene and a camera.
+                    var scene = new THREE.Scene();
+                    var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+                    var layerView = this;
+
+                    // Then we load all the meshes referenced by the "tree" array; these meshes will be
+                    // cloned when a new tree is added to the scene.
+                    this.meshes = {};
+                    var loader = new THREE.GLTFLoader();
+
+                    for (var tree of trees) {
+                        loader.load(
+                            tree.mesh,
+                            function (tree) {
+                                // Fires when a mesh completes loading.
+                                return function (gltf) {
+                                    // The entire files is loaded into a group node called "gltf.scene".
+                                    layerView.meshes[tree.name] = gltf.scene;
+
+                                    // We apply the custom transformation matrix to fix positioning issues.
+                                    layerView.meshes[tree.name].matrix.copy(tree.transform);
+
+                                    // We need to rebuild the scene because last time it was built we still
+                                    // did not have this mesh yet and hence some objects may be missing.
+                                    layerView.rebuildScene();
+                                };
+                            }(tree)
+                        );
+                    }
+
+                    // Maps from graphic to object.
+                    this.graphicToObject = new Map();
+
+                    // Maps from object to graphic.
+                    this.objectToGraphic = new Map();
+
+                    // Stores all the objects created from a graphic.
+                    this.objects = new THREE.Group();
+                    scene.add(this.objects);
+
+                    // Lighting; note that these lights are not added to the
+                    // "objects" node, becasue they must persist when "rebuildScene"
+                    // gets called.
+                    var skyLight = new THREE.AmbientLight( 0xa0a0d0 );
+                    scene.add( skyLight );
+                    var sunLight = new THREE.DirectionalLight(0xffff80, 2.0);
+                    sunLight.position.set( 2, 2, 5 );
+                    scene.add( sunLight );
+
+                    // Initialize Three.js.
+                    var renderer = new THREE.WebGLRenderer( {
+                        context: this.context,
+                        alpha: true,
+                        transparent: true,
+                        premultipliedAlpha: true
+                    } );
+
+                    // We need to tell Three.js to not clear the backbuffer
+                    // because that would erase the basemap and any other
+                    // layer that has rendered before this one.
+                    renderer.autoClearDepth = true;
+                    renderer.autoClearStencil = true;
+                    renderer.autoClearColor = false;
+                    renderer.setClearColor( 0x000000, 0 );
+
+                    // The scene, camera and renderer must be stored locally as we
+                    // will need them at every frame.
+                    this.scene = scene;
+                    this.camera = camera;
+                    this.renderer = renderer;
+
+                    // We listen for changes to the graphics collection of the layer
+                    // and trigger the regeneration of the scene.
+                    var requestUpdate = function() {
+                        this.rebuildScene();
+                    }.bind(this);
+
+                    this.watcher = watchUtils.on(
+                        this,
+                        "layer.graphics",
+                        "change",
+                        requestUpdate,
+                        requestUpdate,
+                        requestUpdate
+                    );
+                },
+
+                // Called once a custom layer is removed from the map.layers collection and this layer view is destroyed.
+                detach: function() {
+                    // Release scene resources.
+                    this.scene = null;
+                    this.camera = null;
+                    this.meshes = null;
+
+                    // Stop watching the `layer.graphics` collection.
+                    this.watcher.remove();
+                },
+
+                // Called every time a frame is rendered.
+                render: function(renderParameters) {
+                    var state = renderParameters.state;
+                    var width = state.pixelRatio * state.size[0];
+                    var height = state.pixelRatio * state.size[1];
+
+                    // Configure the camera so that its far plane matches
+                    // the extent of the MapView.
+                    this.camera.aspect = width / height;
+                    var fovyRadians = Math.PI * this.camera.fov / 180;
+                    this.camera.far = (height * state.resolution) / (2 * Math.sin(fovyRadians / 2));
+                    this.camera.updateProjectionMatrix();
+
+                    var camera = this.camera;
+                    var view = this.view;
+
+                    // We need to update the positions of the objects to reflect
+                    // the current position of the corresponding graphic on screen.
+                    this.graphicToObject.forEach(function (o, g) {
+                        // This is where the graphic should appear on screen.
+                        var screenPoint = view.toScreen({
+                            x: g.geometry.longitude,
+                            y: g.geometry.latitude,
+                            spatialReference: {
+                                wkid: 4326
+                            }
+                        });
+
+                        // We find the corresponding point on the far plane by calling unproject() with
+                        // a vector whose "z" component is 1.
+                        var vector = new THREE.Vector3(2 * screenPoint.x / width - 1, 1 - 2 * screenPoint.y / height, 1).unproject(camera);
+
+                        // Then we apply the resulting position to the object itself.
+                        o.position.x = vector.x;
+                        o.position.y = vector.y;
+                        o.position.z = vector.z;
+
+                        // We also apply the rotation of the MapView, so that objects will rotate with
+                        // the map.
+                        o.rotation.z = -Math.PI * state.rotation / 180;
+                    });
+
+                    // This call tells Three.js that the WebGL context is not in the state that it
+                    // was last time that Three.js rendered the scene; this is because the MapView
+                    // resets the state every time that the BaseLayerViewGL2D.render() function is called.
+                    this.renderer.state.reset();
+                    this.renderer.render(this.scene, this.camera);
+                }
+            });
+
+            var CustomLayer = GraphicsLayer.createSubclass({
+                createLayerView: function(view) {
+                    // We only support MapView, so we only need to return a
+                    // custom layer view for the `2d` case.
+                    if (view.type === "2d") {
+                        return new CustomLayerView2D({
+                            view: view,
+                            layer: this
+                        });
+                    }
+                }
+            });
+
+            // Instantiates the custom layer.
+            var layer = new CustomLayer({
+                popupTemplate: {
+                    title: "{name}",
+                    content: "This is a {name}."
+                }
+            });
+
+            // Create the map and the view.
+            var map = new ArcGISMap({
+                basemap: "satellite",
+                layers: [layer]
+            });
+
+            var view = new MapView({
+                container: "viewDiv",
+                map: map,
+                center: [-73.971225, 40.774729],
+                scale: 1000,
+                spatialReference: {
+                    wkid: 3857
+                }
+            });
+
+            // Creates the trees palette widget; a button is created
+            // for each element in the "trees" array and wired to the
+            // right "mesh".
+            var treesDiv = document.getElementById("treesDiv");
+            var treeButtons = [];
+            var treeName = null;
+
+            for (var tree of trees) {
+                var btnTree = document.createElement("div");
+                treeButtons.push(btnTree);
+                btnTree.innerHTML = tree.icon;
+                btnTree.className = "place-tree";
+                treesDiv.appendChild(btnTree);
+                btnTree.addEventListener("click", function (tree) { return function (event) {
+                    treeName = null;
+
+                    for (const otherButton of treeButtons) {
+                        if (otherButton !== event.target) {
+                            otherButton.className = "place-tree";
+                        } else {
+                            if (event.target.className === "place-tree pressed") {
+                                event.target.className = "place-tree";
+                            } else {
+                                event.target.className = "place-tree pressed";
+                                treeName = tree.name;
+                            }
+                        }
+                    }
+                }; }(tree));
+            }
+
+            view.on("click", function (event) {
+                if (treeName) {
+                    event.stopPropagation();
+
+                    layer.graphics.add({
+                        geometry: event.mapPoint,
+                        attributes: {
+                            name: treeName
+                        }
+                    });
+                }
+            });
+
+            view.ui.add("treesDiv", "top-right");
+        });
+    </script>
+</head>
+
+<body>
+<!-- The map is displayed here -->
+<div id="viewDiv"></div>
+
+<!-- The trees palette widget will appear in the upper-right corner of the screen -->
+<div id="treesDiv" class="esri-widget"></div>
+</body>
+</html>

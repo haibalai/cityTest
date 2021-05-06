@@ -30,7 +30,7 @@
     <!--<script src="../js/threejs/loaders/collada/AnimationHandler.js"></script>-->
     <!--<script src="../js/threejs/loaders/collada/Animation.js"></script>-->
 
-    <script src="./three.js"></script>
+    <script src="three.js"></script>
     <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
     <link
             rel="stylesheet"
@@ -68,7 +68,7 @@
             "esri/tasks/QueryTask",
             "esri/tasks/support/Query",
             "esri/widgets/Home",
-            "dojo/domReady!"
+            "dojo/domReady!arcgis-three/tarcgis"
         ], function(Map,externalRenderers,esriConfig,Basemap,esriConfig,Extent,SpatialReference, SceneView,MapView, FeatureLayer,ImageryLayer,TileLayer,SceneLayer,ElevationLayer,
                     SimpleRenderer, ObjectSymbol3DLayer,
                     IconSymbol3DLayer, PointSymbol3D, QueryTask, Query, Home
@@ -163,7 +163,7 @@
 
                     const size = view.scale / 100;
                     const geometry =
-                        new THREE.BoxBufferGeometry(1000, 1000, 500);
+                        new THREE.ConeBufferGeometry(500, 1000, 3);
 
                     const material =
                         new THREE.MeshPhongMaterial({ color: "#ff4b83" });
@@ -172,24 +172,70 @@
 
                     const m = new THREE.Mesh(geometry, material);
 
+                    const m1 = new THREE.Mesh(geometry, material);
+
                     this.scene.add(m);
+                    this.scene.add(m1);
 
                     let transform = new THREE.Matrix4();
+                    let transform1 = new THREE.Matrix4();
                     // m.translateZ(size / 2);
-                    // let geoData = [113.863978,22.566041, 0];
-                    let geoData = [ 12669823.680045042,2593812.4000144904,0];
+                    let geoData = [113.863978,22.566041, 500];
+                    let geoData1 = [113.863978,22.566041, 2000];
+                    // let geoData = [ 12669823.680045042,2593812.4000144904,0];
                     // SpatialReference.WGS84,     SpatialReference.WebMercator,
 
 
                     externalRenderers.renderCoordinateTransformAt(
                         view,
                         geoData,
-                        SpatialReference.WebMercator,
+                        SpatialReference.WGS84,
                         transform.elements
                     );
-console.log(transform.elements,"1111")
+                    externalRenderers.renderCoordinateTransformAt(
+                        view,
+                        geoData1,
+                        SpatialReference.WGS84,
+                        transform1.elements
+                    );
+                    m.rotation.x = (- Math.PI/2);
                     transform.decompose(m.position, m.quaternion,
                         m.scale);
+                    transform1.decompose(m1.position, m1.quaternion,
+                        m1.scale);
+                    // m.position.set(transform.elements[12],transform.elements[13],transform.elements[14]);
+                    // m1.position.set(transform1.elements[12],transform1.elements[13],transform1.elements[14]);
+
+
+                    // m.rotation.x = (- Math.PI/2);
+
+
+                    // m.rotation.z = -Math.asin(Math.cos((geoData[1] / 180) * Math.PI) * Math.cos((geoData[0] / 180) * Math.PI));
+                    // m.rotation.x = Math.atan(Math.tan((geoData[1] / 180) * Math.PI) / Math.sin((geoData[0] / 180) * Math.PI));
+                    // m1.rotation.z = -Math.asin(Math.cos((geoData[1] / 180) * Math.PI) * Math.cos((geoData[0] / 180) * Math.PI));
+                    // m1.rotation.x = Math.atan(Math.tan((geoData[1] / 180) * Math.PI) / Math.sin((geoData[0] / 180) * Math.PI));
+
+
+                    m1.rotateX(- Math.PI/2);
+                    // m1.rotation.y = Math.PI/2;
+                    // m.rotation.y = Math.PI/2;
+                    // transform.decompose(m.position, m.quaternion,
+                    //     m.scale);
+                    //
+                    let a = 0.01;
+                    function move(){
+                        m1.rotateY(a);
+                        // a = a + 0.001
+                        // console.log(a)
+                        // m.rotation.y += 0.01;
+                        // m.rotation.x += 0.01;
+                        // m.position.z += 2;
+                        // m.scale.x += 1;
+                        // m.scale.y += 1;
+                        // m.scale.z += 1;
+                        requestAnimationFrame(move);
+                    }
+                    move();
                     //
                     // let geoData = [116.5968704223633, 40.15447407601198, 0];
                     // let geoData = [ 12669823.680045042,2593812.4000144904,0];

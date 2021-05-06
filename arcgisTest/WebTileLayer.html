@@ -1,0 +1,221 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta
+            name="viewport"
+            content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <!--
+  ArcGIS API for JavaScript, https://js.arcgis.com
+  For more information about the layers-webtile-3d sample, read the original sample description at developers.arcgis.com.
+  https://developers.arcgis.com/javascript/latest/sample-code/layers-webtile-3d/index.html
+  -->
+    <title>WebTileLayer | Sample | ArcGIS API for JavaScript 4.18</title>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+
+
+    <link
+            rel="stylesheet"
+            href="https://js.arcgis.com/4.18/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.18/"></script>
+
+<!--    <link-->
+<!--            rel="stylesheet"-->
+<!--            href="https://gis.cloud.cityworks.cn/arcgisapi/4.13/esri/css/main.css"-->
+<!--    />-->
+<!--    <script src="https://gis.cloud.cityworks.cn/arcgisapi/4.13/dojo/dojo.js"></script>-->
+
+    <script>
+        require([
+            "esri/layers/WebTileLayer",
+            "esri/layers/TileLayer",
+            "esri/geometry/SpatialReference",
+            "esri/geometry/Point",
+            "esri/geometry/Extent",
+
+            "esri/Map",
+            "esri/views/SceneView",
+            "esri/views/MapView"
+        ], function (WebTileLayer,TileLayer, SpatialReference, Point, Extent ,Map, SceneView, MapView) {
+            var map = new Map({
+                // ground: "world-elevation"
+            });
+
+            var view = new SceneView({
+                container: "viewDiv",
+                viewingMode: 'global',
+                map: map,
+                scale: 3000,
+                // center: [113.859954,22.631839],
+                // center: new Point({
+                //     type: 'point',
+                //     x: 113.859954,
+                //     y: 22.631839,
+                //     spatialReference: { wkid: 4490}
+                // }),
+                extent: new Extent({
+                    xmin:113.63306624442225,
+                    ymin:  22.507477185000077,
+                    xmax:114.09247690657787,
+                    ymax: 22.881710033000054,
+                    spatialReference: { wkid: 4326}
+                }),
+                spatialReference: {
+                    "wkid": 4326,
+                    "latestWkid": 4326
+                },
+            });
+
+            // var tiledLayer = new WebTileLayer({
+            //     // urlTemplate:
+            //     //     "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer/WMTS?service=WMTS&version=1.0.0&request=GetTile&layer=WorldTimeZones&style=default&tileMatrixSet=default028mm&tileMatrix=1&TileRow=0&TileCol=0&format=image/png",
+            //     //
+            //     urlTemplate:
+            //         "https://smartgate.baoan.gov.cn/zhongkongxt/geomap/arcgis/rest/services/BAKSJ/DTVEC_SS_ZQ_BA/MapServer/WMTS?service=WMTS&version=1.0.0&request=GetTile&layer=BAKSJ_DTVEC_SS_ZQ_BA&style=default&tileMatrixSet=default&tileMatrix={level}&TileRow={row}&TileCol={col}&format=image/png",
+            //
+            //     // urlTemplate: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer/WMTS?service=WMTS&version=1.0.0&request=GetTile&layer=WorldTimeZones&style=default&tileMatrixSet=default028mm&tileMatrix={level}&TileRow={row}&TileCol={col}&format=image/png'
+            //     // spatialReference: { wkid: 4490 },
+            //     // subDomains: ["a", "b", "c", "d"],
+            //     // copyright:
+            //     //     'Map tiles by <a href="http://stamen.com/">Stamen Design</a>, ' +
+            //     //     'under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. ' +
+            //     //     'Data by <a href="http://openstreetmap.org/">OpenStreetMap</a>, ' +
+            //     //     'under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+            // });
+
+            let tiledLayer = new WebTileLayer({
+                id: 'baseMap',
+                // urlTemplate: 'https://smartgate.baoan.gov.cn/zhongkongxt/geomap/arcgis/rest/services/BAKSJ/DTVEC_SS_ZQ_BA/MapServer/WMTS?SERVICE=WMTS&request=GetTile&version=1.0.0&LAYER=BAKSJ_DTVEC_SS_ZQ_BA&tileMatrixSet=EPSG:4326&TileMatrix=EPSG:4326:{level}&TileRow={row}&TileCol={col}&style=&format=image/jpgpng',
+                urlTemplate: "https://smartgate.baoan.gov.cn/zhongkongxt/geomap/arcgis/rest/services/BAKSJ/DTVEC_SS_ZQ_BA/MapServer/WMTS?service=WMTS&version=1.0.0&request=GetTile&FORMAT=tiles&layer=BAKSJ_DTVEC_SS_ZQ_BA&style=default&tileMatrixSet=default&tileMatrix={level}&TileRow={row}&TileCol={col}",
+
+                // urlTemplate: `https://smartgate.baoan.gov.cn/zhongkongxt/geomap/arcgis/rest/services/BAKSJ/DTVEC_SS_ZQ_BA/MapServer/tile/{level}/{row}/{col}?blankTile=false`,
+
+                spatialReference: new SpatialReference({ wkid: 4326 }),
+                fullExtent: new Extent({
+                    xmin:113.63306624442225,
+                    ymin:  22.507477185000077,
+                    xmax:114.09247690657787,
+                    ymax: 22.881710033000054,
+                    spatialReference: {wkid:4326}
+                }),
+                tileInfo: {
+                    dpi: 90.71428571427429,
+                    'rows': 256,
+                    'cols': 256,
+                    'compressionQuality': 0,
+                    'origin': {
+                        'x': -180,
+                        'y': 90
+                    },
+                    'spatialReference': {
+                        'wkid': 4326
+                    },
+                    'lods': [
+                        // { level: 0, levelValue: 1, resolution: 0.703125, scale: 295497593.05875003 },
+                        // { level: 1, levelValue: 2, resolution: 0.3515625, scale: 147748796.52937502 },
+                        // { level: 2, levelValue: 3, resolution: 0.17578125, scale: 73874398.264687508 },
+                        // { level: 3, levelValue: 4, resolution: 0.087890625, scale: 36937199.132343754 },
+                        // { level: 4, levelValue: 5, resolution: 0.0439453125, scale: 18468599.566171877 },
+                        // { level: 5, levelValue: 6, resolution: 0.02197265625, scale: 9234299.7830859385 },
+                        // { level: 6, levelValue: 7, resolution: 0.010986328125, scale: 4617149.8915429693 },
+                        // { level: 7, levelValue: 8, resolution: 0.0054931640625, scale: 2308574.9457714846 },
+                        // { level: 8, levelValue: 9, resolution: 0.00274658203125, scale: 1154287.4728857423 },
+                        // { level: 9, levelValue: 10, resolution: 0.001373291015625, scale: 577143.73644287116 },
+                        // { level: 10, levelValue: 11, resolution: 0.0006866455078125, scale: 288571.86822143558 },
+                        // { level: 11, levelValue: 12, resolution: 0.00034332275390625, scale: 144285.93411071779 },
+                        // { level: 12, levelValue: 13, resolution: 0.000171661376953125, scale: 72142.967055358895 },
+                        // { level: 13, levelValue: 14, resolution: 8.58306884765625e-005, scale: 36071.483527679447 },
+                        // { level: 14, levelValue: 15, resolution: 4.291534423828125e-005, scale: 18035.741763839724 },
+                        // { level: 15, levelValue: 16, resolution: 2.1457672119140625e-005, scale: 9017.8708819198619 },
+                        // { level: 16, levelValue: 17, resolution: 1.0728836059570313e-005, scale: 4508.9354409599309 },
+                        // { level: 17, levelValue: 18, resolution: 5.3644180297851563e-006, scale: 2254.4677204799655 },
+                        // { level: 18, levelValue: 19, resolution: 2.68220901489257815e-006, scale: 1127.23386023998275 },
+                        // { level: 19, levelValue: 20, resolution: 1.341104507446289075e-006, scale: 563.616930119991375 }
+
+                        {
+                        'level': 0,
+                        'resolution': 0.0013732910156250004,
+                        'scale': 577143.7364428712
+                    },
+                        {
+                            'level': 1,
+                            'resolution': 6.866455078125002E-4,
+                            'scale': 288571.8682214356
+                        },
+                        {
+                            'level': 2,
+                            'resolution': 3.433227539062501E-4,
+                            'scale': 144285.9341107178
+                        },
+                        {
+                            'level': 3,
+                            'resolution': 1.7166137695312505E-4,
+                            'scale': 72142.9670553589
+                        },
+                        {
+                            'level': 4,
+                            'resolution': 8.583068847656253E-5,
+                            'scale': 36071.48352767945
+                        },
+                        {
+                            'level': 5,
+                            'resolution': 4.2915344238281264E-5,
+                            'scale': 18035.741763839724
+                        },
+                        {
+                            'level': 6,
+                            'resolution': 2.1457672119140632E-5,
+                            'scale': 9017.870881919862
+                        },
+                        {
+                            'level': 7,
+                            'resolution': 1.0728836059570316E-5,
+                            'scale': 4508.935440959931
+                        },
+                        {
+                            'level': 8,
+                            'resolution':5.364418029785158E-6,
+                            'scale': 2254.4677204799655
+                        },
+                        {
+                            'level': 9,
+                            'resolution': 2.682209014892579E-6,
+                            'scale': 1127.2338602399827
+                        },
+                        {
+                            'level': 10,
+                            'resolution': 1.3411045074462895E-6,
+                            'scale': 563.6169301199914
+                        },
+                        ]
+                }
+            })
+
+
+            // var tiledLayer = new TileLayer({
+            //
+            //     url: "https://smartgate.baoan.gov.cn/zhongkongxt/geomap/arcgis/rest/services/BAKSJ/DTVEC_SS_ZQ_BA/MapServer"
+            //
+            // });
+
+            map.add(tiledLayer);
+        });
+    </script>
+</head>
+
+<body>
+<div id="viewDiv"></div>
+</body>
+</html>

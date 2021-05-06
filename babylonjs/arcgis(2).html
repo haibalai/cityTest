@@ -35,8 +35,11 @@
     <!--<script src="../js/threejs/loaders/collada/AnimationHandler.js"></script>-->
     <!--<script src="../js/threejs/loaders/collada/Animation.js"></script>-->
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babylonjs/4.2.0-alpha.12/babylon.js"></script>
-    <link rel="stylesheet" href="http://arcgis.cityworks.cn/arcgis_js_api/library/4.13/esri/css/main.css"/>
+    <script src="https://cdn.bootcss.com/babylonjs/4.1.0-alpha.20/babylon.js"></script>
+    <link
+            rel="stylesheet"
+            href="http://arcgis.cityworks.cn/arcgis_js_api/library/4.13/esri/css/main.css"
+    />
     <script src="http://arcgis.cityworks.cn/arcgis_js_api/library/4.13/dojo/dojo.js"></script>
 
     <!--<link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v49_api/arcgis_js_api/library/4.9/esri/css/main.css">-->
@@ -70,28 +73,28 @@
             "esri/tasks/QueryTask",
             "esri/tasks/support/Query",
             "esri/widgets/Home",
+            "esri/geometry/support/webMercatorUtils",
             "dojo/domReady!"
         ], function(Map,externalRenderers,esriConfig,Basemap,esriConfig,Extent,SpatialReference, SceneView,
 
                     GraphicsLayer,Graphic,
                     MapView, FeatureLayer,ImageryLayer,TileLayer,SceneLayer,ElevationLayer,
                     SimpleRenderer, ObjectSymbol3DLayer,
-                    IconSymbol3DLayer, PointSymbol3D, QueryTask, Query, Home
+                    IconSymbol3DLayer, PointSymbol3D, QueryTask, Query, Home,webMercatorUtils
         ) {
-
+            let center =  [148.9819, -35.3981]
 
             var layer = new TileLayer(
                 {
-                    url: "http://arcgis.cityworks.cn/server/rest/services/Hosted/BAZK_coolmap_3_nolabel/MapServer",
+                    url: "https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer",
 
 
                 });
-            var map = new Map({
-                basemap: "gray",
-            });
+            var map = new Map();
             map.add(layer);
 
             var view = new SceneView({
+                center:center,
                 container:"sss",
                 viewingMode: "local",
                 map:map,
@@ -110,17 +113,14 @@
                     var targat=  new BABYLON.Vector3(cam.center[0], cam.center[1], cam.center[2])
                     this.camera.setTarget(targat);
 
-                    let proMat = BABYLON.Matrix.FromArray(cam.projectionMatrix);
-                    // debugger
-                    // let projMat = this.camera.getProjectionMatrix(true);
-                    // projMat.m = projMat.m;
-                    // console.log(projMat,proMat);
-                    // projMat = proMat
-                    this.camera.freezeProjectionMatrix(proMat);
-                    // this.camera.updateProjectionMatrix();
+                    // let proMat = BABYLON.Matrix.FromArray(cam.projectionMatrix);
 
+                    // proMat._m = cam.projectionMatrix;
+                    // this.scene.activeCamera.freezeProjectionMatrix(proMat);
+                    console.log(cam.projectionMatrix)
+                    // this.camera.freezeProjectionMatrix(proMat);
                     this.scene.render();
-                       // console.log(  this.plane.position)
+                    // console.log(  this.plane.position)
 
                     context.resetWebGLState();
                     externalRenderers.requestRender(view);
@@ -148,6 +148,11 @@
                     // // Add a camera to the scene and attach it to the canvas
                     // this.camera = new BABYLON.ArcRotateCamera("Camera",   cam.fovY, cam.aspect, cam.near, targat, this.scene);
                     this.camera = new BABYLON.FreeCamera("camera1",  targat, this.scene);
+
+
+
+
+
                     this.camera.attachControl(canvas,true);
                     this.light1 = new BABYLON.HemisphericLight("light1", targat, this.scene);
                     // this.light2 = new BABYLON.PointLight("light2",  targat, this.scene);
@@ -189,31 +194,44 @@
 
                     // console.log(this.plane,this.plane.position,"----------")
                     // this.plane.position = new BABYLON.Vector3(size * 0.95, -0.05 * size, 0);
-                    this.sphere = BABYLON.Mesh.CreateSphere("sphere1", 1000, 4, this.scene);
+                    this.sphere = BABYLON.Mesh.CreateSphere("sphere1", 100, 10 , this.scene);
                     // this.sphere.position = new BABYLON.Vector3(0.9 * 10000000, -0.05 * 10000000, 0);
 
 
-                const transform = new BABYLON.Matrix();
+                    const transform = new BABYLON.Matrix();
 
-                externalRenderers.renderCoordinateTransformAt(view,
-                    [ 12669823.680045042,2593812.4000144904,1000],
-                    view.spatialReference,
-                    transform.m);
-                transform.decompose(this.sphere.scaling,
-                    this.sphere.rotationQuaternion,
-                    this.sphere.position);
+                    externalRenderers.renderCoordinateTransformAt(view,
+                        [148.9819, -35.3981,1000],
+                        SpatialReference.WGS84,
+                        transform.m);
+                    transform.decompose(this.sphere.scaling,
+                        this.sphere.rotationQuaternion,
+                        this.sphere.position);
+
+                    // let item  = webMercatorUtils.lngLatToXY(148.9819,-35.39847);
+                    // console.log(item,"111")
+                    // let rotateX = Math.PI / 2, rotateY = 0, rotateZ = 0;
+                    // this.world = BABYLON.Matrix.Identity().setTranslationFromFloats(12669823.680045042,2593812.4000144904,100);
+                    // console.log(context)
+                    // let scaleFactor = 0.01;
+                    // let scale = BABYLON.Matrix.Scaling( scaleFactor, -scaleFactor, scaleFactor);
+                    // this.world = scale.multiply( this.world);
+                    // this.world = BABYLON.Matrix.RotationX(rotateX).multiply( this.world);
+                    // this.world = BABYLON.Matrix.RotationY(rotateY).multiply( this.world);
+                    // this.world = BABYLON.Matrix.RotationZ(rotateZ).multiply( this.world);
 
 
                 },
                 createPoint(){
                     var graphicsLayer = new GraphicsLayer();
                     map.add(graphicsLayer);
+                    let item = webMercatorUtils.lngLatToXY(148.9819,-35.3981);
                     var point = {
                         type: "point", // autocasts as new Point()
-                        x: 12669823.680045042,
-                        y: 2593812.4000144904,
-                        z: 100,
-                        spatialReference:view.spatialReference
+                        x: item[0],
+                        y: item[1],
+
+                        spatialReference:  view.spatialReference
                     };
 
                     let  markerSymbol = {

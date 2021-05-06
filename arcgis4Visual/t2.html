@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Beveled Features - 4.15</title>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/gl-matrix/2.8.1/gl-matrix.js"></script>
+    <link rel="stylesheet" href="https://gis.cloud.cityworks.cn/arcgisapi/4.16/esri/css/main.css"/>
+    <script src="https://gis.cloud.cityworks.cn/arcgisapi/4.16/dojo/dojo.js"></script>
+    <style type="text/css" media="screen">
+        html,
+        body,
+        #viewDiv {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        #controlsDiv {
+            padding: 1em;
+            width: 500px;
+        }
+
+        #legendDiv {
+            padding: 2em;
+        }
+
+        #sliderDiv {
+            margin-top: 30px;
+        }
+
+        #explanation div {
+            display: none;
+        }
+
+        #explanation div a:visited {
+            color: #ccc;
+        }
+
+        #explanation div a:hover {
+            color: #fff;
+        }
+
+        #explanation div a:visited {
+            color: #ccc;
+        }
+
+        #explanation div.active {
+            display: block;
+            animation-duration: 1.5s;
+            animation-name: fadeIn;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        #legendGradient {
+            margin-top: 3em;
+            margin-left: auto;
+            margin-right: auto;
+            font: 12px sans-serif;
+            color: rgb(105, 220, 255);
+            border: 1px solid rgb(105, 220, 255);
+            width: 80px;
+            height: 150px;
+            background-image: linear-gradient(#f88, #888);
+            text-align: center;
+            border-radius: 2px;
+        }
+
+        #legendMax {
+            margin: 0.5em;
+            border: 1px solid rgb(105, 220, 255);
+            border-radius: 2px;
+            background-color: rgb(36, 36, 36);
+            position: relative;
+            top: -14px;
+        }
+
+        #legendMin {
+            margin: 0.5em;
+            border: 1px solid rgb(105, 220, 255);
+            border-radius: 2px;
+            background-color: rgb(36, 36, 36);
+            position: relative;
+            top: 112px;
+        }
+    </style>
+
+    <!-- Shader program that draws features to screen -->
+
+    <script id="features-vs" type="x-shader/x-vertex">
+      precision highp float;
+
+      // Transforms from map units to pixels.
+      uniform mat3 u_transform;
+
+      // Transforms from pixels to normalized device coordinates (NDC).
+      uniform mat3 u_display;
+
+      // Position of the vertex in map units.
+      attribute vec2 a_position;
+
+      // All vertices of a given feature have the same color.
+      attribute vec4 a_color;
+
+      // The color that gets passed to the fragment shader.
+      varying vec4 v_color;
+
+      void main() {
+        // Computes the NDC position of the vertex.
+        gl_Position.xy = (u_display * (u_transform * vec3(a_position, 1.0))).xy;
+        gl_Position.zw = vec2(0.0, 1.0);
+
+        // The color is passed to the fragment shader unchanged.
+        v_color = a_color;
+      }
+    </script>
+
+    <script id="features-fs" type="x-shader/x-fragment">
+      precision highp float;
+
+      // The color of the feature.
+      varying vec4 v_color;
+
+      void main() {
+        gl_FragColor = v_color;
+      }
+    </script>
+
+    <!-- Shader program that computes the normal map -->
+
+    <script id="normals-vs" type="x-shader/x-vertex">
+      precision mediump float;
+
+      // Vertex position; this shader is feed a full-screen quad that covers (-1, -1) to (+1, +1).
+      attribute vec2 a_position;
+
+      // Texture coordinates of the current fragment.
+      varying vec2 v_texcoord;
+
+      void main(void) {
+        // The xy-position is already in NDC.
+        gl_Position = vec4(a_position, 0.0, 1.0);
+
+        // Associates vertex (-1, -1) to texture coordinates (0, 0) and
+        // vertex (+1, +1) to texture coordinates (1, 1).
+        v_texcoord = 0.5 * (a_position + 1.0);
+      }
+    </script>
+
+    <script id="normals-fs" type="x-shader/x-fragment">
+      precision mediump float;
+
+      // This texture stores the image to blur.
+      uniform sampler2D u_texture;
+
+      // Size of the texture.
+      uniform ivec2 u_size;
+
+      // Texture coordinates of the current fragment.
+      varying vec2 v_texcoord;
+
+      // Samples the texture in a neighborhood of the current texture coordinates.
+      vec4 sample(int dx, int dy) {
+        return texture2D(u_texture, v_texcoord + vec2(dx, dy) / vec2(u_size));
+      }
+
+      // The height of the fragment is directly related to the "redness" of
+      // the feature, which is driven by the population.
+      float height(int dx, int dy) {
+        return sample(dx, dy).r;
+      }
+
+      void main(void) {
+        // Left-to-right and top-to-bottom differences
+        // It produces values in the range [-1, +1].
+        float dx = -(height(+1, 0) - height(-1, 0));
+        float dy = -(height(0, +1) - height(0, -1));
+
+        // Map the values to [0, 1] so that they can be
+        // encoded into an RGBA framebuffer.
+        vec2 gradient = vec2(0.5 * (dx + 1.0), 0.5 * (dy + 1.0));
+
+        // Where there are no features alpha is 0, and we also
+        // want to make the normal map transparent in those areas.
+        float alpha = texture2D(u_texture, v_texcoord).a;
+
+        // Writes the encoded normal to the output texture.
+        gl_FragColor = vec4(gradient, 1.0, 1.0) * alpha;
+      }
+    </script>
+
+    <!-- Shader program that blurs the normal map so that lighting will be smoother near feature edges -->
+
+    <script id="blur-vs" type="x-shader/x-vertex">
+      precision mediump float;
+
+      // Vertex position; this shader is feed a full-screen quad that covers (-1, -1) to (+1, +1).
+      attribute vec2 a_position;
+
+      // Texture coordinates of the current fragment.
+      varying vec2 v_texcoord;
+
+      void main(void) {
+        // The xy-position is already in NDC.
+        gl_Position = vec4(a_position, 0.0, 1.0);
+
+        // Associates vertex (-1, -1) to texture coordinates (0, 0) and
+        // vertex (+1, +1) to texture coordinates (1, 1).
+        v_texcoord = 0.5 * (a_position + 1.0);
+      }
+    </script>
+
+    <script id="blur-fs" type="x-shader/x-fragment">
+      precision mediump float;
+
+      // This texture stores the image to blur.
+      uniform sampler2D u_texture;
+
+      // Size of the texture.
+      uniform ivec2 u_size;
+
+      // Texture coordinates of the current fragment.
+      varying vec2 v_texcoord;
+
+      // Samples the texture in a neighborhood of the current texture coordinates.
+      vec4 sample(int dx, int dy) {
+        return texture2D(u_texture, v_texcoord + vec2(dx, dy) / vec2(u_size));
+      }
+
+      void main(void) {
+        // Samples are accumulated into this variable.
+        vec4 blurred = vec4(0.0, 0.0, 0.0, 0.0);
+
+        // Simple 3x3 box blur.
+        for (int i = -1; i <= 1; ++i) {
+          for (int j = -1; j <= 1; ++j) {
+            blurred += sample(i, j);
+          }
+        }
+
+        // Output the average.
+        gl_FragColor = blurred / 9.0;
+      }
+    </script>
+
+    <!-- Shader program that implements normal mapping -->
+
+    <script id="lighting-vs" type="x-shader/x-vertex">
+      precision mediump float;
+
+      // Vertex position; this shader is feed a full-screen quad that covers (-1, -1) to (+1, +1).
+      attribute vec2 a_position;
+
+      // Texture coordinates of the current fragment.
+      varying vec2 v_texcoord;
+
+      void main(void) {
+        // The xy-position is already in NDC.
+        gl_Position = vec4(a_position, 0.0, 1.0);
+
+        // Associate vertex (-1, -1) to texture coordinates (0, 0) and
+        // vertex (+1, +1) to texture coordinates (1, 1).
+        v_texcoord = 0.5 * (a_position + 1.0);
+      }
+    </script>
+
+    <script id="lighting-fs" type="x-shader/x-fragment">
+      precision mediump float;
+
+      // The original image.
+      uniform sampler2D u_diffuse;
+
+      // The normal map computed by the "normal" program.
+      uniform sampler2D u_normal;
+
+      // Texture coordinates of the current fragment.
+      varying vec2 v_texcoord;
+
+      void main(void) {
+        // The light shines from the upper-right corner of the screen, from "behind" the camera.
+        vec3 light = normalize(vec3(1.0, 1.0, 1.0));
+
+        // The components of the normal are encoded as values in the range [0, 1] and
+        // must be scaled back to a [-1, +1] range.
+        vec3 normal = normalize(texture2D(u_normal, v_texcoord).rgb - 0.5);
+
+        // The diffuse color is read from the original image, the one generated
+        // by the "feature" shader program.
+        vec4 sampledColor = texture2D(u_diffuse, v_texcoord);
+        vec3 diffuse = sampledColor.rgb;
+
+        // Diffuse contribution is scaled by the cosine of the angle between the light
+        // and the normal.
+        float d = dot(normal, light);
+
+        // Outputs a premultiplied color that takes into account the opacity of the
+        // original image.
+        gl_FragColor = vec4(d * diffuse, 1.0) * sampledColor.a;
+      }
+    </script>
+
+    <script>
+        require([
+            "esri/Map",
+
+            "esri/core/watchUtils",
+            "esri/core/promiseUtils",
+
+            "esri/layers/GraphicsLayer",
+            "esri/layers/FeatureLayer",
+
+            "esri/views/MapView",
+
+            "esri/views/2d/layers/BaseLayerViewGL2D",
+
+            "esri/widgets/Slider"
+        ], function(
+            Map,
+
+            watchUtils,
+            promiseUtils,
+
+            GraphicsLayer,
+            FeatureLayer,
+
+            MapView,
+
+            BaseLayerViewGL2D,
+
+            Slider
+        ) {
+            // Creates a framebuffer object and associated color texture attachment.
+            function createFramebuffer(gl, width, height) {
+                var color = gl.createTexture();
+                gl.activeTexture(gl.TEXTURE7);
+                gl.bindTexture(gl.TEXTURE_2D, color);
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+                gl.bindTexture(gl.TEXTURE_2D, null);
+
+                var framebuffer = gl.createFramebuffer();
+                gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+                gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, color, 0);
+                gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+
+                return {
+                    framebuffer: framebuffer,
+                    color: color,
+                    width: width,
+                    height: height
+                }
+            }
+
+            // Resizes a framebuffer if needed, by destroying and recreating it, or return
+            // it unchanged.
+            function resizeFramebuffer(gl, fb, width, height) {
+                if (!fb) {
+                    return createFramebuffer(gl, width, height);
+                }
+
+                if (fb.width === width && fb.height === height) {
+                    return fb;
+                }
+
+                gl.deleteTexture(fb.color);
+                gl.deleteFramebuffer(fb.framebuffer);
+
+                return createFramebuffer(gl, width, height);
+            }
+
+            // Returns the content of a <script type="text/x-shader"> in the <head> section.
+            function getShaderSource(id) {
+                return document.getElementById(id).innerText;
+            }
+
+            // Creates a program from a pair of <script type="text/x-shader"> snippets,
+            // with user-defined attribute locations and uniforms.
+            function createProgram(gl, vsId, fsId, attributes, uniforms) {
+                var vsSrc = getShaderSource(vsId);
+                var vs = gl.createShader(gl.VERTEX_SHADER);
+                gl.shaderSource(vs, vsSrc);
+                gl.compileShader(vs);
+                console.log(gl.getShaderInfoLog(vs));
+
+                var fsSrc = getShaderSource(fsId);
+                var fs = gl.createShader(gl.FRAGMENT_SHADER);
+                gl.shaderSource(fs, fsSrc);
+                gl.compileShader(fs);
+                console.log(gl.getShaderInfoLog(fs));
+
+                var program = gl.createProgram();
+                gl.attachShader(program, vs);
+                gl.attachShader(program, fs);
+
+                for (var locationName in attributes) {
+                    gl.bindAttribLocation(program, attributes[locationName], locationName);
+                }
+
+                gl.linkProgram(program);
+                console.log(gl.getProgramInfoLog(program));
+
+                var uniformLocations = {};
+
+                for (var uniformName of uniforms) {
+                    uniformLocations[uniformName] = gl.getUniformLocation(program, uniformName);
+                }
+
+                gl.deleteShader(vs);
+                gl.deleteShader(fs);
+
+                return {
+                    program: program,
+                    attributes: attributes,
+                    uniforms: uniformLocations
+                }
+            }
+
+            // Subclasses the custom layer view from BaseLayerViewGL2D.
+            var CustomLayerView2D = BaseLayerViewGL2D.createSubclass({
+                constructor: function() {
+                    // Transforms from map units to pixels.
+                    this.transform = mat3.create();
+
+                    // Transforms from pixels to NDC.
+                    this.display = mat3.create();
+
+                    // Represents a half-screen translation in pixels.
+                    this.screenTranslation = vec2.create();
+
+                    // A translation vector from the current center of the view in map units
+                    // to the local origin of the geometry; the position of a vertex of a feature
+                    // in map units is given by its encoded position in the vertex buffers, plus
+                    // this vector; note that we never carry out this addition in the shader
+                    // program, because it would be too imprecise on 32-bit floating point
+                    // hardware; instead we use this vector to translate the `transform` matrix
+                    // so that its components become smaller and more manageable using the
+                    // limited precision available.
+                    this.translationToCenter = vec2.create();
+
+                    // Whether the vertex and index buffers need to be updated
+                    // due to a change in the layer data.
+                    this.needsUpdate = false;
+
+                    // We listen for changes to the graphics collection of the layer
+                    // and trigger the generation of new frames. A frame rendered while
+                    // `needsUpdate` is true may cause an update of the vertex and
+                    // index buffers.
+                    var requestUpdate = function() {
+                        // Tessellate graphics.
+                        this.promises = [];
+                        this.layer.graphics.forEach(function (g) {
+                            this.promises.push(
+                                this.tessellatePolygon(g.geometry).then(function(mesh) {
+                                    return {
+                                        mesh: mesh,
+                                        attributes: g.attributes,
+                                        symbol: g.symbol
+                                    };
+                                })
+                            );
+                        }.bind(this));
+                        promiseUtils.all(this.promises).then(
+                            function(meshes) {
+                                this.meshes = meshes;
+                                this.needsUpdate = true;
+                                this.requestRender();
+                            }.bind(this)
+                        );
+                    }.bind(this);
+
+                    this.watcher = watchUtils.on(
+                        this,
+                        "layer.graphics",
+                        "change",
+                        requestUpdate,
+                        requestUpdate,
+                        requestUpdate
+                    );
+
+                    var requestRender = this.requestRender.bind(this);
+
+                    // When the "stage" changes we need to re-render.
+                    this.stageWatcher = this.watch("layer.stage", requestRender);
+                },
+
+                // Called once a custom layer is added to the map.layers collection and this layer view is instantiated.
+                attach: function() {
+                    var gl = this.context;
+
+                    // Create the vertex and index buffer. They are initially empty. We need to track the
+                    // size of the index buffer because we use indexed drawing.
+                    this.vertexBuffer = gl.createBuffer();
+                    this.indexBuffer = gl.createBuffer();
+
+                    // Number of indices in the index buffer.
+                    this.indexBufferSize = 0;
+
+                    // When certain conditions occur, we update the buffers and re-compute and re-encode
+                    // all the attributes. When buffer update occurs, we also take note of the current center
+                    // of the view state, and we reset a vector called `translationToCenter` to [0, 0], meaning that the
+                    // current center is the same as it was when the attributes were recomputed.
+                    this.centerAtLastUpdate = vec2.fromValues(
+                        this.view.state.center[0],
+                        this.view.state.center[1]
+                    );
+
+                    // Creates all the shader programs needed by the rendering algorithm.
+                    this.featuresProgram = createProgram(gl, "features-vs", "features-fs", {
+                        a_position: 0,
+                        a_color: 1
+                    }, [
+                        "u_transform",
+                        "u_display"
+                    ]);
+                    this.normalsProgram = createProgram(gl, "normals-vs", "normals-fs", {
+                        a_position: 0,
+                    }, [
+                        "u_texture",
+                        "u_size"
+                    ]);
+                    this.blurProgram = createProgram(gl, "blur-vs", "blur-fs", {
+                        a_position: 0,
+                    }, [
+                        "u_texture",
+                        "u_size"
+                    ]);
+                    this.lightingProgram = createProgram(gl, "lighting-vs", "lighting-fs", {
+                        a_position: 0,
+                    }, [
+                        "u_normal",
+                        "u_diffuse"
+                    ]);
+
+                    // A full-screen quad in normalized device coordinates (NDC).
+                    this.quadBuffer = gl.createBuffer();
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.quadBuffer);
+                    gl.bufferData(gl.ARRAY_BUFFER, new Int8Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                },
+
+                resizeFramebuffers(gl, width, height) {
+                    const w = width;
+                    const h = height;
+                    this.featuresFbo = resizeFramebuffer(gl, this.featuresFbo, w, h);
+                    this.normalsFbo = resizeFramebuffer(gl, this.normalsFbo, w, h);
+                    this.blurFbo = resizeFramebuffer(gl, this.blurFbo, w, h);
+                },
+
+                // Called once a custom layer is removed from the map.layers collection and this layer view is destroyed.
+                detach: function() {
+                    // Stop watching the `layer.graphics` collection.
+                    this.watcher.remove();
+
+                    var gl = this.context;
+
+                    // Delete buffers and programs.
+                    gl.deleteBuffer(this.vertexBuffer);
+                    gl.deleteBuffer(this.indexBuffer);
+                    gl.deleteBuffer(this.quadBuffer);
+                    gl.deleteProgram(this.featuresProgram);
+                    gl.deleteProgram(this.normalsProgram);
+                    gl.deleteProgram(this.blurProgram);
+                    gl.deleteProgram(this.lightingProgram);
+                },
+
+                // Called every time a frame is rendered.
+                render: function(renderParameters) {
+                    if (this.layer.stage === 1) {
+                        return;
+                    }
+
+                    var gl = renderParameters.context;
+                    var state = renderParameters.state;
+
+                    // Update vertex positions. This may trigger an update of
+                    // the vertex coordinates contained in the vertex buffer.
+                    // There are three kinds of updates:
+                    //  - Modification of the layer.graphics collection ==> Buffer update
+                    //  - The view state becomes non-stationary ==> Only view update, no buffer update
+                    //  - The view state becomes stationary ==> Buffer update
+                    this.updatePositions(renderParameters);
+
+                    // If there is nothing to render we return.
+                    if (this.indexBufferSize === 0) {
+                        return;
+                    }
+
+                    // Update view `transform` matrix; it converts from map units to pixels.
+                    mat3.identity(this.transform);
+                    this.screenTranslation[0] = (state.pixelRatio * state.size[0]) / 2;
+                    this.screenTranslation[1] = (state.pixelRatio * state.size[1]) / 2;
+                    mat3.translate(
+                        this.transform,
+                        this.transform,
+                        this.screenTranslation
+                    );
+                    mat3.rotate(
+                        this.transform,
+                        this.transform,
+                        (Math.PI * state.rotation) / 180
+                    );
+                    mat3.scale(this.transform, this.transform, [
+                        state.pixelRatio / state.resolution,
+                        -state.pixelRatio / state.resolution
+                    ]);
+                    mat3.translate(this.transform, this.transform, this.translationToCenter);
+
+                    // Update view `display` matrix; it converts from pixels to normalized device coordinates.
+                    mat3.identity(this.display);
+                    mat3.translate(this.display, this.display, [-1, 1]);
+                    mat3.scale(this.display, this.display, [
+                        2 / (state.pixelRatio * state.size[0]),
+                        -2 / (state.pixelRatio * state.size[1])
+                    ]);
+
+                    // Resize the framebuffers
+                    this.resizeFramebuffers(gl, Math.round(state.pixelRatio * state.size[0]), Math.round(state.pixelRatio * state.size[1]));
+
+                    // Draw the features onto the initial frame buffer.
+                    if (this.layer.stage === 2) {
+                        this.bindRenderTarget();
+                    } else {
+                        gl.bindFramebuffer(gl.FRAMEBUFFER, this.featuresFbo.framebuffer);
+                        gl.clearColor(0, 0, 0, 0);
+                        gl.clear(gl.COLOR_BUFFER_BIT);
+                    }
+                    gl.useProgram(this.featuresProgram.program);
+                    gl.uniformMatrix3fv(this.featuresProgram.uniforms.u_transform, false, this.transform);
+                    gl.uniformMatrix3fv(this.featuresProgram.uniforms.u_display, false, this.display);
+
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
+                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
+                    gl.enableVertexAttribArray(this.featuresProgram.attributes.a_position);
+                    gl.enableVertexAttribArray(this.featuresProgram.attributes.a_color);
+                    gl.vertexAttribPointer(this.featuresProgram.attributes.a_position, 2, gl.FLOAT, false, 24, 0);
+                    gl.vertexAttribPointer(this.featuresProgram.attributes.a_color, 4, gl.FLOAT, false, 24, 8);
+                    gl.enable(gl.BLEND);
+                    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+                    gl.disable(gl.CULL_FACE);
+                    gl.drawElements(
+                        gl.TRIANGLES,
+                        this.indexBufferSize,
+                        gl.UNSIGNED_SHORT,
+                        0
+                    );
+                    if (this.layer.stage === 2) {
+                        return;
+                    }
+
+                    // Normal map computation.
+                    if (this.layer.stage === 3) {
+                        this.bindRenderTarget();
+                    } else {
+                        gl.bindFramebuffer(gl.FRAMEBUFFER, this.normalsFbo.framebuffer);
+                        gl.clearColor(0, 0, 0, 0);
+                        gl.clear(gl.COLOR_BUFFER_BIT);
+                    }
+                    gl.useProgram(this.normalsProgram.program);
+                    gl.activeTexture(gl.TEXTURE0);
+                    gl.bindTexture(gl.TEXTURE_2D, this.featuresFbo.color);
+                    gl.uniform2i(this.normalsProgram.uniforms.u_size, this.featuresFbo.width, this.featuresFbo.height);
+                    gl.uniform1i(this.normalsProgram.uniforms.u_texture, 0);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.quadBuffer);
+                    gl.enableVertexAttribArray(this.normalsProgram.attributes.a_position);
+                    gl.vertexAttribPointer(this.normalsProgram.attributes.a_position, 2, gl.BYTE, false, 2, 0);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+                    if (this.layer.stage === 3) {
+                        return;
+                    }
+
+                    // Blurs the normal map.
+                    if (this.layer.stage === 4) {
+                        this.bindRenderTarget();
+                    } else {
+                        gl.bindFramebuffer(gl.FRAMEBUFFER, this.blurFbo.framebuffer);
+                        gl.clearColor(0, 0, 0, 0);
+                        gl.clear(gl.COLOR_BUFFER_BIT);
+                    }
+                    gl.useProgram(this.blurProgram.program);
+                    gl.activeTexture(gl.TEXTURE0);
+                    gl.bindTexture(gl.TEXTURE_2D, this.normalsFbo.color);
+                    gl.uniform2i(this.blurProgram.uniforms.u_size, this.normalsFbo.width, this.normalsFbo.height);
+                    gl.uniform1i(this.blurProgram.uniforms.u_texture, 0);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.quadBuffer);
+                    gl.enableVertexAttribArray(this.blurProgram.attributes.a_position);
+                    gl.vertexAttribPointer(this.blurProgram.attributes.a_position, 2, gl.BYTE, false, 2, 0);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+                    if (this.layer.stage === 4) {
+                        return;
+                    }
+
+                    // Lighting and final composition on screen.
+                    this.bindRenderTarget();
+                    gl.useProgram(this.lightingProgram.program);
+                    gl.activeTexture(gl.TEXTURE0);
+                    gl.bindTexture(gl.TEXTURE_2D, this.blurFbo.color);
+                    gl.uniform1i(this.lightingProgram.uniforms.u_normal, 0);
+                    gl.activeTexture(gl.TEXTURE1);
+                    gl.bindTexture(gl.TEXTURE_2D, this.featuresFbo.color);
+                    gl.uniform1i(this.lightingProgram.uniforms.u_diffuse, 1);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.quadBuffer);
+                    gl.enableVertexAttribArray(this.lightingProgram.attributes.a_position);
+                    gl.vertexAttribPointer(this.lightingProgram.attributes.a_position, 2, gl.BYTE, false, 2, 0);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+                },
+
+                // Called internally from render().
+                updatePositions: function(renderParameters) {
+                    var gl = renderParameters.context;
+                    var stationary = renderParameters.stationary;
+                    var state = renderParameters.state;
+
+                    // If we are not stationary we simply update the `translationToCenter` vector.
+                    if (!stationary) {
+                        vec2.sub(
+                            this.translationToCenter,
+                            this.centerAtLastUpdate,
+                            state.center
+                        );
+                        this.requestRender();
+                        return;
+                    }
+
+                    // If we are stationary, the `layer.graphics` collection has not changed, and
+                    // we are centered on the `centerAtLastUpdate`, we do nothing.
+                    if (
+                        !this.needsUpdate &&
+                        this.translationToCenter[0] === 0 &&
+                        this.translationToCenter[1] === 0
+                    ) {
+                        return;
+                    }
+
+                    // Otherwise, we record the new encoded center, which imply a reset of the `translationToCenter` vector,
+                    // we record the update time, and we proceed to update the buffers.
+                    this.centerAtLastUpdate.set(state.center);
+                    this.translationToCenter[0] = 0;
+                    this.translationToCenter[1] = 0;
+                    this.needsUpdate = false;
+
+                    // Generate vertex data.
+                    var vertexCount = this.meshes.reduce(function(vertexCount, item) {
+                        return vertexCount + item.mesh.vertices.length;
+                    }, 0);
+                    var indexCount = this.meshes.reduce(function(indexCount, item) {
+                        return indexCount + item.mesh.indices.length;
+                    }, 0);
+                    var vertexData = new Float32Array(vertexCount * 6);
+                    var indexData = new Uint16Array(indexCount);
+                    var currentVertex = 0;
+                    var currentIndex = 0;
+
+                    for (
+                        var meshIndex = 0;
+                        meshIndex < this.meshes.length;
+                        ++meshIndex
+                    ) {
+                        var item = this.meshes[meshIndex];
+                        var mesh = item.mesh;
+
+                        // Applies the POPULATION value to a color visual variable.
+                        var r = 0.5 + 0.5 * (Math.min(Math.max(10000, item.attributes.POPULATION), 100000) - 10000) / 90000;
+                        var g = 0.5;
+                        var b = 0.5;
+                        var a = 1.0;
+
+                        for (var i = 0; i < mesh.indices.length; ++i) {
+                            var idx = mesh.indices[i];
+                            indexData[currentIndex] = currentVertex + idx;
+                            currentIndex++;
+                        }
+
+                        for (var i = 0; i < mesh.vertices.length; ++i) {
+                            var v = mesh.vertices[i];
+                            vertexData[currentVertex * 6 + 0] = v.x - this.centerAtLastUpdate[0];
+                            vertexData[currentVertex * 6 + 1] = v.y - this.centerAtLastUpdate[1];
+                            vertexData[currentVertex * 6 + 2] = r;
+                            vertexData[currentVertex * 6 + 3] = g;
+                            vertexData[currentVertex * 6 + 4] = b;
+                            vertexData[currentVertex * 6 + 5] = a;
+                            currentVertex++;
+                        }
+                    }
+
+                    // Uploads data to the GPU
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
+                    gl.bufferData(gl.ARRAY_BUFFER, vertexData, gl.STATIC_DRAW);
+                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
+                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indexData, gl.STATIC_DRAW);
+
+                    // Records number of indices.
+                    this.indexBufferSize = indexCount;
+                }
+            });
+
+            // Subclasses the custom layer view from GraphicsLayer.
+            var CustomLayer = GraphicsLayer.createSubclass({
+                properties: {
+                    // The full rendering algorithm is in 5 stages; the stage property
+                    // of the layer enables the user to interrupt it at an earlier stage
+                    // to see the intermediate result up to that point.
+                    stage: {}
+                },
+
+                constructor: function () {
+                    // Stage 1 means that the custom layer view does not render, and only
+                    // the basemap is displayed.
+                    this.stage = 1;
+                },
+
+                createLayerView: function(view) {
+                    // We only support MapView, so we only need to return a
+                    // custom layer view for the `2d` case.
+                    if (view.type === "2d") {
+                        return new CustomLayerView2D({
+                            view: view,
+                            layer: this
+                        });
+                    }
+                }
+            });
+
+            // We use a feature layer to load the graphics to populate the custom layer.
+            const queryLayer = new FeatureLayer({
+                url: "http://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/us_zip_education_2016/FeatureServer/0",
+                spatialReference: 102100,
+                minScale: 0,
+                maxScale: 0
+            });
+
+            queryLayer.queryFeatures({
+                geometry: {
+                    type: "point",
+                    spatialReference: {
+                        wkid: 4326
+                    },
+                    x: -118.4912,
+                    y: 34.0195
+                },
+                distance: 20,
+                units: "miles",
+                spatialRelationship: "intersects",
+                returnGeometry: true,
+                outFields: ["POPULATION"]
+            }).then(function (featureSet) {
+                // Now we create the custom layer and we pass in the queried features.
+                var layer = new CustomLayer({
+                    graphics: featureSet.features
+                });
+
+                // Create the map and the view.
+                var map = new Map({
+                    basemap: "dark-gray",
+                    layers: [layer]
+                });
+
+                var view = new MapView({
+                    container: "viewDiv",
+                    map: map,
+                    center: [-118.3, 34.1],
+                    scale: 500000,
+                    spatialReference: {
+                        wkid: 3857
+                    }
+                });
+
+                view.ui.add("controlsDiv", "top-right");
+                view.ui.add("legendDiv", "bottom-right");
+
+                const slider = new Slider({
+                    container: "sliderDiv",
+                    min: 1,
+                    max: 5,
+                    values: [ 1 ],
+                    labelsVisible: true,
+                    rangeLabelsVisible: true,
+                    steps: 1
+                });
+
+                slider.on("thumb-drag", function (evt) {
+                    layer.stage = evt.value;
+                    var explanation = document.getElementById("explanation");
+
+                    var divs = Array.from(explanation.querySelectorAll("div"));
+
+                    for (const div of divs) {
+                        div.className = "";
+                    }
+
+                    divs[layer.stage - 1].className = "active";
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+<!-- The map is displayed here -->
+<div id="viewDiv"></div>
+
+<!-- The top-right corner of the screen hosts a slider that selects how many stages
+     of the multi-stage rendering algorithm should be run. -->
+<div class="esri-widget" id="controlsDiv">
+    <h1 class="esri-widget__heading">Multi-stage rendering</h1>
+    Select a stage (1-5) to learn about the multi-stage rendering algorithm used in this custom thematic visualization.
+    <div id="sliderDiv"></div>
+    <div id="explanation">
+        <div class="active">
+            <h3>Stage 1: Basemap</h3>
+
+            <p>This sample shows how to build a multi-stage WebGL rendering
+                algorithm that overlays a pseudo-3D thematic visualization on top of a basemap.</p>
+
+            <p>This is a 5-stage process.</p>
+
+            <p>The first stage is the rendering of the basemap, that provides the geographical context for the thematic visualization that
+                we will be building. The `MapView` is entirely responsible for rendering the basemap.</p>
+        </div>
+        <div>
+            <h3>Stage 2: Thematic rendering</h3>
+
+            <p>On top of it, we will overlay a <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-2d-layers-BaseLayerViewGL2D.html">custom layer view</a>
+                that uses a 4-stage algorithm to create the effect that some features
+                are raised; the custom layer view will store the results of intermediate stages in
+                <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGLFramebuffer">framebuffer objects (FBOs)</a>
+                and composite them on top of the basemap at the end.</p>
+
+            <p>We query the features from a <a href="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/us_zip_education_2016/FeatureServer/0">feature layer</a> of
+                ZIP codes and associated population of residents.
+                Features are rendered using a visual-variable-like approach, in which the saturation of the color is higher for highly populated areas.</p>
+        </div>
+        <div>
+            <h3>Stage 3: Normal map generation</h3>
+
+            <p>A normal map is generated by computing screen-space derivatives of a height field that is higher in value where population is higher; this
+                will make more populous areas appear more beveled.</p>
+        </div>
+        <div>
+            <h3>Stage 4: Blur filter</h3>
+
+            <p>The normal map is blurred in order to make the edges less sharp, and improve the way the final image will look under a simulated directional light.</p>
+        </div>
+        <div>
+            <h3>Stage 5: Final composition</h3>
+
+            <p>The final image is the result of combining the original thematic visualization with the normal map generated at <em>Step 3</em> and <em>Step 4</em>.
+                A simulated directional light shines from the upper right corner of the screen, and highlights feature edges.</p>
+        </div>
+    </div>
+
+    <!-- The legend appears in the bottom-right corner of the screen -->
+    <div class="esri-widget" id="legendDiv">
+        <h1 class="esri-widget__heading">Population</h1>
+        <div id="legendGradient">
+            <div id="legendMax">100'000</div>
+            <div id="legendMin">10'000</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+
+    async function async1() {
+        await stop(3000);
+    }
+
+    async function async2() {
+        await stop(4000);
+    }
+
+    async function async3() {
+        await stop(2000);
+    }
+
+    // let a = async1();
+    // let b = async2();
+    // let c = async3();
+
+    async function test(){
+
+        // await async1();
+        // await async2();
+        // await async3();
+
+        let a = async1();
+        let b = async2();
+        let c = async3();
+
+        await stop(10000);
+
+        Promise.all([a,b,c]).then((values) => {
+            console.log('end');
+        });
+
+    }
+    test();
+
+
+
+
+
+    function stop(time) {
+        return new Promise((resolve => {
+            setTimeout(()=>{
+                console.log(time);
+                resolve();
+            }, time)
+        }))
+    }
+
+
+
+</script>
+
+</body>
+</html>

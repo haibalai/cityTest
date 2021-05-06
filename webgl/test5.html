@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="webgl-helper.js"></script>
+<canvas width="1920" height="1080" id="canvas"></canvas>
+<script  type="x-shader/x-vertex" id="vertexShader">
+
+    precision mediump float;
+    // 接收顶点坐标 (x, y)
+    attribute vec2 a_Position;
+    // 接收 canvas 的尺寸(width, height)
+    attribute vec2 a_Screen_Size;
+    void main(){
+      vec2 position = (a_Position / a_Screen_Size ) * 2.0 - 1.0;
+      position = position * vec2(1.0, -1.0);
+      gl_Position = vec4(position, 0.0, 1.0);
+      gl_PointSize = 10.0;
+    }
+
+
+</script>
+
+<script type="x-shader/x-fragment" id="fragmentShader">
+
+    //浮点数设置为中等精度
+    precision mediump float;
+    //全局变量，用来接收 JavaScript传递过来的颜色。
+    uniform vec4 u_Color;
+    void main(){
+        // 将颜色处理成 GLSL 允许的范围[0， 1]。
+        vec4 color = u_Color / vec4(255, 255, 255, 1);
+        // 点的最终颜色。
+        gl_FragColor = color;
+    }
+</script>
+<script>
+
+    let obj = init();
+    let gl = obj.gl;
+    let program = obj.program;
+    let canvas = obj.canvas;
+
+    let a_Position = gl.getAttribLocation(program, 'a_Position');
+    let a_Screen_Size = gl.getAttribLocation(program, 'a_Screen_Size');
+    let u_Color = gl.getUniformLocation(program, 'u_Color');
+
+
+    gl.vertexAttrib2f(a_Screen_Size, canvas.width, canvas.height);
+    let positions = [];
+
+    let buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+
+    gl.enableVertexAttribArray(a_Position);
+    //一个顶点信息包含两个数据。
+    let size = 2;
+    //顶点信息的数据类型为 浮点型。
+    let type = gl.FLOAT;
+    //我们自己在着色器中进行的归一化处理，所以此处设置为false
+    let normalize = false;
+    //步长为默认值 0 ，即按照 size*type的值。
+    let stride = 0;
+    //顶点信息从 buffer 中取数据时的偏移值。
+    let offset = 0;
+
+    // 顶点如何从 buffer 中取数据。
+    gl.vertexAttribPointer(a_Position, size, type,normalize, stride, offset);
+    let color = randomColor();
+    gl.uniform4f(u_Color, color.r, color.g, color.b, color.a);
+
+    canvas.addEventListener("click", e=>{
+        positions.push(e.pageX, e.pageY);
+        // 顶点信息为6个数据即3个顶点时执行绘制操作，因为三角形由三个顶点组成。
+        if (positions.length > 0) {
+            // gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.DYNAMIC_DRAW);
+
+            render(gl);
+        }
+
+
+    })
+    gl.clearColor(0, 0, 0, 1);
+    function render(gl){
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        let primitiveType = gl.LINE_LOOP;
+        let drawOffset = 0;
+        if(positions.length >0){
+            gl.drawArrays(primitiveType, drawOffset, positions.length/2);
+        }
+    }
+    render(gl);
+
+</script>
+
+
+
+</body>
+</html>

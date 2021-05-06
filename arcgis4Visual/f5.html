@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Light Sweep - 4.15</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Gruppo|Orbitron&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/gl-matrix/2.8.1/gl-matrix.js"></script>
+
+    <link rel="stylesheet" href="https://gis.cloud.cityworks.cn/arcgisapi/4.16/esri/css/main.css"/>
+    <script src="https://gis.cloud.cityworks.cn/arcgisapi/4.16/dojo/dojo.js"></script>
+    <style type="text/css" media="screen">
+        html,
+        body,
+        #viewDiv {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        #info {
+            position: absolute;
+            right: 100px;
+            bottom: 100px;
+            color: white;
+            font-family: 'Gruppo', cursive;
+        }
+
+        #info h1 {
+            font-family: 'Orbitron', sans-serif;
+        }
+    </style>
+
+    <script id="features-vs" type="x-shader/x-vertex">
+      precision highp float;
+
+      uniform mat3 u_transform;
+      uniform mat3 u_display;
+
+      attribute vec2 a_position;
+
+      void main() {
+        gl_Position.xy = (u_display * (u_transform * vec3(a_position, 1.0))).xy;
+        gl_Position.zw = vec2(0.0, 1.0);
+      }
+    </script>
+
+    <script id="features-fs" type="x-shader/x-fragment">
+      precision highp float;
+
+      void main() {
+        gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+      }
+    </script>
+
+    <script id="edges-vs" type="x-shader/x-vertex">
+      precision mediump float;
+
+      attribute vec2 a_position;
+
+      varying vec2 v_texcoord;
+
+      void main(void) {
+        gl_Position = vec4(a_position, 0.0, 1.0);
+        v_texcoord = 0.5 * (a_position + 1.0);
+      }
+    </script>
+
+    <script id="edges-fs" type="x-shader/x-fragment">
+      precision mediump float;
+
+      uniform sampler2D u_texture;
+      uniform ivec2 u_size;
+
+      varying vec2 v_texcoord;
+
+      vec4 sample(int dx, int dy) {
+        return texture2D(u_texture, v_texcoord + vec2(dx, dy) / vec2(u_size));
+      }
+
+      float height(int dx, int dy) {
+        return length(sample(dx, dy).ra);
+      }
+
+      void main(void) {
+        float dx = -(height(+1, 0) - height(-1, 0));
+        float dy = -(height(0, +1) - height(0, -1));
+
+        gl_FragColor = vec4(length(vec2(dx, dy)), 0.0, 0.0, 1.0) * texture2D(u_texture, v_texcoord).a;
+      }
+    </script>
+
+    <script id="blur-vs" type="x-shader/x-vertex">
+      precision mediump float;
+
+      attribute vec2 a_position;
+
+      varying vec2 v_texcoord;
+
+      void main(void) {
+        gl_Position = vec4(a_position, 0.0, 1.0);
+        v_texcoord = 0.5 * (a_position + 1.0);
+      }
+    </script>
+
+    <script id="blur-fs" type="x-shader/x-fragment">
+      precision mediump float;
+
+      uniform sampler2D u_texture;
+      uniform ivec2 u_size;
+
+      varying vec2 v_texcoord;
+
+      vec4 sample(int dx, int dy) {
+        return texture2D(u_texture, v_texcoord + vec2(dx, dy) / vec2(u_size));
+      }
+
+      void main(void) {
+        vec4 blurred = vec4(0.0, 0.0, 0.0, 0.0);
+
+        for (int i = -1; i <= 1; ++i) {
+          for (int j = -1; j <= 1; ++j) {
+            blurred += sample(i, j);
+          }
+        }
+
+        gl_FragColor = blurred / 9.0;
+      }
+    </script>
+
+    <script id="lighting-vs" type="x-shader/x-vertex">
+      precision mediump float;
+
+      attribute vec2 a_position;
+
+      varying vec2 v_texcoord;
+
+      void main(void) {
+        gl_Position = vec4(a_position, 0.0, 1.0);
+        v_texcoord = 0.5 * (a_position + 1.0);
+      }
+    </script>
+
+    <script id="lighting-fs" type="x-shader/x-fragment">
+      precision mediump float;
+
+      uniform sampler2D u_mask;
+      uniform sampler2D u_halo;
+      uniform sampler2D u_hexagons;
+      uniform float u_progress;
+      uniform vec2 u_size;
+
+      varying vec2 v_texcoord;
+
+      float wave(float x, float s, float c) {
+        return 1.0 / (1.0 + exp(-s * (x - c)));
+      }
+
+      float parabolic(float x) {
+        return -4.0 * pow(x - 0.5, 2.0) + 1.0;
+      }
+
+      void main(void) {
+        vec4 sampledHexagons = texture2D(u_hexagons, v_texcoord * u_size / vec2(256.0, 256.0));
+        vec2 offset = 256.0 * (sampledHexagons.rg - 0.5);
+        float border = sampledHexagons.b;
+        float flashTime = sampledHexagons.a;
+        float masked = texture2D(u_mask, v_texcoord).r;
+
+        vec4 dark = (wave(u_progress, 30.0, 0.2) - 0.4 * wave(u_progress, 30.0, 0.8)) * vec4(0.0, 0.0, 0.0, 0.8);
+
+        float linePosition = 2.0 - 3.0 * u_progress;
+
+        if (v_texcoord.y > linePosition) {
+          if (masked > 0.5) {
+            dark = vec4(vec3(border) + 0.3 * parabolic(u_progress) * exp(-10.0 * abs(flashTime - u_progress)), 0.0) * (1.0 - wave(u_progress, 30.0, 0.7));
+          }
+        }
+
+        float lineIntensity =
+          0.6 * exp(-50.0 * abs(linePosition - v_texcoord.y)) +
+          0.4 * step(linePosition, v_texcoord.y) * exp(-2.0 * (v_texcoord.y - linePosition));
+
+        vec4 line = vec4(vec3(lineIntensity), 0.0);
+
+        vec4 sampledHalo = texture2D(u_halo, v_texcoord);
+        float haloIntensity = sampledHalo.r * sampledHalo.a * step(linePosition, v_texcoord.y);
+        vec4 halo = vec4(haloIntensity);
+
+        gl_FragColor = dark + line + halo;
+      }
+    </script>
+
+    <script>
+        require([
+            "esri/Map",
+
+            "esri/core/watchUtils",
+            "esri/core/promiseUtils",
+
+            "esri/layers/GraphicsLayer",
+            "esri/layers/FeatureLayer",
+
+            "esri/views/MapView",
+
+            "esri/views/2d/layers/BaseLayerViewGL2D",
+
+            "esri/widgets/Search"
+        ], function(
+            Map,
+
+            watchUtils,
+            promiseUtils,
+
+            GraphicsLayer,
+            FeatureLayer,
+
+            MapView,
+
+            BaseLayerViewGL2D,
+
+            Search
+        ) {
+            // Create a framebuffer object and associated color texture attachment.
+            function createFramebuffer(gl, width, height) {
+                var color = gl.createTexture();
+                gl.activeTexture(gl.TEXTURE7);
+                gl.bindTexture(gl.TEXTURE_2D, color);
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+                gl.bindTexture(gl.TEXTURE_2D, null);
+
+                var framebuffer = gl.createFramebuffer();
+                gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+                gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, color, 0);
+                gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+
+                return {
+                    framebuffer: framebuffer,
+                    color: color,
+                    width: width,
+                    height: height
+                }
+            }
+
+            function destroyFramebuffer(gl, fb) {
+                gl.deleteFramebuffer(fb.framebuffer);
+                gl.deleteTexture(fb.color);
+            }
+
+            // Resize a framebuffer if needed, by destroying and recreating it, or return
+            // it unchanged.
+            function resizeFramebuffer(gl, fb, width, height) {
+                if (!fb) {
+                    return createFramebuffer(gl, width, height);
+                }
+
+                if (fb.width === width && fb.height === height) {
+                    return fb;
+                }
+
+                gl.deleteTexture(fb.color);
+                gl.deleteFramebuffer(fb.framebuffer);
+
+                return createFramebuffer(gl, width, height);
+            }
+
+            // Return the content of a <script type="text/x-shader"> in the <head> section.
+            function getShaderSource(id) {
+                return document.getElementById(id).innerText;
+            }
+
+            // Create a program from a pair of <script type="text/x-shader"> snippets,
+            // with user-defined attribute locations and uniforms.
+            function createProgram(gl, vsId, fsId, attributes, uniforms) {
+                var vsSrc = getShaderSource(vsId);
+                var vs = gl.createShader(gl.VERTEX_SHADER);
+                gl.shaderSource(vs, vsSrc);
+                gl.compileShader(vs);
+
+                var fsSrc = getShaderSource(fsId);
+                var fs = gl.createShader(gl.FRAGMENT_SHADER);
+                gl.shaderSource(fs, fsSrc);
+                gl.compileShader(fs);
+
+                var program = gl.createProgram();
+                gl.attachShader(program, vs);
+                gl.attachShader(program, fs);
+
+                for (var locationName in attributes) {
+                    gl.bindAttribLocation(program, attributes[locationName], locationName);
+                }
+
+                gl.linkProgram(program);
+
+                var uniformLocations = {};
+
+                for (var uniformName of uniforms) {
+                    uniformLocations[uniformName] = gl.getUniformLocation(program, uniformName);
+                }
+
+                gl.deleteShader(vs);
+                gl.deleteShader(fs);
+
+                return {
+                    program: program,
+                    attributes: attributes,
+                    uniforms: uniformLocations
+                }
+            }
+
+            // Subclass the custom layer view from BaseLayerViewGL2D.
+            var CustomLayerView2D = BaseLayerViewGL2D.createSubclass({
+                constructor: function() {
+                    // Geometrical transformations that must be recomputed
+                    // from scratch at every frame.
+                    this.transform = mat3.create();
+                    this.translationToCenter = vec2.create();
+                    this.screenTranslation = vec2.create();
+                    this.display = mat3.create();
+
+                    // Whether the vertex and index buffers need to be updated
+                    // due to a change in the layer data.
+                    this.needsUpdate = false;
+
+                    // We listen for changes to the graphics collection of the layer
+                    // and trigger the generation of new frames. A frame rendered while
+                    // `needsUpdate` is true may cause an update of the vertex and
+                    // index buffers.
+                    var requestUpdate = function() {
+                        // Tessellate graphics.
+                        this.promises = [];
+                        this.layer.graphics.forEach(function (g) {
+                            this.promises.push(
+                                this.tessellatePolygon(g.geometry).then(function(mesh) {
+                                    return {
+                                        mesh: mesh,
+                                        attributes: g.attributes,
+                                        symbol: g.symbol
+                                    };
+                                })
+                            );
+                        }.bind(this));
+                        promiseUtils.all(this.promises).then(
+                            function(meshes) {
+                                this._progress = 0;
+                                this.meshes = meshes;
+                                this.needsUpdate = true;
+                                this.requestRender();
+                            }.bind(this)
+                        );
+                    }.bind(this);
+
+                    this.watcher = watchUtils.on(
+                        this,
+                        "layer.graphics",
+                        "change",
+                        requestUpdate,
+                        requestUpdate,
+                        requestUpdate
+                    );
+
+                    var requestRender = this.requestRender.bind(this);
+
+                    this._progress = 0;
+                },
+
+                // Called once a custom layer is added to the map.layers collection and this layer view is instantiated.
+                attach: function() {
+                    var gl = this.context;
+
+                    // Create the vertex and index buffer. They are initially empty. We need to track the
+                    // size of the index buffer because we use indexed drawing.
+                    this.vertexBuffer = gl.createBuffer();
+                    this.indexBuffer = gl.createBuffer();
+
+                    // Number of indices in the index buffer.
+                    this.indexBufferSize = 0;
+
+                    // When certain conditions occur, we update the buffers and re-compute and re-encode
+                    // all the attributes. When buffer update occurs, we also take note of the current center
+                    // of the view state, and we reset a vector called `translationToCenter` to [0, 0], meaning that the
+                    // current center is the same as it was when the attributes were recomputed.
+                    this.centerAtLastUpdate = vec2.fromValues(
+                        this.view.state.center[0],
+                        this.view.state.center[1]
+                    );
+
+                    this.featuresProgram = createProgram(gl, "features-vs", "features-fs", {
+                        a_position: 0,
+                        a_color: 1
+                    }, [
+                        "u_transform",
+                        "u_display"
+                    ]);
+                    this.edgesProgram = createProgram(gl, "edges-vs", "edges-fs", {
+                        a_position: 0,
+                    }, [
+                        "u_texture",
+                        "u_size"
+                    ]);
+                    this.blurProgram = createProgram(gl, "blur-vs", "blur-fs", {
+                        a_position: 0,
+                    }, [
+                        "u_texture",
+                        "u_size"
+                    ]);
+                    this.lightingProgram = createProgram(gl, "lighting-vs", "lighting-fs", {
+                        a_position: 0,
+                    }, [
+                        "u_mask",
+                        "u_halo",
+                        "u_hexagons",
+                        "u_progress",
+                        "u_size"
+                    ]);
+
+                    this.quadBuffer = gl.createBuffer();
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.quadBuffer);
+                    gl.bufferData(gl.ARRAY_BUFFER, new Int8Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+                    const image = new Image();
+                    image.crossOrigin = "Anonymous";
+                    image.src = "https://dari8942.s3.us-west-1.amazonaws.com/ds-demos-2020/assets/textures/hexagons.png";
+                    image.addEventListener("load", function () {
+                        this.hexagonsImage = image;
+                    }.bind(this));
+
+                    this.hexagonsTexture = gl.createTexture();
+                    gl.bindTexture(gl.TEXTURE_2D, this.hexagonsTexture);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+                },
+
+                resizeFramebuffers(gl, width, height) {
+                    const w = width;
+                    const h = height;
+                    this.featuresFbo = resizeFramebuffer(gl, this.featuresFbo, w, h);
+                    this.edgesFbo = resizeFramebuffer(gl, this.edgesFbo, w, h);
+                    this.blurFbo = resizeFramebuffer(gl, this.blurFbo, w, h);
+                },
+
+                // Called once a custom layer is removed from the map.layers collection and this layer view is destroyed.
+                detach: function() {
+                    // Stop watching the `layer.graphics` collection.
+                    this.watcher.remove();
+
+                    var gl = this.context;
+
+                    // Delete buffers and programs.
+                    gl.deleteBuffer(this.vertexBuffer);
+                    gl.deleteBuffer(this.indexBuffer);
+                    gl.deleteBuffer(this.quadBuffer);
+                    gl.deleteProgram(this.featuresProgram);
+                    gl.deleteProgram(this.edgesProgram);
+                    gl.deleteProgram(this.blurProgram);
+                    gl.deleteProgram(this.lightingProgram);
+                    gl.deleteTexture(this.hexagonsTexture);
+                    destroyFramebuffer(gl, this.featuresFbo);
+                    destroyFramebuffer(gl, this.edgesFbo);
+                    destroyFramebuffer(gl, this.blurFbo);
+                },
+
+                // Called every time a frame is rendered.
+                render: function(renderParameters) {
+                    var gl = renderParameters.context;
+                    var state = renderParameters.state;
+
+                    if (this.hexagonsImage) {
+                        gl.bindTexture(gl.TEXTURE_2D, this.hexagonsTexture);
+                        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.hexagonsImage);
+                    }
+
+                    // Update vertex positions. This may trigger an update of
+                    // the vertex coordinates contained in the vertex buffer.
+                    // There are three kinds of updates:
+                    //  - Modification of the layer.graphics collection ==> Buffer update
+                    //  - The view state becomes non-stationary ==> Only view update, no buffer update
+                    //  - The view state becomes stationary ==> Buffer update
+                    this.updatePositions(renderParameters);
+
+                    // If there is nothing to render we return.
+                    if (this.indexBufferSize === 0) {
+                        return;
+                    }
+
+                    // Update view `transform` matrix; it converts from map units to pixels.
+                    mat3.identity(this.transform);
+                    this.screenTranslation[0] = (state.pixelRatio * state.size[0]) / 2;
+                    this.screenTranslation[1] = (state.pixelRatio * state.size[1]) / 2;
+                    mat3.translate(
+                        this.transform,
+                        this.transform,
+                        this.screenTranslation
+                    );
+                    mat3.rotate(
+                        this.transform,
+                        this.transform,
+                        (Math.PI * state.rotation) / 180
+                    );
+                    mat3.scale(this.transform, this.transform, [
+                        state.pixelRatio / state.resolution,
+                        -state.pixelRatio / state.resolution
+                    ]);
+                    mat3.translate(this.transform, this.transform, this.translationToCenter);
+
+                    // Update view `display` matrix; it converts from pixels to normalized device coordinates.
+                    mat3.identity(this.display);
+                    mat3.translate(this.display, this.display, [-1, 1]);
+                    mat3.scale(this.display, this.display, [
+                        2 / (state.pixelRatio * state.size[0]),
+                        -2 / (state.pixelRatio * state.size[1])
+                    ]);
+
+                    // Resize the framebuffers
+                    this.resizeFramebuffers(gl, Math.round(state.pixelRatio * state.size[0]), Math.round(state.pixelRatio * state.size[1]));
+
+                    // Draw the features onto the initial frame buffer
+                    gl.bindFramebuffer(gl.FRAMEBUFFER, this.featuresFbo.framebuffer);
+                    gl.clearColor(0, 0, 0, 0);
+                    gl.clear(gl.COLOR_BUFFER_BIT);
+                    gl.useProgram(this.featuresProgram.program);
+                    gl.uniformMatrix3fv(this.featuresProgram.uniforms.u_transform, false, this.transform);
+                    gl.uniformMatrix3fv(this.featuresProgram.uniforms.u_display, false, this.display);
+
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
+                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
+                    gl.enableVertexAttribArray(this.featuresProgram.attributes.a_position);
+                    gl.vertexAttribPointer(this.featuresProgram.attributes.a_position, 2, gl.FLOAT, false, 8, 0);
+                    gl.enable(gl.BLEND);
+                    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+                    gl.disable(gl.CULL_FACE);
+                    gl.drawElements(
+                        gl.TRIANGLES,
+                        this.indexBufferSize,
+                        gl.UNSIGNED_SHORT,
+                        0
+                    );
+
+                    // Edge detection
+                    gl.bindFramebuffer(gl.FRAMEBUFFER, this.edgesFbo.framebuffer);
+                    gl.clearColor(0, 0, 0, 0);
+                    gl.clear(gl.COLOR_BUFFER_BIT);
+                    gl.useProgram(this.edgesProgram.program);
+                    gl.activeTexture(gl.TEXTURE0);
+                    gl.bindTexture(gl.TEXTURE_2D, this.featuresFbo.color);
+                    gl.uniform2i(this.edgesProgram.uniforms.u_size, this.featuresFbo.width, this.featuresFbo.height);
+                    gl.uniform1i(this.edgesProgram.uniforms.u_texture, 0);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.quadBuffer);
+                    gl.enableVertexAttribArray(this.edgesProgram.attributes.a_position);
+                    gl.vertexAttribPointer(this.edgesProgram.attributes.a_position, 2, gl.BYTE, false, 2, 0);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+                    // Blur
+                    gl.bindFramebuffer(gl.FRAMEBUFFER, this.blurFbo.framebuffer);
+                    gl.clearColor(0, 0, 0, 0);
+                    gl.clear(gl.COLOR_BUFFER_BIT);
+                    gl.useProgram(this.blurProgram.program);
+                    gl.activeTexture(gl.TEXTURE0);
+                    gl.bindTexture(gl.TEXTURE_2D, this.edgesFbo.color);
+                    gl.uniform2i(this.blurProgram.uniforms.u_size, this.edgesFbo.width, this.edgesFbo.height);
+                    gl.uniform1i(this.blurProgram.uniforms.u_texture, 0);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.quadBuffer);
+                    gl.enableVertexAttribArray(this.blurProgram.attributes.a_position);
+                    gl.vertexAttribPointer(this.blurProgram.attributes.a_position, 2, gl.BYTE, false, 2, 0);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+                    // Lighting
+                    this.bindRenderTarget();
+                    gl.useProgram(this.lightingProgram.program);
+                    gl.activeTexture(gl.TEXTURE0);
+                    gl.bindTexture(gl.TEXTURE_2D, this.featuresFbo.color);
+                    gl.uniform1i(this.lightingProgram.uniforms.u_mask, 0);
+                    gl.uniform1f(this.lightingProgram.uniforms.u_progress, this._progress);
+                    gl.uniform2f(this.lightingProgram.uniforms.u_size, this.featuresFbo.width, this.featuresFbo.height);
+                    gl.activeTexture(gl.TEXTURE1);
+                    gl.bindTexture(gl.TEXTURE_2D, this.blurFbo.color);
+                    gl.uniform1i(this.lightingProgram.uniforms.u_halo, 1);
+                    gl.activeTexture(gl.TEXTURE2);
+                    gl.bindTexture(gl.TEXTURE_2D, this.hexagonsTexture);
+                    gl.uniform1i(this.lightingProgram.uniforms.u_hexagons, 2);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.quadBuffer);
+                    gl.enableVertexAttribArray(this.lightingProgram.attributes.a_position);
+                    gl.vertexAttribPointer(this.lightingProgram.attributes.a_position, 2, gl.BYTE, false, 2, 0);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+                    if (this._progress < 1) {
+                        this._progress += 0.01;
+                        this.requestRender();
+                    }
+                },
+
+                // Called internally from render().
+                updatePositions: function(renderParameters) {
+                    var gl = renderParameters.context;
+                    var stationary = renderParameters.stationary;
+                    var state = renderParameters.state;
+
+                    // If we are not stationary we simply update the `translationToCenter` vector.
+                    if (!stationary) {
+                        vec2.sub(
+                            this.translationToCenter,
+                            this.centerAtLastUpdate,
+                            state.center
+                        );
+                        this.requestRender();
+                        return;
+                    }
+
+                    // If we are stationary, the `layer.graphics` collection has not changed, and
+                    // we are centered on the `centerAtLastUpdate`, we do nothing.
+                    if (
+                        !this.needsUpdate &&
+                        this.translationToCenter[0] === 0 &&
+                        this.translationToCenter[1] === 0
+                    ) {
+                        return;
+                    }
+
+                    // Otherwise, we record the new encoded center, which imply a reset of the `translationToCenter` vector,
+                    // we record the update time, and we proceed to update the buffers.
+                    this.centerAtLastUpdate.set(state.center);
+                    this.translationToCenter[0] = 0;
+                    this.translationToCenter[1] = 0;
+                    this.needsUpdate = false;
+
+                    // Generate vertex data.
+                    var vertexCount = this.meshes.reduce(function(vertexCount, item) {
+                        return vertexCount + item.mesh.vertices.length;
+                    }, 0);
+                    var indexCount = this.meshes.reduce(function(indexCount, item) {
+                        return indexCount + item.mesh.indices.length;
+                    }, 0);
+                    var vertexData = new Float32Array(vertexCount * 2);
+                    var indexData = new Uint16Array(indexCount);
+                    var currentVertex = 0;
+                    var currentIndex = 0;
+
+                    for (
+                        var meshIndex = 0;
+                        meshIndex < this.meshes.length;
+                        ++meshIndex
+                    ) {
+                        var item = this.meshes[meshIndex];
+                        var mesh = item.mesh;
+                        var upright = item.attributes && item.attributes.upright ? 1 : 0;
+
+                        for (var i = 0; i < mesh.indices.length; ++i) {
+                            var idx = mesh.indices[i];
+                            indexData[currentIndex] = currentVertex + idx;
+                            currentIndex++;
+                        }
+
+                        for (var i = 0; i < mesh.vertices.length; ++i) {
+                            var v = mesh.vertices[i];
+                            vertexData[currentVertex * 2 + 0] = v.x - this.centerAtLastUpdate[0];
+                            vertexData[currentVertex * 2 + 1] = v.y - this.centerAtLastUpdate[1];
+                            currentVertex++;
+                        }
+                    }
+
+                    // Upload data to the GPU
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
+                    gl.bufferData(gl.ARRAY_BUFFER, vertexData, gl.STATIC_DRAW);
+                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
+                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indexData, gl.STATIC_DRAW);
+
+                    // Record number of indices.
+                    this.indexBufferSize = indexCount;
+                }
+            });
+
+            // Subclass the custom layer view from GraphicsLayer.
+            var CustomLayer = GraphicsLayer.createSubclass({
+                createLayerView: function(view) {
+                    // We only support MapView, so we only need to return a
+                    // custom layer view for the `2d` case.
+                    if (view.type === "2d") {
+                        return new CustomLayerView2D({
+                            view: view,
+                            layer: this
+                        });
+                    }
+                }
+            });
+
+            // We use a feature layer to load the geometry to pass to the custom layer.
+            const countries = new FeatureLayer({
+                url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Countries_(Generalized)/FeatureServer/0"
+            });
+
+            var infoTitle = document.getElementById("infoTitle");
+            var infoContent = document.getElementById("infoContent");
+
+            function selectPoint(p) {
+                const query = countries.createQuery();
+                query.outFields = ["*"];
+                query.geometry = p;
+                query.spatialRelationship = "intersects";
+                countries.queryFeatures(query).then(function(result) {
+                    const feature = result.features[0];
+                    infoTitle.innerText = feature.attributes.COUNTRY;
+                    infoContent.innerHTML = "Area: " + Math.floor(feature.attributes.Shape__Area / 1000000) + " kmq" + "<br>" + "Length: " + Math.floor(feature.attributes.Shape__Length / 1000) + " km";
+                    layer.graphics = [feature];
+                    view.goTo(feature);
+                });
+            }
+
+            // Now we create the custom layer and we pass in the queried features.
+            var layer = new CustomLayer({
+                graphics: []
+            });
+
+            // Create the map and the view.
+            var map = new Map({
+                basemap: "satellite",
+                layers: [layer]
+            });
+
+            var view = new MapView({
+                container: "viewDiv",
+                map: map,
+                scale: 75000000,
+                spatialReference: {
+                    wkid: 3857
+                }
+            });
+
+            view.on("click", function (event) {
+                var p = view.toMap(event);
+                selectPoint(p);
+            });
+
+            var searchWidget = new Search({
+                view: view
+            });
+
+            searchWidget.on("search-complete", function (event) {
+                var feature = event.results[0].results[0];
+                selectPoint(feature.extent.center);
+            });
+
+            // Add the search widget to the top right corner of the view
+            view.ui.add(searchWidget, {
+                position: "top-right"
+            });
+        });
+    </script>
+</head>
+
+<body>
+<div id="viewDiv"></div>
+<div id="info">
+    <h1 id="infoTitle"></h1>
+    <p id="infoContent"></p>
+</div>
+</body>
+</html>

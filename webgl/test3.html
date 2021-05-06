@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="webgl-helper.js"></script>
+<canvas width="1920" height="1080" id="canvas"></canvas>
+<script  type="x-shader/x-vertex" id="vertexShader">
+
+    precision mediump float;
+    // 接收顶点坐标 (x, y)
+    attribute vec2 a_Position;
+    // 接收 canvas 的尺寸(width, height)
+    attribute vec2 a_Screen_Size;
+    void main(){
+//      vec2 position = (a_Position / a_Screen_Size ) * 2.0 - 1.0;
+//      position = position * vec2(1.0, -1.0);
+      gl_Position = vec4(a_Position, 0, 1);
+      gl_PointSize = 10.0;
+    }
+
+
+</script>
+
+<script type="x-shader/x-fragment" id="fragmentShader">
+
+    precision mediump float;
+    uniform vec4 u_Color;
+    void main(){
+       vec4 color = u_Color / vec4(255, 255, 255, 1);
+       gl_FragColor = color;
+    }
+</script>
+<script>
+
+    let obj = init();
+    let gl = obj.gl;
+    let program = obj.program;
+    let canvas = obj.canvas;
+
+    let a_Position = gl.getAttribLocation(program, 'a_Position');
+    let a_Screen_Size = gl.getAttribLocation(program, 'a_Screen_Size');
+    let u_Color = gl.getUniformLocation(program, 'u_Color');
+
+    gl.vertexAttrib2f(a_Screen_Size, canvas.width, canvas.height);
+    var positions = [1,0, 0,1, 0,0];
+
+    var buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER,buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(a_Position);
+
+    let color1 = randomColor();
+    gl.uniform4f(u_Color, color1.r, color1.g, color1.b, color1.a);
+
+    //每次取两个数据
+    var size = 2;
+    //每个数据的类型是32位浮点型
+    var type = gl.FLOAT;
+    //不需要归一化数据
+    var normalize = false;
+    // 每次迭代运行需要移动数据数 * 每个数据所占内存 到下一个数据开始点。
+    var stride = 0;
+    // 从缓冲起始位置开始读取
+    var offset = 0;
+    // 将 a_Position 变量获取数据的缓冲区指向当前绑定的 buffer。
+    gl.vertexAttribPointer(
+        a_Position, size, type, normalize, stride, offset);
+
+
+    //绘制图元设置为三角形
+    var primitiveType = gl.TRIANGLE_STRIP;
+    //从顶点数组的开始位置取顶点数据
+    var offset = 0;
+    //因为我们要绘制三个点，所以执行三次顶点绘制操作。
+    var count = 3;
+    gl.drawArrays(primitiveType, offset, count);
+    // canvas.addEventListener('mouseup', e => {
+    //     var x = e.pageX;
+    //     var y = e.pageY;
+    //     positions.push(x, y);
+    //     if (positions.length % 6 == 0) {
+    //         //向缓冲区中复制新的顶点数据。
+    //         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.DYNAMIC_DRAW);
+    //         //重新渲染
+    //         render(gl);
+    //     }
+    // })
+
+</script>
+
+
+
+</body>
+</html>

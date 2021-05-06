@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./dist.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/d3/5.16.0/d3.min.js
+"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/1.10.1/mapbox-gl.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/1.10.1/mapbox-gl.css" rel="stylesheet" />
+</head>
+<style>
+    #container {
+        background: #111;
+        width: 100%;
+        height: 100vh;
+    }
+    #name {
+        position: fixed;
+        top: 20px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 16px;
+        color: #fff;
+        font-family: Helvetica, Arial, sans-serif;
+    }
+</style>
+<body>
+<div id="container"></div>
+<div id="name"></div>
+</body>
+<script>
+    // mapboxgl.accessToken = 'pk.eyJ1IjoicGV0ZXItY29ydGljbyIsImEiOiJjamdnenltd2owM3lyMnZsOTgzd2p6Yjk0In0.wQUz3DY--XsJtfnuMMCfSQ'; // eslint-disable-line
+    // const DATA_URL = 'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_populated_places_simple.geojson';
+    const DATA_URL = './uber-pickup-locations.json';
+
+    const PROJECTIONS = [
+        'geoMercator',
+        'geoConicEqualArea',
+        'geoEqualEarth',
+        'geoTransverseMercator',
+        'geoAlbers',
+        'geoConicEquidistant',
+        'geoEquirectangular',
+        'geoNaturalEarth1'
+    ];
+
+    /** DeckGL **/
+    const deckgl = new deck.DeckGL({
+        // mapboxApiAccessToken: 'pk.eyJ1IjoicGV0ZXItY29ydGljbyIsImEiOiJjamdnenltd2owM3lyMnZsOTgzd2p6Yjk0In0.wQUz3DY--XsJtfnuMMCfSQ',
+        container: 'container',
+        // mapStyle: 'mapbox://styles/mapbox/light-v9',
+        // views: new deck.OrthographicView({controller: true}),
+        initialViewState: {
+            latitude: 51.47,
+            longitude: 0.45,
+            zoom: 4,
+            bearing: 0,
+            pitch: 30,
+        },
+        controller: true
+    });
+
+    fetch(DATA_URL)
+        .then(resp => {
+
+            console.log(resp)
+            return resp.json()
+
+        })
+        .then(data => {
+            console.log(data)
+            redraw(data);
+            document.onclick = () => redraw(data);
+        });
+
+    let projectionIndex = 0;
+
+    function redraw(data) {
+        let layer  = new deck.HexagonLayer({
+            data:  data,
+            getPosition: d => [d[0], d[1]],
+            getWeight: d => d[2],
+            opacity: 0.8,
+            radius:  Math.random()*20000,
+            colorRange: [
+                [255, 255, 178, 25],
+                [254, 217, 118, 85],
+                [254, 178, 76, 127],
+                [253, 141, 60, 170],
+                [240, 59, 32, 212],
+                [189, 0, 38, 255]
+            ],
+            // gpuAggregation: true,
+            // aggregation: "SUM",
+            pickable: true,
+            extruded: true,
+            // elevationScale: 1000,
+            elevationScale: Math.random()*1000,
+            transitions: {
+                // elevationScale: 1000,
+                elevationScale: 2000,
+                radius: 2000
+
+            }
+
+        })
+
+        deckgl.setProps({
+            layers: [layer]
+        });
+    }
+
+
+</script>
+
+
+
+</html>

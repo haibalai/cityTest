@@ -3,220 +3,500 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>Create a local scene - 4.3</title>
-    <style>
+    <title>Electric Highways - 4.15</title>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+    <link rel="stylesheet" href="https://gis.cloud.cityworks.cn/arcgisapi/4.16/esri/css/main.css"/>
+    <script src="https://gis.cloud.cityworks.cn/arcgisapi/4.16/dojo/dojo.js"></script>
+    <style type="text/css" media="screen">
         html,
         body,
         #viewDiv {
+            width: 100%;
+            height: 100%;
             padding: 0;
             margin: 0;
-            height: 100%;
-            width: 100%;
-        }
-
-        #homeDiv {
-            left: 15px;
-            top: 130px;
-            z-index: 35;
-            position: absolute;
         }
     </style>
 
-    <!--<link rel="stylesheet" href="http://arcgislg.ascs.tech/arcgis_js_v43_api/arcgis_js_api/library/4.3/4.3/esri/css/main.css">-->
-    <!--<script src="http://arcgislg.ascs.tech/arcgis_js_v43_api/arcgis_js_api/library/4.3/4.3/init.js"></script>-->
-    <link rel="stylesheet" href="http://cityworks.cn/arcgis_js_v48_api/arcgis_js_api/library/4.8/esri/css/main.css">
-    <script src="http://cityworks.cn/arcgis_js_v48_api/arcgis_js_api/library/4.8/dojo/dojo.js"></script>
     <script>
-
-
         require([
             "esri/Map",
-            "esri/Basemap",
-            "esri/symbols/FillSymbol3DLayer",
-            "esri/symbols/MeshSymbol3D",
-            "esri/renderers/SimpleRenderer",
-            "esri/tasks/support/Date",
-            "esri/views/SceneView",
-            "esri/views/MapView",
+
+            "esri/core/watchUtils",
+            "esri/core/promiseUtils",
+
+            "esri/layers/GraphicsLayer",
             "esri/layers/FeatureLayer",
-            "esri/layers/ImageryLayer",
-            "esri/layers/MapImageLayer",
-            "esri/layers/TileLayer",
-            "esri/layers/SceneLayer",
-            "esri/layers/ElevationLayer",
-            "esri/renderers/SimpleRenderer",
-            "esri/symbols/ObjectSymbol3DLayer",
-            "esri/symbols/IconSymbol3DLayer",
-            "esri/symbols/PointSymbol3D",
-            "esri/tasks/QueryTask",
-            "esri/tasks/support/Query",
-            "esri/widgets/Home",
-            "dojo/domReady!"
-        ], function(Map,Basemap,FillSymbol3DLayer,MeshSymbol3D,SimpleRenderer,Date, SceneView,MapView, FeatureLayer,ImageryLayer,MapImageLayer,TileLayer,SceneLayer,ElevationLayer,
-                    SimpleRenderer, ObjectSymbol3DLayer,
-                    IconSymbol3DLayer, PointSymbol3D, QueryTask, Query, Home
+
+            "esri/views/MapView",
+
+            "esri/views/2d/layers/BaseLayerViewGL2D"
+        ], function(
+            Map,
+
+            watchUtils,
+            promiseUtils,
+
+            GraphicsLayer,
+            FeatureLayer,
+
+            MapView,
+
+            BaseLayerViewGL2D
         ) {
+            // Subclasses the custom layer view from BaseLayerViewGL2D.
+            var CustomLayerView2D = BaseLayerViewGL2D.createSubclass({
+                // Locations of the two vertex attributes that we use. They
+                // will be bound to the shader program before linking.
+                aPosition: 0,
+                aOffset: 1,
+                aTexcoord: 2,
+                aDistance: 3,
+                aSeeds: 4,
+                aLength: 5,
 
-            var solidEdges = {
-                type: "solid",
-                color: [255, 255, 255, 1],
-                size: 2
-            };
+                constructor: function() {
+                    // Transforms from map units to pixels.
+                    this.transform = mat3.create();
 
-            var sketchEdges = {
-                type: "sketch",
-                color: [255, 255, 255, 1],
-                size: 2,
-                extensionLength: 6
-            };
+                    // The rotation of the map; used to transform offset vectors.
+                    this.rotation = mat3.create();
 
-            // Create the renderer and configure visual variables
-            var renderer = {
-                type: "simple", // autocasts as new SimpleRenderer()
-                symbol: {
-                    type: "mesh-3d",
-                    symbolLayers: [{
-                        type:"fill",
-                        material: {
-                            color: "#AAAAAA",
-                            // colorMixMode: "replace"
-                        },
-                        edges: solidEdges
-                    }]
+                    // Transforms from pixels to NDC.
+                    this.display = mat3.create();
+
+                    // Represents a half-screen translation in pixels.
+                    this.screenTranslation = vec2.create();
+
+                    // A translation vector from the current center of the view in map units
+                    // to the local origin of the geometry; the position of a vertex of a feature
+                    // in map units is given by its encoded position in the vertex buffers, plus
+                    // this vector; note that we never carry out this addition in the shader
+                    // program, because it would be too imprecise on 32-bit floating point
+                    // hardware; instead we use this vector to translate the `transform` matrix
+                    // so that its components become smaller and more manageable using the
+                    // limited precision available.
+                    this.translationToCenter = vec2.create();
+
+                    // Whether the vertex and index buffers need to be updated
+                    // due to a change in the layer data.
+                    this.needsUpdate = false;
+
+                    // We listen for changes to the graphics collection of the layer
+                    // and trigger the generation of new frames. A frame rendered while
+                    // `needsUpdate` is true may cause an update of the vertex and
+                    // index buffers.
+                    var requestUpdate = function() {
+                        // Tessellate graphics.
+                        this.promises = [];
+                        this.layer.graphics.forEach(this.processGraphic.bind(this));
+                        promiseUtils.all(this.promises).then(
+                            function(meshes) {
+                                this.meshes = meshes;
+                                this.needsUpdate = true;
+                                this.requestRender();
+                            }.bind(this)
+                        );
+                    }.bind(this);
+
+                    this.watcher = watchUtils.on(
+                        this,
+                        "layer.graphics",
+                        "change",
+                        requestUpdate,
+                        requestUpdate,
+                        requestUpdate
+                    );
                 },
-                // visualVariables: [{
-                //     // specifies a visual variable of continuous color
-                //     type: "color",
-                //     // based on a field indicating the walking time to public transport
-                //     field: "walkTimeToStopsInService",
-                //     legendOptions: {
-                //         title: "Walking time to public transport"
-                //     },
-                //     // color ramp from white to blue
-                //     // based on the walking time to public transport.
-                //     // Buildings will be assigned a color proportional
-                //     // to the min and max colors specified below
-                //     stops: [{
-                //         value: 1,
-                //         color: "#2887a1",
-                //         label: "less than 1 minute"
-                //     },
-                //         {
-                //             value: 15,
-                //             color: "#ffffff",
-                //             label: "more than 15 minutes"
-                //         }]
-                // }]
-            };
 
+                // Called once a custom layer is added to the map.layers collection and this layer view is instantiated.
+                attach: function() {
+                    var gl = this.context;
 
+                    // Define and compile shaders.
+                    var vertexSource =
+                        "precision highp float;" +
+                        "uniform mat3 u_transform;" +
+                        "uniform mat3 u_rotation;" +
+                        "uniform mat3 u_display;" +
+                        "uniform float u_scale;" +
+                        "attribute vec2 a_position;" +
+                        "attribute vec2 a_offset;" +
+                        "attribute vec2 a_texcoord;" +
+                        "attribute float a_distance;" +
+                        "attribute vec4 a_seeds;" +
+                        "attribute float a_length;" +
+                        "varying float v_position;" +
+                        "varying float v_distance;" +
+                        "varying vec4 v_seeds;" +
+                        "varying float v_length;" +
+                        "float getScaleAttenuation() { return min(u_scale < 2000000.0 ? 1.0 : u_scale / 2000000.0, 10.0); }" +
+                        "void main() {" +
+                        "  vec3 transformedOffset = u_rotation * vec3(a_offset / getScaleAttenuation(), 0.0);" +
+                        "  gl_Position.xy = (u_display * (u_transform * vec3(a_position, 1.0) + transformedOffset)).xy;" +
+                        "  gl_Position.zw = vec2(0.0, 1.0);" +
+                        "  v_position = a_texcoord.y;" +
+                        "  v_distance = a_distance;" +
+                        "  v_seeds = a_seeds;" +
+                        "  v_length = a_length;" +
+                        "}";
 
-            var layer1 = new TileLayer({
-                url: "https://bigdata.ascs.com/arcgis//rest/services/BAcoolmap_BaseMap0911_1/MapServer",
-                opacity:1,
-            });
+                    var fragmentSource =
+                        "precision highp float;" +
+                        "varying float v_position;" +
+                        "varying float v_distance;" +
+                        "varying vec4 v_seeds;" +
+                        "varying float v_length;" +
+                        "uniform float u_currentTime;" +
+                        "uniform float u_scale;" +
+                        "const vec3 COLOR = vec3(0.0, 0.5, 1.0);" +
+                        "float parabolic(float x) {" +
+                        "  return -4.0 * pow(x - 0.5, 2.0) + 1.0;" +
+                        "}" +
+                        "float getScaleAttenuation() { return min(u_scale < 2000000.0 ? 1.0 : u_scale / 2000000.0, 10.0); }" +
+                        "float getIntensity(float seed) {" +
+                        "  float spread = parabolic(v_distance / v_length) / getScaleAttenuation();" +
+                        "  float den = 2000.0 * u_scale / 1200000.0;" +
+                        "  float particle = 0.5 + 0.2 * spread * sin((v_distance) / den + seed + u_currentTime * seed / 100.0);" +
+                        "  return 1.5 * exp(-(30.0 + 10.0 * sin((u_currentTime + seed) * 10.0)) * length(v_position - particle)) * spread;" +
+                        "}" +
+                        "vec4 shadeIntensity(float intensity) {" +
+                        "  vec3 baseColor = COLOR * clamp(intensity, 0.0, 1.0);" +
+                        "  float white = max(intensity - 1.0, 0.0);" +
+                        "  return vec4(vec3(white) + baseColor, 0.0);" +
+                        "}" +
+                        "void main() {" +
+                        "  float diffuse = 0.3 * parabolic(v_position) * parabolic(v_distance / v_length);" +
+                        "  float beams = getIntensity(v_seeds.x) + getIntensity(v_seeds.y) + getIntensity(v_seeds.z) + getIntensity(v_seeds.w);" +
+                        "  gl_FragColor = shadeIntensity(diffuse + beams);" +
+                        "}";
 
-            var layer = new TileLayer({
-                url: "https://bigdata.ascs.com/arcgis//rest/services/BAcoolmap_BaseMap_0911_2/MapServer",
-                opacity:1,
-            });
-//            var layer = new ImageryLayer({
-//                url:'http://arcgis.ascs.tech/arcgis/rest/services/pingshan/ImageServer',
-//                format: "jpeg"
-//            });
+                    var vertexShader = gl.createShader(gl.VERTEX_SHADER);
+                    gl.shaderSource(vertexShader, vertexSource);
+                    gl.compileShader(vertexShader);
+                    var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+                    gl.shaderSource(fragmentShader, fragmentSource);
+                    gl.compileShader(fragmentShader);
 
-            // var elevationLayer = new ElevationLayer({
-            //     url: "http://10.10.120.2:6080/arcgis/rest/services/dem1/ImageServer",
-            //     visible: true
-            // });
+                    // Create the shader program.
+                    this.program = gl.createProgram();
+                    gl.attachShader(this.program, vertexShader);
+                    gl.attachShader(this.program, fragmentShader);
 
+                    // Bind attributes.
+                    gl.bindAttribLocation(this.program, this.aPosition, "a_position");
+                    gl.bindAttribLocation(this.program, this.aOffset, "a_offset");
+                    gl.bindAttribLocation(this.program, this.aTexcoord, "a_texcoord");
+                    gl.bindAttribLocation(this.program, this.aDistance, "a_distance");
+                    gl.bindAttribLocation(this.program, this.aSeeds, "a_seeds");
+                    gl.bindAttribLocation(this.program, this.aLength, "a_length");
 
-            var map = new Map({
-                // basemap:customBasemap,
-                layers:[layer,layer1]
+                    // Link.
+                    gl.linkProgram(this.program);
 
-            });
-            // map.ground.layers.add(elevationLayer);
+                    // Shader objects are not needed anymore.
+                    gl.deleteShader(vertexShader);
+                    gl.deleteShader(fragmentShader);
 
+                    // Retrieve uniform locations once and for all.
+                    this.uTransform = gl.getUniformLocation(this.program, "u_transform");
+                    this.uRotation = gl.getUniformLocation(this.program, "u_rotation");
+                    this.uDisplay = gl.getUniformLocation(this.program, "u_display");
+                    this.uCurrentTime = gl.getUniformLocation(this.program, "u_currentTime");
+                    this.uScale = gl.getUniformLocation(this.program, "u_scale");
 
-            var view = new SceneView({
+                    // Create the vertex and index buffer. They are initially empty. We need to track the
+                    // size of the index buffer because we use indexed drawing.
+                    this.vertexBuffer = gl.createBuffer();
+                    this.indexBuffer = gl.createBuffer();
 
-                container:"viewDiv",
-                viewingMode: "global",
-                map:map,
+                    // Number of indices in the index buffer.
+                    this.indexBufferSize = 0;
 
-            })
-            // view.environment.lighting.date = Date.now();
-
-            // view.environment.lighting.cameraTrackingEnabled = false;
-            //
-            // view.environment.atmosphereEnabled = !1;
-            // view.environment.starsEnabled = !1;
-
-           var sceneLayer = new SceneLayer({
-               url: "http://bigdata.ascs.com/arcgis/rest/services/Hosted/BAcity_Building_0910/SceneServer",
-               popupEnabled: true,
-               opacity:.65,
-               renderer:renderer
-           });
-           map.add(sceneLayer);
-
-
-            var symbol = {
-                type: "point-3d",  // autocasts as new PointSymbol3D()
-                symbolLayers: [{
-                    type: "icon",  // autocasts as new IconSymbol3DLayer()
-                    resource: {
-                        href: "./images/Church.png"
-                    },
-                    size: 20
-                }],
-                verticalOffset: {
-                    screenLength: 40,
-                    maxWorldLength: 100,
-                    minWorldLength: 20
+                    // When certain conditions occur, we update the buffers and re-compute and re-encode
+                    // all the attributes. When buffer update occurs, we also take note of the current center
+                    // of the view state, and we reset a vector called `translationToCenter` to [0, 0], meaning that the
+                    // current center is the same as it was when the attributes were recomputed.
+                    this.centerAtLastUpdate = vec2.fromValues(
+                        this.view.state.center[0],
+                        this.view.state.center[1]
+                    );
                 },
-                callout: {
-                    type: "line", // autocasts as new LineCallout3D()
-                    size: 1.5,
-                    color: "white",
-                    border: {
-                        color: "black"
+
+                // Called once a custom layer is removed from the map.layers collection and this layer view is destroyed.
+                detach: function() {
+                    // Stop watching the `layer.graphics` collection.
+                    this.watcher.remove();
+
+                    var gl = this.context;
+
+                    // Delete buffers and programs.
+                    gl.deleteBuffer(this.vertexBuffer);
+                    gl.deleteBuffer(this.indexBuffer);
+                    gl.deleteProgram(this.program);
+                },
+
+                // Called every time a frame is rendered.
+                render: function(renderParameters) {
+                    var gl = renderParameters.context;
+                    var state = renderParameters.state;
+
+                    // Update vertex positions. This may trigger an update of
+                    // the vertex coordinates contained in the vertex buffer.
+                    // There are three kinds of updates:
+                    //  - Modification of the layer.graphics collection ==> Buffer update
+                    //  - The view state becomes non-stationary ==> Only view update, no buffer update
+                    //  - The view state becomes stationary ==> Buffer update
+                    this.updatePositions(renderParameters);
+
+                    // If there is nothing to render we return.
+                    if (this.indexBufferSize === 0) {
+                        return;
+                    }
+
+                    // Update view `transform` matrix; it converts from map units to pixels.
+                    mat3.identity(this.transform);
+                    this.screenTranslation[0] = (state.pixelRatio * state.size[0]) / 2;
+                    this.screenTranslation[1] = (state.pixelRatio * state.size[1]) / 2;
+                    mat3.translate(
+                        this.transform,
+                        this.transform,
+                        this.screenTranslation
+                    );
+                    mat3.rotate(
+                        this.transform,
+                        this.transform,
+                        (Math.PI * state.rotation) / 180
+                    );
+                    mat3.scale(this.transform, this.transform, [
+                        state.pixelRatio / state.resolution,
+                        -state.pixelRatio / state.resolution
+                    ]);
+                    mat3.translate(
+                        this.transform,
+                        this.transform,
+                        this.translationToCenter
+                    );
+
+                    // Update view `rotate` matrix; it is the rotation component of the full `transform` matrix.
+                    mat3.identity(this.rotation);
+                    mat3.rotate(
+                        this.rotation,
+                        this.rotation,
+                        (Math.PI * state.rotation) / 180
+                    );
+
+                    // Update view `display` matrix; it converts from pixels to normalized device coordinates.
+                    mat3.identity(this.display);
+                    mat3.translate(this.display, this.display, [-1, 1]);
+                    mat3.scale(this.display, this.display, [
+                        2 / (state.pixelRatio * state.size[0]),
+                        -2 / (state.pixelRatio * state.size[1])
+                    ]);
+
+                    // Draw.
+                    gl.useProgram(this.program);
+                    gl.uniformMatrix3fv(this.uTransform, false, this.transform);
+                    gl.uniformMatrix3fv(this.uRotation, false, this.rotation);
+                    gl.uniformMatrix3fv(this.uDisplay, false, this.display);
+                    gl.uniform1f(this.uCurrentTime, performance.now() / 1000.0);
+                    gl.uniform1f(this.uScale, state.scale);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
+                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
+                    gl.enableVertexAttribArray(this.aPosition);
+                    gl.enableVertexAttribArray(this.aOffset);
+                    gl.enableVertexAttribArray(this.aTexcoord);
+                    gl.enableVertexAttribArray(this.aDistance);
+                    gl.enableVertexAttribArray(this.aSeeds);
+                    gl.enableVertexAttribArray(this.aLength);
+                    gl.vertexAttribPointer(this.aPosition, 2, gl.FLOAT, false, 48, 0);
+                    gl.vertexAttribPointer(this.aOffset, 2, gl.FLOAT, false, 48, 8);
+                    gl.vertexAttribPointer(this.aTexcoord, 2, gl.FLOAT, false, 48, 16);
+                    gl.vertexAttribPointer(this.aDistance, 1, gl.FLOAT, false, 48, 24);
+                    gl.vertexAttribPointer(this.aSeeds, 4, gl.FLOAT, false, 48, 28);
+                    gl.vertexAttribPointer(this.aLength, 1, gl.FLOAT, false, 48, 44);
+                    gl.enable(gl.BLEND);
+                    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+                    gl.disable(gl.CULL_FACE);
+                    gl.drawElements(
+                        gl.TRIANGLES,
+                        this.indexBufferSize,
+                        gl.UNSIGNED_INT,
+                        0
+                    );
+
+                    // Request new render because markers are animated.
+                    this.requestRender();
+                },
+
+                processGraphic: function(g) {
+                    this.promises.push(
+                        this.tessellatePolyline(g.geometry, 30)
+                            .then(function(mesh) {
+                                return {
+                                    mesh: mesh,
+                                    attributes: g.attributes,
+                                    symbol: g.symbol
+                                };
+                            })
+                    );
+                },
+
+                // Called internally from render().
+                updatePositions: function(renderParameters) {
+                    var gl = renderParameters.context;
+                    var stationary = renderParameters.stationary;
+                    var state = renderParameters.state;
+
+                    // If we are not stationary we simply update the `translationToCenter` vector.
+                    if (!stationary) {
+                        vec2.sub(
+                            this.translationToCenter,
+                            this.centerAtLastUpdate,
+                            state.center
+                        );
+                        this.requestRender();
+                        return;
+                    }
+
+                    // If we are stationary, the `layer.graphics` collection has not changed, and
+                    // we are centered on the `centerAtLastUpdate`, we do nothing.
+                    if (
+                        !this.needsUpdate &&
+                        this.translationToCenter[0] === 0 &&
+                        this.translationToCenter[1] === 0
+                    ) {
+                        return;
+                    }
+
+                    // Otherwise, we record the new encoded center, which imply a reset of the `translationToCenter` vector,
+                    // we record the update time, and we proceed to update the buffers.
+                    this.centerAtLastUpdate.set(state.center);
+                    this.translationToCenter[0] = 0;
+                    this.translationToCenter[1] = 0;
+                    this.needsUpdate = false;
+
+                    // Generate vertex data.
+                    var vertexCount = this.meshes.reduce(function(vertexCount, item) {
+                        return vertexCount + item.mesh.vertices.length;
+                    }, 0);
+                    var indexCount = this.meshes.reduce(function(indexCount, item) {
+                        return indexCount + item.mesh.indices.length;
+                    }, 0);
+                    var vertexData = new Float32Array(vertexCount * 12);
+                    var indexData = new Uint32Array(indexCount);
+                    var currentVertex = 0;
+                    var currentIndex = 0;
+                    var seed = 1;
+                    function random() {
+                        var x = Math.sin(seed++) * 10000;
+                        return x - Math.floor(x);
+                    }
+
+                    for (
+                        var meshIndex = 0;
+                        meshIndex < this.meshes.length;
+                        ++meshIndex
+                    ) {
+                        var item = this.meshes[meshIndex];
+                        var mesh = item.mesh;
+                        // The seed numbers are responsible for the slightly different animation
+                        // of each polyline.
+                        var seed1 = Math.floor(random() * 256);
+                        var seed2 = Math.floor(random() * 256);
+                        var seed3 = Math.floor(random() * 256);
+                        var seed4 = Math.floor(random() * 256);
+
+                        for (var i = 0; i < mesh.indices.length; ++i) {
+                            var idx = mesh.indices[i];
+                            indexData[currentIndex] = currentVertex + idx;
+                            currentIndex++;
+                        }
+
+                        var length = mesh.vertices.length && mesh.vertices[mesh.vertices.length - 1].distance;
+
+                        for (var i = 0; i < mesh.vertices.length; ++i) {
+                            var v = mesh.vertices[i];
+                            vertexData[currentVertex * 12 + 0] = v.x - this.centerAtLastUpdate[0];
+                            vertexData[currentVertex * 12 + 1] = v.y - this.centerAtLastUpdate[1];
+                            vertexData[currentVertex * 12 + 2] = v.xOffset;
+                            vertexData[currentVertex * 12 + 3] = v.yOffset;
+                            vertexData[currentVertex * 12 + 4] = v.uTexcoord;
+                            vertexData[currentVertex * 12 + 5] = v.vTexcoord;
+                            vertexData[currentVertex * 12 + 6] = v.distance;
+                            vertexData[currentVertex * 12 + 7] = seed1;
+                            vertexData[currentVertex * 12 + 8] = seed2;
+                            vertexData[currentVertex * 12 + 9] = seed3;
+                            vertexData[currentVertex * 12 + 10] = seed4;
+                            vertexData[currentVertex * 12 + 11] = length;
+                            currentVertex++;
+                        }
+                    }
+
+                    // Upload data to the GPU
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
+                    gl.bufferData(gl.ARRAY_BUFFER, vertexData, gl.STATIC_DRAW);
+                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
+                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indexData, gl.STATIC_DRAW);
+
+                    // Record number of indices.
+                    this.indexBufferSize = indexCount;
+                }
+            });
+
+            // Subclass the custom layer view from GraphicsLayer.
+            var CustomLayer = GraphicsLayer.createSubclass({
+                createLayerView: function(view) {
+                    // We only support MapView, so we only need to return a
+                    // custom layer view for the `2d` case.
+                    if (view.type === "2d") {
+                        return new CustomLayerView2D({
+                            view: view,
+                            layer: this
+                        });
                     }
                 }
-            };
-            var citiesRenderer = {
-                type:"simple",
-                symbol:symbol
-
-            }
-            var pointsLayer = new FeatureLayer({
-                url: "http://172.25.10.61:6080/arcgis/rest/services/rjwpub/BAZT_Data_Test/FeatureServer/0",
-
-                elevationInfo: {
-                    mode: "relative-to-scene"
-                },
-                renderer: citiesRenderer,
-                outFields: ["*"],
             });
 
-            map.add(pointsLayer);
 
+            // We use a feature layer to load the geometry to pass to the custom layer.
+            const highways = new FeatureLayer({
+                url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Freeway_System/FeatureServer/2"
+            });
 
+            const query = highways.createQuery();
+            query.where = "1=1";
+            query.outSpatialReference = { wkid: 3857 };
+            highways.queryFeatures(query).then(function(result) {
+                layer.graphics = result.features;
+            });
 
+            // Now we create the custom layer and we pass in the queried features.
+            var layer = new CustomLayer({
+                graphics: []
+            });
+
+            // Create the map and the view.
+            var map = new Map({
+                basemap: "dark-gray",
+                layers: [layer]
+            });
+
+            var view = new MapView({
+                container: "viewDiv",
+                map: map,
+                center: [-74.0, 40.7],
+                zoom: 12,
+                spatialReference: {
+                    wkid: 3857
+                }
+            });
         });
-        
-        function test() {
-            var canvas = document.getElementsByClassName("esri-view-surface")[0].children[0];
-            var ctx = canvas.getContext('2d');
-            ctx.fillStyle= "#ffffff"
-
-        }
     </script>
 </head>
 
 <body>
 <div id="viewDiv"></div>
-<button onclick="test()">222222</button>
 </body>
 </html>

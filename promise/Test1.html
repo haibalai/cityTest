@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+
+    function layerManagerShow(){
+        show();
+    }
+
+    async function show() {
+
+        console.log('show');
+        await showLayerByName();
+
+
+    }
+
+    async function showLayerByName() {
+
+        console.log('showLayerByName');
+        await showServieLayerFun();
+
+    }
+
+    async function showServieLayerFun() {
+
+
+        await stop(8000);
+        console.log('showServieLayerFun');
+
+    }
+
+
+
+    function async3() {
+        return new Promise((resolve => {
+            console.log('async3')
+            resolve()
+        }))
+
+    }
+    function async4() {
+        return new Promise((resolve => {
+            console.log('async4')
+            resolve()
+        }))
+
+    }
+
+
+   async function test(){
+
+       layerManagerShow();
+       await stop(5000);
+       async3();
+
+   }
+
+   test();
+
+
+
+    function stop(time) {
+        return new Promise((resolve => {
+            setTimeout(()=>{
+                console.log(time);
+                resolve();
+            }, time)
+        }))
+    }
+
+
+</script>
+
+</body>
+</html>

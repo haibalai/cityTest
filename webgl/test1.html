@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="webgl-helper.js"></script>
+<canvas width="1920" height="1080" id="canvas"></canvas>
+<script  type="x-shader/x-vertex" id="vertexShader">
+
+    attribute vec3 v3Position;
+    void main(){
+      gl_Position = vec4(0.0,0.0,0.0,1.0);
+      gl_PointSize = 10.0;
+    }
+
+
+</script>
+
+<script type="x-shader/x-fragment" id="fragmentShader">
+
+    void main(){
+    //设置像素颜色为红色
+       gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    }
+</script>
+<script>
+    draw();
+
+</script>
+
+
+
+</body>
+</html>
